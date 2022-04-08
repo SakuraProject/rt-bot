@@ -62,9 +62,9 @@ def setup(bot, only: Union[Tuple[str, ...], List[str]] = []):
                 bot.load_extension("rtlib.ext." + name)
             except commands.ExtensionAlreadyLoaded:
                 pass
-    bot.load_extension("rtlib.websocket")
-    bot.load_extension("rtlib.rtws")
-    bot.load_extension("rtlib.setting")
+    # bot.load_extension("rtlib.websocket")
+    # bot.load_extension("rtlib.rtws")
+    # bot.load_extension("rtlib.setting")
     bot.cachers = CacherPool()
 
 
