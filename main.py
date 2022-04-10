@@ -16,6 +16,8 @@ import discord
 from aiohttp import ClientSession
 from ujson import load, dumps
 
+import asyncio
+
 from rtlib import RT, mysql, setup, websocket
 from data import data, Colors
 
@@ -98,6 +100,8 @@ handler.setFormatter(logging.Formatter(
 ))  # 出力形式の設定
 logger.addHandler(handler)
 
-
+async def main():
+    async with bot:
+        bot.run(secret["token"][argv[-1]])
 # 実行
-bot.run(secret["token"][argv[-1]])
+asyncio.run(main())
