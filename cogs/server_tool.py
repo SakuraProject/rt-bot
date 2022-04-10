@@ -723,5 +723,5 @@ class ServerTool(commands.Cog):
             )
 
 
-def setup(bot):
-    bot.add_cog(ServerTool(bot))
+async def setup(bot):
+    await bot.add_cog(ServerTool(bot))

@@ -323,5 +323,5 @@ class Language(commands.Cog):
         await ctx.reply("Ok")
 
 
-def setup(bot):
-    bot.add_cog(Language(bot))
+async def setup(bot):
+    await bot.add_cog(Language(bot))

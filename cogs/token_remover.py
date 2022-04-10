@@ -63,5 +63,5 @@ class TokenRemover(commands.Cog):
         self.cache_remover.cancel()
 
 
-def setup(bot):
-    bot.add_cog(TokenRemover(bot))
+async def setup(bot):
+    await bot.add_cog(TokenRemover(bot))

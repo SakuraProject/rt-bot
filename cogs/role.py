@@ -394,5 +394,5 @@ class RolePanel(commands.Cog):
         return False
 
 
-def setup(bot):
-    bot.add_cog(RolePanel(bot))
+async def setup(bot):
+    await bot.add_cog(RolePanel(bot))

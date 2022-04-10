@@ -109,5 +109,5 @@ class NoIconNotice(commands.Cog, DataManager):
                 await member.send(f"**Notice from {member.guild.name}：**\n{text}")
 
 
-def setup(bot):
-    bot.add_cog(NoIconNotice(bot))
+async def setup(bot):
+    await bot.add_cog(NoIconNotice(bot))

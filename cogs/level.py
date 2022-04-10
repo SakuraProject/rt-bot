@@ -458,5 +458,5 @@ class Level(commands.Cog):
 del cooldown
 
 
-def setup(bot):
-    bot.add_cog(Level(bot))
+async def setup(bot):
+    await bot.add_cog(Level(bot))

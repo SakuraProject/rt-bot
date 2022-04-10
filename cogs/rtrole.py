@@ -171,5 +171,5 @@ class RTRole(commands.Cog):
                 await ctx.reply("その役職は設定されていません。")
 
 
-def setup(bot: commands.AutoShardedBot):
-    bot.add_cog(RTRole(bot))
+async def setup(bot: commands.AutoShardedBot):
+    await bot.add_cog(RTRole(bot))

@@ -290,5 +290,5 @@ class Poll(commands.Cog):
         await self.on_full_reaction_add(payload)
 
 
-def setup(bot):
-    bot.add_cog(Poll(bot))
+async def setup(bot):
+    await bot.add_cog(Poll(bot))

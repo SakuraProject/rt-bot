@@ -356,5 +356,5 @@ class Ticket(commands.Cog, DataManager):
         await self.on_ticket(payload)
 
 
-def setup(bot):
-    bot.add_cog(Ticket(bot))
+async def setup(bot):
+    await bot.add_cog(Ticket(bot))

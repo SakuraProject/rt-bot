@@ -239,5 +239,5 @@ class Tenki(commands.Cog, DataManager):
         self.tenki_notification.cancel()
 
 
-def setup(bot):
-    bot.add_cog(Tenki(bot))
+async def setup(bot):
+    await bot.add_cog(Tenki(bot))

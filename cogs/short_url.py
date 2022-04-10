@@ -289,5 +289,5 @@ class ShortURL(commands.Cog, DataManager):
             await ctx.reply("その短縮URLを削除しました。")
 
 
-def setup(bot):
-    bot.add_cog(ShortURL(bot))
+async def setup(bot):
+    await bot.add_cog(ShortURL(bot))

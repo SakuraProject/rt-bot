@@ -175,5 +175,5 @@ class RTA(commands.Cog):
         self.sended_remover.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RTA(bot))
+async def setup(bot):
+    await bot.add_cog(RTA(bot))

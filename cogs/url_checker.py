@@ -232,5 +232,5 @@ class UrlChecker(commands.Cog, DataManager):
             self.channel_runnings.remove(reaction.message.channel.id)
 
 
-def setup(bot):
-    bot.add_cog(UrlChecker(bot))
+async def setup(bot):
+    await bot.add_cog(UrlChecker(bot))

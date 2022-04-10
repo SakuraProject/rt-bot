@@ -177,5 +177,5 @@ class Recruitment(commands.Cog):
         self.worker.cancel()
 
 
-def setup(bot):
-    bot.add_cog(Recruitment(bot))
+async def setup(bot):
+    await bot.add_cog(Recruitment(bot))

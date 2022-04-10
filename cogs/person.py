@@ -522,5 +522,5 @@ class Person(commands.Cog):
             await self.yahoo_(await self.bot.get_context(message), word=message.content)
 
 
-def setup(bot):
-    bot.add_cog(Person(bot))
+async def setup(bot):
+    await bot.add_cog(Person(bot))

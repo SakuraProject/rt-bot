@@ -130,5 +130,5 @@ class Tools(commands.Cog):
             await ctx.reply("「うらみのワルツ」を入力しなければ抜けません。")
 
 
-def setup(bot):
-    bot.add_cog(Tools(bot))
+async def setup(bot):
+    await bot.add_cog(Tools(bot))

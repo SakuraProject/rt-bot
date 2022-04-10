@@ -188,5 +188,5 @@ class NgWord(commands.Cog, DataManager):
                     return embed
 
 
-def setup(bot):
-    bot.add_cog(NgWord(bot))
+async def setup(bot):
+    await bot.add_cog(NgWord(bot))

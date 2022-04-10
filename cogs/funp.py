@@ -398,6 +398,5 @@ class Funp(commands.Cog, DataManager):
                  "en": "Only nsfw channel."}
             )
 
-
-def setup(bot):
-    bot.add_cog(Funp(bot))
+async def setup(bot):
+    await bot.add_cog(Funp(bot))

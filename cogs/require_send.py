@@ -412,5 +412,5 @@ class RequireSend(commands.Cog, DataManager):
             await self.process_check(message)
 
 
-def setup(bot):
-    bot.add_cog(RequireSend(bot))
+async def setup(bot):
+    await bot.add_cog(RequireSend(bot))

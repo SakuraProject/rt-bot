@@ -236,5 +236,5 @@ class Watch(commands.Cog):
         self.timer_processer.cancel()
 
 
-def setup(bot):
-    bot.add_cog(Watch(bot))
+async def setup(bot):
+    await bot.add_cog(Watch(bot))

@@ -305,5 +305,5 @@ The name of the created voice channel will include the ID of the person who crea
                 )
 
 
-def setup(bot):
-    bot.add_cog(FreeChannel(bot))
+async def setup(bot):
+    await bot.add_cog(FreeChannel(bot))

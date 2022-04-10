@@ -207,5 +207,5 @@ class RoleKeeper(commands.Cog, DataManager):
         self.delete_ghost.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RoleKeeper(bot))
+async def setup(bot):
+    await bot.add_cog(RoleKeeper(bot))

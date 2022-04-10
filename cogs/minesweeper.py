@@ -103,5 +103,5 @@ class Mines(commands.Cog):
             return ctx.reply("```\n" + self.games[str(a.id)].get() + "\n```")
 
 
-def setup(bot):
-    return bot.add_cog(Mines(bot))
+async def setup(bot):
+    await bot.add_cog(Mines(bot))

@@ -105,7 +105,7 @@ class SystemLog(commands.Cog):
         self.authors.append(ctx.author.id)
         self.guilds.append(getattr(ctx.guild, "id", 0))
 
-def setup(bot):
+async def setup(bot):
     if not hasattr(bot, "logger"):
         bot.logger = logger = logging.getLogger('discord')
         logger.setLevel(logging.DEBUG)
@@ -115,4 +115,4 @@ def setup(bot):
         )
         handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         logger.addHandler(handler)
-    bot.add_cog(SystemLog(bot))
+    await bot.add_cog(SystemLog(bot))

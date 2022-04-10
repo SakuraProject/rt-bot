@@ -254,5 +254,5 @@ class RoleLinker(commands.Cog, DataManager):
                         await self.role_update("add", role, after)
 
 
-def setup(bot):
-    bot.add_cog(RoleLinker(bot))
+async def setup(bot):
+    await bot.add_cog(RoleLinker(bot))

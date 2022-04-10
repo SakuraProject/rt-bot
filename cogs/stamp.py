@@ -239,5 +239,5 @@ class Stamp(commands.Cog, DataManager):
                     break
 
 
-def setup(bot):
-    bot.add_cog(Stamp(bot))
+async def setup(bot):
+    await bot.add_cog(Stamp(bot))

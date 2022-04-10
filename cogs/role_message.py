@@ -458,5 +458,5 @@ class RoleMessage(commands.Cog, DataManager):
         await self.on_role_add_remove("remove", role, member)
 
 
-def setup(bot):
-    bot.add_cog(RoleMessage(bot))
+async def setup(bot):
+    await bot.add_cog(RoleMessage(bot))

@@ -24,5 +24,5 @@ class Github(commands.Cog):
         async with self.bot.session.post("https://api.github.com/repos/RT-Team/rt-backend/issues",data = data, headers = headers) as r:
             await ctx.send("issueを登録しました")
                 
-def setup(bot):
-    bot.add_cog(Github(bot))
+async def setup(bot):
+    await bot.add_cog(Github(bot))

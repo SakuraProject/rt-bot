@@ -421,5 +421,5 @@ class TwitterNotification(commands.Cog, DataManager, AsyncStream):
         )
 
 
-def setup(bot):
-    bot.add_cog(TwitterNotification(bot))
+async def setup(bot):
+    await bot.add_cog(TwitterNotification(bot))

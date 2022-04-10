@@ -386,5 +386,5 @@ class GlobalChat(commands.Cog, DataManager):
             await self.send(message, row)
 
 
-def setup(bot):
-    bot.add_cog(GlobalChat(bot))
+async def setup(bot):
+    await bot.add_cog(GlobalChat(bot))

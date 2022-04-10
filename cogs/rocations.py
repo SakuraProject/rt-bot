@@ -409,5 +409,5 @@ class Rocations(commands.Cog):
         await self.raise_(ctx)
 
 
-def setup(bot):
-    bot.add_cog(Rocations(bot))
+async def setup(bot):
+    await bot.add_cog(Rocations(bot))

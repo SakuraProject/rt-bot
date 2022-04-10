@@ -296,5 +296,5 @@ class VCChannel(commands.Cog, DataManager):
         await self.on_update(member, vc.channel)
 
 
-def setup(bot):
-    bot.add_cog(VCChannel(bot))
+async def setup(bot):
+    await bot.add_cog(VCChannel(bot))

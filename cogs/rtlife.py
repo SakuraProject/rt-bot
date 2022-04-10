@@ -103,5 +103,5 @@ class RTLife(commands.Cog):
         self.update_status.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RTLife(bot))
+async def setup(bot):
+    await bot.add_cog(RTLife(bot))

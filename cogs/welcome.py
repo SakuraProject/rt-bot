@@ -183,5 +183,5 @@ class Welcome(commands.Cog, DataManager):
         await self.on_member_join_remove("remove", member)
 
 
-def setup(bot):
-    bot.add_cog(Welcome(bot))
+async def setup(bot):
+    await bot.add_cog(Welcome(bot))
