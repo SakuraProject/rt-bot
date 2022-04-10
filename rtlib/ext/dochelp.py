@@ -322,5 +322,5 @@ class DocHelp(commands.Cog):
         del self.data[category][help_name]
 
 
-def setup(bot):
-    bot.add_cog(DocHelp(bot))
+async def setup(bot):
+    await bot.add_cog(DocHelp(bot))

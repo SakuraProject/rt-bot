@@ -53,18 +53,18 @@ discord.abc.Messageable.webhook_send = webhook_send # type: ignore
 discord.ext.easy = componesy # type: ignore
 
 
-def setup(bot, only: Union[Tuple[str, ...], List[str]] = []):
+async def setup(bot, only: Union[Tuple[str, ...], List[str]] = []):
     "rtlibにあるエクステンションを全てまたは指定されたものだけ読み込みます。"
-    bot.load_extension("rtlib.data_manager")
+    await bot.load_extension("rtlib.data_manager")
     for name in ("on_send", "on_full_reaction", "dochelp", "debug", "on_cog_add"):
         if name in only or only == []:
             try:
-                bot.load_extension("rtlib.ext." + name)
+                await bot.load_extension("rtlib.ext." + name)
             except commands.ExtensionAlreadyLoaded:
                 pass
-    bot.load_extension("rtlib.websocket")
-    bot.load_extension("rtlib.rtws")
-    bot.load_extension("rtlib.setting")
+    await bot.load_extension("rtlib.websocket")
+    await bot.load_extension("rtlib.rtws")
+    await bot.load_extension("rtlib.setting")
     bot.cachers = CacherPool()
 
 

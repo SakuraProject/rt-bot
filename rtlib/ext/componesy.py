@@ -152,5 +152,5 @@ class Componesy(commands.Cog):
         await ctx.reply("test", view=view)
 
 
-def setup(bot):
-    bot.add_cog(Componesy(bot))
+async def setup(bot):
+    await bot.add_cog(Componesy(bot))

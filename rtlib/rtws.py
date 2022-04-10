@@ -112,7 +112,7 @@ class ExtendedRTWebSocket(rtws.RTWebSocket):
         return self.bot.print("[RTWebSocket]", f"[{mode}]", *args, **kwargs)
 
 
-def setup(bot: RT):
+async def setup(bot: RT):
     if not hasattr(bot, "rtws"):
         bot.rtws = self = ExtendedRTWebSocket("Bot", loop=bot.loop)
         self.bot = bot
@@ -123,4 +123,4 @@ def setup(bot: RT):
                 reconnect=not bot.test, okstatus=()
             ), name="RTWebSocket"
         )
-    bot.add_cog(RTWSGeneralFeatures(bot))
+    await bot.add_cog(RTWSGeneralFeatures(bot))

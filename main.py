@@ -69,7 +69,7 @@ async def on_ready():
     bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
-    setup(bot)  # rtlib.setup
+    await setup(bot)  # rtlib.setup
     bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
     for name in listdir("cogs"):
         if not name.startswith(("_", ".")):

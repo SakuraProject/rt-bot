@@ -35,5 +35,5 @@ class OnCogAdd(commands.Cog):
         return self._default_remove_cog(name)
 
 
-def setup(bot):
-    bot.add_cog(OnCogAdd(bot))
+async def setup(bot):
+    await bot.add_cog(OnCogAdd(bot))

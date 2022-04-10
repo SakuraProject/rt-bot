@@ -260,5 +260,5 @@ class SettingManager(commands.Cog):
             return ("Error", str(e))
 
 
-def setup(bot):
-    bot.add_cog(SettingManager(bot))
+async def setup(bot):
+    await bot.add_cog(SettingManager(bot))

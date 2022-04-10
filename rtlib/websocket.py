@@ -360,5 +360,5 @@ class WebSocketManager(commands.Cog):
         self.bot.print("[WebSocketManager]", *args, **kwargs)
 
 
-def setup(bot):
-    bot.add_cog(WebSocketManager(bot))
+async def setup(bot):
+    await bot.add_cog(WebSocketManager(bot))

@@ -135,8 +135,8 @@ class Debug(commands.Cog):
         )
 
 
-def setup(bot):
-    bot.add_cog(Debug(bot))
+async def setup(bot):
+    await bot.add_cog(Debug(bot))
 
 
 if __name__ == "__main__":
