@@ -265,5 +265,5 @@ class DelayRole(commands.Cog, DataManager):
         self.check_queue_deadline.cancel()
 
 
-def setup(bot):
-    bot.add_cog(DelayRole(bot))
+async def setup(bot):
+    await bot.add_cog(DelayRole(bot))

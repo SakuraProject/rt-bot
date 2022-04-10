@@ -170,5 +170,5 @@ class DelayDelete(commands.Cog, DataManager):
                 await self.delete(row[0], row[1])
 
 
-def setup(bot):
-    bot.add_cog(DelayDelete(bot))
+async def setup(bot):
+    await bot.add_cog(DelayDelete(bot))

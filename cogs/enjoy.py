@@ -262,5 +262,5 @@ class Enjoy(commands.Cog):
             await remove(path)
 
 
-def setup(bot):
-    bot.add_cog(Enjoy(bot))
+async def setup(bot):
+    await bot.add_cog(Enjoy(bot))

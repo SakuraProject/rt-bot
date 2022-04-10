@@ -324,5 +324,5 @@ class Bump(commands.Cog, DataManager):
                     ...
 
 
-def setup(bot):
-    bot.add_cog(Bump(bot))
+async def setup(bot):
+    await bot.add_cog(Bump(bot))

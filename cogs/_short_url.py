@@ -252,5 +252,5 @@ class ShortURL(commands.Cog, DataManager):
         return redirect(url)
 
 
-def setup(bot):
-    bot.add_cog(ShortURL(bot))
+async def setup(bot):
+    await bot.add_cog(ShortURL(bot))

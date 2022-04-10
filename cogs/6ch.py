@@ -157,5 +157,5 @@ class SixChannel(commands.Cog):
                 break
 
 
-def setup(bot):
-    bot.add_cog(SixChannel(bot))
+async def setup(bot):
+    await bot.add_cog(SixChannel(bot))

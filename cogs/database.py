@@ -66,5 +66,5 @@ class DatabaseManager(commands.Cog):
                     await ctx.reply(f"Ok\n```\n{result}\n```")
 
 
-def setup(bot):
-    bot.add_cog(DatabaseManager(bot))
+async def setup(bot):
+    await bot.add_cog(DatabaseManager(bot))

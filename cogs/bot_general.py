@@ -451,5 +451,5 @@ class BotGeneral(commands.Cog):
             await tentative.send(THANKYOU_TEMPLATE, view=self.thx_view)
 
 
-def setup(bot):
-    bot.add_cog(BotGeneral(bot))
+async def setup(bot):
+    await bot.add_cog(BotGeneral(bot))

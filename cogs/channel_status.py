@@ -160,5 +160,5 @@ class ChannelStatus(commands.Cog, DataManager):
                         self._last_exception = e
 
 
-def setup(bot):
-    bot.add_cog(ChannelStatus(bot))
+async def setup(bot):
+    await bot.add_cog(ChannelStatus(bot))
