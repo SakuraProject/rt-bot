@@ -501,5 +501,5 @@ for fname in ("image", "web", "click"):
 del function, fname
 
 
-def setup(bot):
-    bot.add_cog(Captcha(bot))
+async def setup(bot):
+    await bot.add_cog(Captcha(bot))

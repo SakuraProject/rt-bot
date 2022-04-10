@@ -634,5 +634,5 @@ class AutoMod(commands.Cog, DataManager):
             await trial_invite(self.caches[invite.guild.id][0], invite)
 
 
-def setup(bot):
-    bot.add_cog(AutoMod(bot))
+async def setup(bot):
+    await bot.add_cog(AutoMod(bot))

@@ -431,5 +431,5 @@ class ThreadManager(commands.Cog, DataManager):
                 )
 
 
-def setup(bot):
-    bot.add_cog(ThreadManager(bot))
+async def setup(bot):
+    await bot.add_cog(ThreadManager(bot))

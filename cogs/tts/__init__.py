@@ -539,5 +539,5 @@ class TTSCog(commands.Cog, name="TTS"):
             self.bot.dispatch("voice_leave", member, before, after)
 
 
-def setup(bot):
-    bot.add_cog(TTSCog(bot))
+async def setup(bot):
+    await bot.add_cog(TTSCog(bot))

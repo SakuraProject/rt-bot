@@ -305,5 +305,5 @@ class OldCaptcha(commands.Cog, DataManager, TimeoutDataManager):
         await ws.send("on_ready")
 
 
-def setup(bot):
-    bot.add_cog(OldCaptcha(bot))
+async def setup(bot):
+    await bot.add_cog(OldCaptcha(bot))
