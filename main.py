@@ -52,13 +52,16 @@ bot.colors = data["colors"]  # 下のColorsを辞書に変換したもの
 bot.Colors = Colors  # botで使う基本色が入っているclass
 bot._load = False  # 完全な(cogsなどの)ロードが完了していなおことを表す
 
+async def load_ext():
+    async with bot:
+        # 起動中だと教えられるようにするためのコグを読み込む
+        await bot.load_extension("cogs._first")
+        # スラッシュマネージャーを設定する
+        await bot.load_extension("rtlib.slash")
+        # onami(jishakuのnextcord版)を読み込む
+        await bot.load_extension("onami")
 
-# 起動中だと教えられるようにするためのコグを読み込む
-bot.load_extension("cogs._first")
-# スラッシュマネージャーを設定する
-bot.load_extension("rtlib.slash")
-# onami(jishakuのnextcord版)を読み込む
-bot.load_extension("onami")
+asyncio.run(load_ext())
 
 
 @bot.listen()
@@ -66,15 +69,15 @@ async def on_ready():
     bot.print("Connected to discord")
     # 起動中いつでも使えるaiohttp.ClientSessionを作成
     bot.session = ClientSession(loop=bot.loop, json_serialize=dumps)
-    bot.unload_extension("cogs._first")
+    await bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
     await setup(bot)  # rtlib.setup
-    bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
+    await bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
     for name in listdir("cogs"):
         if not name.startswith(("_", ".")):
             try:
-                bot.load_extension(
+                await bot.load_extension(
                     f"cogs.{name[:-3] if name.endswith('.py') else name}"
                 )
             except discord.ext.commands.NoEntryPointError as e:
