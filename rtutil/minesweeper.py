@@ -9,21 +9,27 @@ class Ms:
         self.reset(mx, my, bomb)
 
         self.check = lambda x, y: (
-            (x - 1, y + 1), (x, y + 1), (x + 1, y + 1),
-            (x - 1, y), (x, y), (x + 1, y),
-            (x - 1, y - 1), (x, y - 1), (x + 1, y - 1)
+            (x - 1, y + 1),
+            (x, y + 1),
+            (x + 1, y + 1),
+            (x - 1, y),
+            (x, y),
+            (x + 1, y),
+            (x - 1, y - 1),
+            (x, y - 1),
+            (x + 1, y - 1),
         )
-        self.check_end = lambda n: self.mx * self.my - \
-            self.bomb == len(
-                sum([[x for x in y if x not in self.objs]for y in n], []))
+        self.check_end = lambda n: self.mx * self.my - self.bomb == len(
+            sum([[x for x in y if x not in self.objs] for y in n], [])
+        )
         self.get_raw = lambda: self.now
         self.get_raw_answer = lambda: self.b
 
     def reset(self, mx, my, bomb, log=False):
         self.log = log
-        self.objs = ['#', '-', '%']
-        self.now = [['-'for x in range(mx)]for y in range(mx)]
-        self.b = [['-'for x in range(mx)]for y in range(mx)]
+        self.objs = ["#", "-", "%"]
+        self.now = [["-" for x in range(mx)] for y in range(mx)]
+        self.b = [["-" for x in range(mx)] for y in range(mx)]
         self.bomb, self.mx, self.my = bomb, mx, my
         for i in range(bomb):
             while True:
@@ -34,8 +40,17 @@ class Ms:
             self.b[y][x] = self.objs[0]
 
     def back_get(self, l, margin):
-        r = " " + margin * 2 + \
-            margin.join(["0" * (len(str(self.mx)) - len(str(x))) + str(x + 1) for x in range(self.mx)]) + "\n"
+        r = (
+            " "
+            + margin * 2
+            + margin.join(
+                [
+                    "0" * (len(str(self.mx)) - len(str(x))) + str(x + 1)
+                    for x in range(self.mx)
+                ]
+            )
+            + "\n"
+        )
         for y in range(len(l)):
             r += margin + ("0" * (len(str(self.my)) - len(str(y)))) + str(y + 1)
             for x in l[y]:
@@ -61,16 +76,28 @@ class Ms:
                     if self.b[cy][cx] == self.objs[0]:
                         bombs += 1
                     self.now[y][x] = str(
-                        (self.objs[2] if self.now[y][x] != self.objs[2] else "-") if z else int(bombs / 2))
+                        (self.objs[2] if self.now[y][x] != self.objs[2] else "-")
+                        if z
+                        else int(bombs / 2)
+                    )
                     self.b[y][x] = str(
-                        (self.objs[2] if self.b[y][x] != self.objs[2] else "-") if z else int(bombs / 2))
+                        (self.objs[2] if self.b[y][x] != self.objs[2] else "-")
+                        if z
+                        else int(bombs / 2)
+                    )
                 except IndexError:
                     continue
             if bombs == 0 and bombs != self.objs[2]:
                 for cx, cy in c:
                     if self.log:
                         print(f"  Set {cx} {cy}")
-                    if cx == -1 or cy == -1 or self.my <= cy or self.mx <= cx or [cx, cy] in self.did:
+                    if (
+                        cx == -1
+                        or cy == -1
+                        or self.my <= cy
+                        or self.mx <= cx
+                        or [cx, cy] in self.did
+                    ):
                         continue
                     self.did.append([cx, cy])
                     self.rep(cx, cy, False, mode=1)
@@ -100,12 +127,12 @@ class Ms:
 
 
 if __name__ == "__main__":
-    x, y, z = input('x y bomb>').split()
+    x, y, z = input("x y bomb>").split()
     ms = Ms(int(x), int(y), int(z))
     kek = 200
     while True:
         print(ms.get(" "))
-        z = input('x y or cmd>').split()
+        z = input("x y or cmd>").split()
         if len(z) == 0:
             continue
         x = z[0]
@@ -118,8 +145,8 @@ if __name__ == "__main__":
         z = True if len(z) > 2 else False
         kek = ms.set(int(x), int(y), z)
         if kek == 410:
-            print(ms.get_answer(" ") + '\nGAME OVER\nYou lost !')
+            print(ms.get_answer(" ") + "\nGAME OVER\nYou lost !")
             break
         if kek == 301:
-            print(ms.get_answer(" ") + '\nGAME OVER\nYou won !')
+            print(ms.get_answer(" ") + "\nGAME OVER\nYou won !")
             break

@@ -11,7 +11,7 @@ def repeate(separate: int, character: str = "\n") -> str:
 
 
 def decoration(markdown: str, separate: int = 0) -> str:
-    """見出しが使われているマークダウンをDiscordで有効なものに変換します。  
+    """見出しが使われているマークダウンをDiscordで有効なものに変換します。
     ただたんに`# ...`を`**#** ...`に変換して渡された数だけ後ろに改行を付け足すだけです。
 
     Parameters
@@ -32,12 +32,12 @@ def decoration(markdown: str, separate: int = 0) -> str:
 
 def separate(text: str, character: str = "\n") -> Tuple[str, str]:
     "指定された文字列を指定された文字の左右で分けます。"
-    return text[:(i:=text.find(character))], text[i+1:]
+    return text[: (i := text.find(character))], text[i + 1 :]
 
 
 def embed(markdown: str, **kwargs) -> Embed:
-    """渡されたマークダウンの文字列をタイトルと説明とフィールドが設定されている`discord.Embed`に変換します。  
-    見出しは三段階設定することができ、一段でタイトルで二段でフィールドそして三段で`**#** ...`のようになります。  
+    """渡されたマークダウンの文字列をタイトルと説明とフィールドが設定されている`discord.Embed`に変換します。
+    見出しは三段階設定することができ、一段でタイトルで二段でフィールドそして三段で`**#** ...`のようになります。
     もしフィールドの`inline`を`False`にしたい場合は`## !`のようにしてください。
 
     Parameters
@@ -75,9 +75,7 @@ def embed(markdown: str, **kwargs) -> Embed:
         (name, value), inline = separate(field), True
         if name.startswith("!"):
             inline, name = False, name[1:]
-        embed.add_field(
-            name=name, value=decoration(value), inline=inline
-        )
+        embed.add_field(name=name, value=decoration(value), inline=inline)
     return embed
 
 
@@ -85,8 +83,9 @@ if __name__ == "__main__":
     from inspect import cleandoc
 
     print(
-        embed(cleandoc(
-            """# Title
+        embed(
+            cleandoc(
+                """# Title
             Description
             ## Field1
             Field1 value
@@ -101,5 +100,6 @@ if __name__ == "__main__":
             Field2 Child1 Value
             #### Field2 Child2
             Field2 Child2 Value"""
-        )).to_dict()
+            )
+        ).to_dict()
     )

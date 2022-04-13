@@ -41,9 +41,12 @@ class SecURLData(TypedDict, total=False):
 
 
 async def check(
-    session: ClientSession, url: str, wait_time: int = 1,
-    browser_width: int = 965, browser_height: int = 683,
-    headers: dict = HEADERS
+    session: ClientSession,
+    url: str,
+    wait_time: int = 1,
+    browser_width: int = 965,
+    browser_height: int = 683,
+    headers: dict = HEADERS,
 ) -> SecURLData:
     """渡されたURLをSecURLでチェックします。
 
@@ -66,18 +69,20 @@ async def check(
     ------
     ValueError : URLにアクセスできなかった際などの失敗時に発生します。"""
     async with session.post(
-        "https://securl.nu/jx/get_page_jx.php", data={
-            "url": url, 'waitTime': str(wait_time),
-            'browserWidth': str(browser_width),
-            'browserHeight': str(browser_height), 'from': ''
-        }, headers=headers
+        "https://securl.nu/jx/get_page_jx.php",
+        data={
+            "url": url,
+            "waitTime": str(wait_time),
+            "browserWidth": str(browser_width),
+            "browserHeight": str(browser_height),
+            "from": "",
+        },
+        headers=headers,
     ) as r:
         return loads(await r.text())
 
 
-def get_capture(
-    data: SecURLData, full: bool = False
-) -> str:
+def get_capture(data: SecURLData, full: bool = False) -> str:
     """渡されたデータにある`img`のデータからURLを作ります。
 
     Parameters
@@ -88,7 +93,8 @@ def get_capture(
         上から一番下までの写真のURLを返すかどうかです。"""
     return (
         f"https://securl.nu/save_local_captured.php?key={data['img'][10:-4]}"
-        if full else f"{HEADERS['Origin']}{data['img']}"
+        if full
+        else f"{HEADERS['Origin']}{data['img']}"
     )
 
 
