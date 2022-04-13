@@ -3,7 +3,14 @@
 from __future__ import annotations
 
 from typing import (
-    TYPE_CHECKING, TypeVar, Literal, Union, Optional, NoReturn, Any, get_args
+    TYPE_CHECKING,
+    TypeVar,
+    Literal,
+    Union,
+    Optional,
+    NoReturn,
+    Any,
+    get_args,
 )
 
 from collections import defaultdict
@@ -52,12 +59,16 @@ class DataDict(defaultdict):
 
 
 TableSelfT = TypeVar("TableSelfT", bound="Table")
+
+
 class Table:
 
     __allocation__: Optional[str] = None
     __key__: Optional[Key] = None
 
-    def __init__(self, bot: RT, immediately_sync: bool = False, heritance: bool = False):
+    def __init__(
+        self, bot: RT, immediately_sync: bool = False, heritance: bool = False
+    ):
         assert self.__allocation__ is not None, "割り振りを設定してください。"
         self.immediately_sync = immediately_sync
         self.cog: DataManager = bot.cogs["DataManager"]
@@ -85,8 +96,11 @@ class Table:
 
     def to_dict(self) -> dict:
         "このデータにある辞書を返します。この関数が返すものに値は書き込まないでください。"
-        return self.cog.data[self.name] if self.__key__ is None \
+        return (
+            self.cog.data[self.name]
+            if self.__key__ is None
             else self.cog.data[self.name][self.__key__]
+        )
 
     def sync(self):
         self.cog.sync(self.name)
@@ -131,7 +145,7 @@ class DataManager(commands.Cog):
     def __init__(self, bot: RT):
         self.bot = bot
         self.data: defaultdict[str, DataDict[Key, ChangedDict]] = defaultdict(
-            lambda : DataDict(ChangedDict)
+            lambda: DataDict(ChangedDict)
         )
         self.allocations: dict[str, str] = {}
         self._loaded: list[str] = []
@@ -168,25 +182,27 @@ class DataManager(commands.Cog):
         if print_:
             self.print("[sync.remove]", f"{table}.{key}")
         await cursor.execute(
-            f"DELETE FROM {table} WHERE {self.allocations[table]} = %s;",
-            (key,)
+            f"DELETE FROM {table} WHERE {self.allocations[table]} = %s;", (key,)
         )
 
     async def _update(
-        self, cursor: Cursor, table: str, key: Key,
-        data: ChangedDict, print_: bool = False
+        self,
+        cursor: Cursor,
+        table: str,
+        key: Key,
+        data: ChangedDict,
+        print_: bool = False,
     ) -> None:
         # 更新を行う。
         if print_:
             self.print("[sync.update]", f"{table}.{key}: {data}")
         await cursor.execute(
-            f"SELECT * FROM {table} WHERE {self.allocations[table]} = %s;",
-            (key,)
+            f"SELECT * FROM {table} WHERE {self.allocations[table]} = %s;", (key,)
         )
         if await cursor.fetchone():
             await cursor.execute(
                 f"UPDATE {table} SET Data = %s WHERE {self.allocations[table]} = %s;",
-                (dumps(data), key)
+                (dumps(data), key),
             )
         else:
             await cursor.execute(
@@ -211,14 +227,16 @@ class DataManager(commands.Cog):
         if table is None:
             if self.data[table]:
                 self.bot.loop.create_task(
-                    self._sync(table, self.data[table]), name=f"[{self.__cog_name__}] Sync: {table}"
+                    self._sync(table, self.data[table]),
+                    name=f"[{self.__cog_name__}] Sync: {table}",
                 )
         else:
             if self.data:
                 self.print("Now syncing...")
                 for table, datas in list(self.data.items()):
                     self.bot.loop.create_task(
-                        self._sync(table, datas), name=f"[{self.__cog_name__}] Sync: {table}"
+                        self._sync(table, datas),
+                        name=f"[{self.__cog_name__}] Sync: {table}",
                     )
 
     # @tasks.loop(seconds=10)
@@ -238,6 +256,7 @@ class DataManager(commands.Cog):
             __allocation__ = "GuildID"
             test: str
             index: int
+
         self.test = DMTest(self.bot)
         await self.test.locked.wait()
 

@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 
 DataT = TypeVar("DataT")
+
+
 class Cache(Generic[DataT]):
     "キャッシュのデータを格納するためのクラスです。"
 
@@ -32,6 +34,8 @@ class Cache(Generic[DataT]):
 
 
 KeyT, ValueT = TypeVar("KeyT"), TypeVar("ValueT")
+
+
 class Cacher(Generic[KeyT, ValueT]):
     "キャッシュを管理するためのクラスです。\n注意：CacherPoolと兼用しないとデータは自然消滅しません。"
 
@@ -96,7 +100,9 @@ class CacherPool:
         self.cachers: list[Cacher] = []
         self._cache_remover.start()
 
-    def acquire(self, lifetime: float, default: Optional[Callable[[], Any]] = None) -> Cacher:
+    def acquire(
+        self, lifetime: float, default: Optional[Callable[[], Any]] = None
+    ) -> Cacher:
         "Cacherを生み出します。"
         self.cachers.append(Cacher(lifetime, default))
         return self.cachers[-1]
