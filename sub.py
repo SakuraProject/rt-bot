@@ -38,10 +38,16 @@ def setup(bot):
         del bot.mysql
 
     bot.mysql = bot.data["mysql"] = rtlib.mysql.MySQLManager(
-        loop=bot.loop, user=secret["mysql"]["user"],
+        loop=bot.loop,
+        user=secret["mysql"]["user"],
         host="146.59.153.178" if argv[1] == "production" else "localhost",
-        password=secret["mysql"]["password"], db="mysql",
-        pool = True, minsize=1, maxsize=30, autocommit=True)
+        password=secret["mysql"]["password"],
+        db="mysql",
+        pool=True,
+        minsize=1,
+        maxsize=30,
+        autocommit=True,
+    )
 
     rtlib.setup(bot)
     bot.load_extension("jishaku")
@@ -65,13 +71,8 @@ intents.typing = False
 intents.guild_typing = False
 intents.dm_typing = False
 args = (prefixes,)
-kwargs = {
-    "help_command": None,
-    "intents": intents
-}
-bot = commands.Bot(
-    command_prefix=data["prefixes"]["sub"], **kwargs
-)
+kwargs = {"help_command": None, "intents": intents}
+bot = commands.Bot(command_prefix=data["prefixes"]["sub"], **kwargs)
 bot.test = argv[1] != "production"
 
 
@@ -82,6 +83,8 @@ bot.is_admin = is_admin
 
 async def _is_owner(user):
     return bot.is_admin(user.id)
+
+
 bot.is_owner = _is_owner
 del is_admin, _is_owner
 
@@ -90,4 +93,3 @@ setup(bot)
 
 
 bot.run(TOKEN)
-
