@@ -1,0 +1,32 @@
+{
+    "テスト": {
+        "en": "test"
+    },
+    "# ここからcogs/bot_general.py #": {},
+    "現在のRTのレイテンシ：$$ms": {
+    	"en": "Now RT latency:$$ms"
+    },
+    "# ここからcogs/help.py #": {},
+    "Helpが必要ですか？": {
+	    "en": "Do you need help?"
+    },
+    "Help - カテゴリー一覧": {
+	    "en": "categories list"
+    },
+    "`rt!dhelp <名前>`を実行することで詳細を見ることができます。": {
+        "en": "You can see detail, If you use rt!dhelp <name>"
+    },
+    "検索結果": {
+        "en": "Results"
+    },
+    "名前部分一致": {
+        "en": "Name partial match"
+    },
+    "説明部分一致": {
+        "en": "detail partial match"
+    },
+    "# ここからcogs/news.py": {},
+    "Newsは現在空です。": {
+    	"en": "News is now none."
+    }
+}
