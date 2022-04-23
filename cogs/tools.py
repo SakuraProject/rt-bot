@@ -5,10 +5,9 @@ from typing import Literal
 from asyncio import sleep
 
 from discord.ext import commands
-import discord
 
-from rtlib.setting import Context, Setting
-from rtlib import RT
+from util.settings import Context
+from util import RT
 
 
 class Tools(commands.Cog):
@@ -25,7 +24,6 @@ class Tools(commands.Cog):
     )
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.channel)
-    @Setting("guild", "send", channel=discord.TextChannel)
     async def send_(self, ctx: Context, *, content: str):
         await ctx.channel.send(content)
         await ctx.reply(f"{ctx.channel.name}にメッセージを送信しました。")
@@ -98,7 +96,6 @@ class Tools(commands.Cog):
             }
         }
     )
-    @Setting("Tools", "文字列逆順")
     async def reverse(self, ctx: Context, *, bigbox):
         await ctx.reply(f"結果：\n```\n{bigbox[::-1]}\n```")
 
@@ -109,7 +106,6 @@ class Tools(commands.Cog):
             }
         }
     )
-    @Setting("Tools", "文字列交換")
     async def replace(self, ctx: Context, before, after, *, text):
         await ctx.reply(f"結果：{text.replace(before, after)}")
 
@@ -121,7 +117,6 @@ class Tools(commands.Cog):
         }
     )
     @commands.has_guild_permissions(administrator=True)
-    @Setting("guild")
     async def leave(self, ctx: Context, password="ここに「うらみのワルツ」と入力してください。"):
         if password == "うらみのワルツ":
             await ctx.guild.leave()

@@ -5,8 +5,9 @@ from typing import Callable, Coroutine
 from discord.ext import commands
 import discord
 
-from rtlib import RT, DatabaseManager
-from rtlib.ext import componesy
+from util.mysql_manager import DatabaseManager
+from util import RT
+from util.ext import componesy
 from time import time
 
 
@@ -82,19 +83,19 @@ class MenuView(discord.ui.View):
         if interaction.message.author.id == self.bot_id:
             return await self.on_interaction(interaction)
 
-    @discord.ui.button(emoji="⏪", custom_id=f"{CUSTOM_ID}DashLeft")
+    @discord.ui.button(emoji="?", custom_id=f"{CUSTOM_ID}DashLeft")
     async def dash_left(self, _, interaction):
         await self._on_interaction(interaction)
 
-    @discord.ui.button(emoji="◀️", custom_id=f"{CUSTOM_ID}Left")
+    @discord.ui.button(emoji="??", custom_id=f"{CUSTOM_ID}Left")
     async def left(self, _, interaction):
         await self._on_interaction(interaction)
 
-    @discord.ui.button(emoji="▶️", custom_id=f"{CUSTOM_ID}Right")
+    @discord.ui.button(emoji="??", custom_id=f"{CUSTOM_ID}Right")
     async def right(self, _, interaction):
         await self._on_interaction(interaction)
 
-    @discord.ui.button(emoji="⏩", custom_id=f"{CUSTOM_ID}DashRight")
+    @discord.ui.button(emoji="?", custom_id=f"{CUSTOM_ID}DashRight")
     async def dash_right(self, _, interaction):
         await self._on_interaction(interaction)
 

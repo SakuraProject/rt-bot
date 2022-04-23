@@ -8,8 +8,9 @@ from time import time
 from discord.ext import commands, tasks
 import discord
 
-from rtlib import RT, DatabaseManager as OldDatabaseManager, setting
-from rtutil import DatabaseManager, markord
+from util import RT
+from util.mysql_manager import DatabaseManager as OldDatabaseManager
+from util import DatabaseManager, markdowns
 
 from aiomysql import Pool, Cursor
 from ujson import loads, dumps
@@ -137,7 +138,6 @@ class ForcePinnedMessage(commands.Cog, DataManager):
         }, aliases=["ピン留め", "ぴんどめ", "fpm", "forcepinmessage"]
     )
     @commands.has_guild_permissions(manage_messages=True)
-    @setting.Setting("guild", "Force Pinned Message", channel=discord.TextChannel)
     async def pin(self, ctx: commands.Context, onoff: bool, *, content=""):
         """!lang ja
         --------
@@ -231,7 +231,7 @@ class ForcePinnedMessage(commands.Cog, DataManager):
             if content.startswith("# "):
                 # もし埋め込みならjsonにする。
                 content = "<" + dumps(
-                    markord.embed(
+                    markdowns.embed(
                         content, color=ctx.author.color
                     ).to_dict()
                 ) + ">"

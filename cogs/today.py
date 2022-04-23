@@ -3,7 +3,7 @@
 from discord.ext import commands, tasks
 import discord
 
-from rtlib import DatabaseManager
+from util.mysql_manager import DatabaseManager
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 

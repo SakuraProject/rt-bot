@@ -14,12 +14,11 @@ import discord
 commands.Cog.route = lambda *args, **kwargs: lambda *args, **kwargs: (args, kwargs)
 
 from aiohttp import ClientSession
-import asyncio
 from sys import argv
 import ujson
-import rtlib
+import util
 
-from data import data, is_admin, RTCHAN_COLORS
+from data import data, RTCHAN_COLORS
 
 
 with open("token.secret", "r", encoding="utf-8_sig") as f:
@@ -31,20 +30,20 @@ prefixes = data["prefixes"]["sub"]
 
 
 async def setup(bot):
-    bot.admins = data["admins"]
+    bot.owner_ids = data["admins"]
 
     @bot.listen()
     async def on_close(loop):
         await bot.session.close()
         del bot.mysql
 
-    bot.mysql = bot.data["mysql"] = rtlib.mysql.MySQLManager(
+    bot.mysql = bot.data["mysql"] = util.mysql.MySQLManager(
         loop=bot.loop, user=secret["mysql"]["user"],
         host="146.59.153.178" if argv[1] == "production" else "localhost",
         password=secret["mysql"]["password"], db="mysql",
         pool = True, minsize=1, maxsize=30, autocommit=True)
 
-    rtlib.setup(bot)
+    util.setup(bot)
     await bot.load_extension("jishaku")
 
     bot._loaded = False
@@ -54,7 +53,7 @@ async def setup(bot):
         if not bot._loaded:
             bot.session = ClientSession(loop=bot.loop)
             for name in ("cogs.tts", "cogs.music", "cogs._sub", "cogs.language"):
-                bot.load_extension(name)
+                await bot.load_extension(name)
             bot.dispatch("full_ready")
             bot._loaded = True
             print("少女絶賛稼働中！")
@@ -62,7 +61,6 @@ async def setup(bot):
 
 intents = discord.Intents.default()
 intents.members = True
-intents.message_content = True
 intents.typing = False
 intents.guild_typing = False
 intents.dm_typing = False
@@ -79,13 +77,10 @@ bot.test = argv[1] != "production"
 
 bot.data = data
 bot.colors = RTCHAN_COLORS
-bot.is_admin = is_admin
 
 
-async def _is_owner(user):
-    return bot.is_admin(user.id)
-bot.is_owner = _is_owner
-del is_admin, _is_owner
+setup(bot)
+
 
 
 async def main():

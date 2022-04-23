@@ -3,7 +3,8 @@
 from discord.ext import commands
 import discord
 
-from rtlib import DatabaseManager, RT, setting
+from util.mysql_manager import DatabaseManager
+from util import RT
 
 from random import sample
 from time import time
@@ -125,7 +126,6 @@ class ShortURL(commands.Cog, DataManager):
             }
         }
     )
-    @setting.Setting("url", "URL Shorter", HELP)
     async def short(self, ctx, url: str, custom: str = None):
         """!lang ja
         --------
@@ -212,7 +212,6 @@ class ShortURL(commands.Cog, DataManager):
             }
         }
     )
-    @setting.Setting("url", "URL Shorter List", HELP)
     async def list_(self, ctx):
         """!lang ja
         --------
@@ -247,7 +246,6 @@ class ShortURL(commands.Cog, DataManager):
             }
         }
     )
-    @setting.Setting("url", "URL Shorter Remove", HELP)
     async def remove_(
         self, ctx, custom="URLの最後の部分です。 (End of URL (`...` of `http://rtbo.tk/...`))"
     ):

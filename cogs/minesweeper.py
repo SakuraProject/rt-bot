@@ -3,7 +3,7 @@
 import discord
 from discord.ext import commands
 
-from rtutil import Minesweeper as Ms
+from util import minesweeper as Ms
 
 
 class Mines(commands.Cog):
@@ -104,4 +104,4 @@ class Mines(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Mines(bot))
+    return await bot.add_cog(Mines(bot))

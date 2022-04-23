@@ -6,8 +6,8 @@ from time import time
 from discord.ext import commands
 import discord
 
-from rtlib import DatabaseManager
-from rtlib.page import EmbedPage
+from util.mysql_manager import DatabaseManager
+from util.page import EmbedPage
 
 
 class DataManager(DatabaseManager):
@@ -71,7 +71,7 @@ class News(commands.Cog, DataManager):
         for value in values:
             if value:
                 name = value[:(i := value.find("\n"))]
-                name = "‌\n" + name
+                name = "?\n" + name
                 embed.add_field(name=name, value=value[i:], inline=False)
         return embed
 

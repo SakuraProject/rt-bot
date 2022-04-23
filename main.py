@@ -15,11 +15,8 @@ import discord
 
 from aiohttp import ClientSession
 from ujson import load, dumps
-import asyncio
 
-import asyncio
-
-from rtlib import RT, mysql, setup, websocket
+from util import RT, mysql, setup, websocket
 from data import data, Colors
 
 with open("auth.json", "r") as f:
@@ -27,7 +24,6 @@ with open("auth.json", "r") as f:
 
 # Botの準備を行う。
 intents = discord.Intents.default()  # intents指定
-intents.message_content = True
 intents.typing = False
 intents.members = True
 bot = RT(
@@ -35,18 +31,17 @@ bot = RT(
     help_command=None,
     intents=intents,
     allowed_mentions=discord.AllowedMentions(
-        everyone=False, users=False, replied_user=False
+        everyone=False,
+        users=False,
+        replied_user=False
     ),
     activity=discord.Game("起動準備"),
-    status=discord.Status.dnd,
-)  # RTオブジェクトはcommands.Botを継承している
+    status=discord.Status.dnd)  # RTオブジェクトはcommands.Botを継承している
 bot.test = argv[-1] != "production"  # argvの最後がproductionかどうか
 if not bot.test:
     websocket.WEBSOCKET_URI_BASE = "ws://146.59.153.178"
 bot.data = data  # 全データアクセス用、非推奨
-bot.admins = data["admins"]  # 非推奨
 bot.owner_ids = data["admins"]
-bot.is_admin = bot.is_owner  # 　非推奨
 bot.secret = secret  # auth.jsonの内容を入れている
 bot.mysql = bot.data["mysql"] = mysql.MySQLManager(
     loop=bot.loop,
@@ -54,12 +49,13 @@ bot.mysql = bot.data["mysql"] = mysql.MySQLManager(
     pool=True,
     minsize=1,
     maxsize=500 if bot.test else 1000000,
-    autocommit=True,
+    autocommit=True
 )  # maxsizeはテスト用では500、本番環境では100万になっている
 bot.pool = bot.mysql.pool  # bot.mysql.pool のエイリアス
 bot.colors = data["colors"]  # 下のColorsを辞書に変換したもの
 bot.Colors = Colors  # botで使う基本色が入っているclass
-bot._load = False  # 完全な(cogsなどの)ロードが完了していなおことを表す
+
+
 
 
 @bot.listen()
@@ -70,14 +66,13 @@ async def on_ready():
     await bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
-    await setup(bot)  # rtlib.setup
+    setup(bot)  # util.setup
     await bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
     for name in listdir("cogs"):
         if not name.startswith(("_", ".")):
             try:
-                await bot.load_extension(
-                    f"cogs.{name[:-3] if name.endswith('.py') else name}"
-                )
+                bot.load_extension(
+                    f"cogs.{name[:-3] if name.endswith('.py') else name}")
             except discord.ext.commands.NoEntryPointError as e:
                 if "setup" not in str(e):
                     raise e
@@ -86,23 +81,24 @@ async def on_ready():
     bot.print("Completed to boot Free RT")
 
     bot.dispatch("full_ready")  # full_readyイベントを発火する
-    bot._load = True  # 完全なロードが完了したことを表す
 
 
 # loggingの準備
-logger = logging.getLogger("discord")
-handler = handlers.RotatingFileHandler(
-    filename="log/discord.log",
-    encoding="utf-8",
-    mode="w",
-    maxBytes=10000000,
-    backupCount=5,
-)  # 出力先ファイルの設定
-handler.setLevel(logging.DEBUG)  # 出力レベルの設定
-handler.setFormatter(
-    logging.Formatter("[%(asctime)s][%(levelname)s][%(name)s] %(message)s")
-)  # 出力形式の設定
-logger.addHandler(handler)
+#logger = logging.getLogger('discord')
+#handler = handlers.RotatingFileHandler(
+#    filename='log/discord.log',
+#    encoding='utf-8',
+#    mode='w',
+#    maxBytes=10000000,
+#    backupCount=5
+#)  # 出力先ファイルの設定
+#handler.setLevel(logging.DEBUG)  # 出力レベルの設定
+#handler.setFormatter(
+#    logging.Formatter(
+#        "[%(asctime)s][%(levelname)s][%(name)s] %(message)s"
+#    )
+#)  # 出力形式の設定
+#logger.addHandler(handler)
 
 
 async def main():
@@ -110,11 +106,11 @@ async def main():
         # 起動中だと教えられるようにするためのコグを読み込む
         await bot.load_extension("cogs._first")
         # スラッシュマネージャーを設定する
-        await bot.load_extension("rtlib.slash")
+        await bot.load_extension("util.slash")
         # onami(jishakuのnextcord版)を読み込む
         await bot.load_extension("onami")
         # Bot実行
-        await bot.run(secret["token"][argv[-1]])  
+        await bot.run(secret["token"][argv[-1]])
 
 
 # 実行

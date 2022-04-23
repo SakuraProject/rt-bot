@@ -5,8 +5,8 @@ from typing import Optional
 from discord.ext import commands
 import discord
 
-from rtlib import DatabaseManager
-from rtlib.page import EmbedPage
+from util.mysql_manager import DatabaseManager
+from util.page import EmbedPage
 
 
 class DataManager(DatabaseManager):

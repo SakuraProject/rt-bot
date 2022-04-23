@@ -3,7 +3,8 @@
 from discord.ext import commands, tasks
 import discord
 
-from rtlib import RT, DatabaseManager, setting
+from util import RT
+from util.mysql_manager import DatabaseManager
 
 
 class DataManager(DatabaseManager):
@@ -62,7 +63,6 @@ class ChannelStatus(commands.Cog, DataManager):
         }, "parent": "ServerUseful"
     })
     @commands.has_guild_permissions(manage_channels=True)
-    @setting.Setting("guild", "Channel Status", channel=discord.TextChannel)
     async def status(self, ctx, *, text):
         """!lang ja
         --------

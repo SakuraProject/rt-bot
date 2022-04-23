@@ -5,7 +5,7 @@ from typing import Any, Literal
 from discord.ext import commands, tasks
 import discord
 
-from rtlib import DatabaseManager, setting
+from util.mysql_manager import DatabaseManager
 
 from asyncio import sleep
 from ujson import loads
@@ -83,7 +83,7 @@ class Bump(commands.Cog, DataManager):
     IDS = {
         302050872383242240: {
             "mode": "bump",
-            "description": ["表示順をアップしたよ", "Bump done", "Bumpeado", "Bump effectué"],
+            "description": ["表示順をアップしたよ", "Bump done", "Bumpeado", "Bump effectue"],
             "time": 7200
         },
         761562078095867916: {
@@ -127,7 +127,6 @@ class Bump(commands.Cog, DataManager):
     @commands.command(extras=get_extras("bump"))
     @commands.has_guild_permissions(administrator=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @setting.Setting("guild", "Bump通知")
     async def bump(self, ctx, onoff: bool, *, role: discord.Role = None):
         """!lang ja
         --------
@@ -206,7 +205,7 @@ class Bump(commands.Cog, DataManager):
         )
         i = 0
         embed.add_field(
-            name="‌\n",
+            name="?\n",
             value="\n".join((
                 f"{self.EMOJIS.get(str_i := str(i := i + 1), str_i)} " # noqa
                 f"{(name := getattr(self.bot.get_user(row[0]), 'name', 'ユーザー不明'))}"

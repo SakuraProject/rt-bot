@@ -3,7 +3,8 @@
 from discord.ext import commands, tasks
 import discord
 
-from rtlib import RT, DatabaseManager, setting
+from util import RT
+from util.mysql_manager import DatabaseManager
 from time import time
 
 
@@ -85,7 +86,6 @@ class DelayLottery(commands.Cog, DataManager):
         }
     )
     @commands.cooldown(1, 30, commands.BucketType.channel)
-    @setting.Setting("guild", "Delay Lottery", channel=discord.TextChannel)
     async def dlottery(self, ctx, count: int, minutes: int, *, description):
         """!lang ja
         --------

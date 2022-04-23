@@ -5,7 +5,7 @@ from typing import Literal
 from discord.ext import commands
 import discord
 
-from rtlib import RT, setting
+from util import RT, settings
 
 from asyncio import sleep
 
@@ -58,7 +58,6 @@ class FreeChannel(commands.Cog):
     @freechannel_.command(aliases=["add", "rg"])
     @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.has_permissions(manage_channels=True)
-    @setting.Setting("guild", "Free Channel 0 Register", channel=discord.TextChannel)
     async def register(self, ctx, max_channel: int = 4, lang: Literal["ja", "en"] = "ja"):
         """!lang ja
         --------
@@ -171,10 +170,6 @@ The name of the created voice channel will include the ID of the person who crea
     @freechannel_.command(name="remove")
     @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.has_permissions(manage_channels=True)
-    @setting.Setting(
-        "guild", "Free Channel 1 Remove", ("ServerPanel", "freechannel"),
-        channel=discord.TextChannel
-    )
     async def remove_(self, ctx):
         """!lang ja
         --------
