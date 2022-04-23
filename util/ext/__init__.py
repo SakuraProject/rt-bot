@@ -1,1 +1,0 @@
-from . import view as componesy
