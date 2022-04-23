@@ -1,0 +1,24 @@
+# util
+aiofiles
+ujson
+nextcord[voice,speed]
+aiomysql
+pytz
+websockets
+## OAuth
+reprypt
+# RT main
+onami
+pillow
+emoji
+youtube_dl
+niconico.py
+bs4
+pyopenjtalk
+psutil
+captcha
+deep-translator
+topggpy
+tweepy
+speedtest-cli
+gTTS
