@@ -1,0 +1,52 @@
+{
+    "openjtalk": {
+        "mei": {
+            "name": "メイ",
+            "details": "Copyright (c) 2009-2018 Nagoya Insitute of Technology Department of Computer Science"
+        },
+        "nitech_jp_atr503_m001": {
+            "name": "男の人",
+            "details": "Copyright (c) 2003-2012 Nagoya Insitute of Technology Department of Computer Science"
+        },
+        "Miku-Type-a": {
+            "name": "初音ミク",
+            "details": "著作権：CUBE370"
+        },
+        "wacky": {
+            "name": "Wacky~▲",
+            "details": "音響モデル：zeta, 音声データ：Wacky~▲"
+        },
+        "京歌カオル": {
+            "name": "京歌カオル",
+            "details": "音響モデル：アキヒロ, 音声データ：ななかお(kei)"
+        },
+        "蒼歌ネロ": {
+            "name": "蒼歌ネロ",
+            "details": "音響モデル：アキヒロ, 音声データ作成者：楓夜"
+        },
+        "沙音ほむ": {
+            "name": "沙音ほむ",
+            "details": "音響モデル：アキヒロ, 音声データ：ほむ"
+        }
+    },
+    "gtts": {
+        "en": {
+            "name": "gTTS (For english, 英語用)",
+            "details": "TTS made by gTTS python lib, Copyright © 2014-2021 Pierre Nicolas Durette & Contributors"
+        },
+        "ja": {
+            "name": "gTTS (For japanese, 日本語用)",
+            "details": "TTS made by gTTS python lib, Copyright © 2014-2021 Pierre Nicolas Durette & Contributors"
+        }
+    },
+    "aquestalk": {
+        "f1": {
+            "name": "ゆっくり霊夢", "emoji": "<:yukkuri_reimu:942252914825633802>",
+            "details": "AquesTalk 評価版, (株)アクエストの音声合成ライブラリAquesTalkによるものです。"
+        },
+        "f2": {
+            "name": "ゆっくり魔理沙", "emoji": "<:yukkuri_marisa:942253791749746728>",
+            "details": "AquesTalk 評価版, (株)アクエストの音声合成ライブラリAquesTalkによるものです。"
+        }
+    }
+}
