@@ -1,4 +1,4 @@
-# RT Ext - Debug
+# Free RT Ext - Debug
 
 from discord.ext import commands
 import discord
@@ -12,7 +12,7 @@ import psutil
 def require_admin(coro):
     @wraps(coro)
     async def new_coro(self, ctx: commands.Context, *args, **kwargs):
-        if ctx.author.id in self.bot.admins:
+        if ctx.author.id in self.bot.owner_ids:
             return await coro(self, ctx, *args, **kwargs)
         else:
             return await ctx.reply(self.ON_NO_ADMIN)
@@ -45,12 +45,12 @@ class Printer:
 class Debug(commands.Cog):
 
     ON_NO_ADMIN = "あなたはこのコマンドを実行することができません。"
-    OUTPUT_PATH = "_rtlib_debug_output.txt"
+    OUTPUT_PATH = "_util_debug_output.txt"
 
     def __init__(self, bot):
         self.bot = bot
-        if not hasattr(self.bot, "admins"):
-            self.bot.admins = []
+        if not hasattr(self.bot, "owner_ids"):
+            self.bot.owner_ids = []
 
     @commands.group()
     async def debug(self, ctx):
@@ -108,7 +108,7 @@ class Debug(commands.Cog):
     @executor_function
     def make_monitor_embed(self):
         embed = discord.Embed(
-            title="RT-Run info",
+            title="Free-RT-Run info",
             description="Running on Ubuntu Linux",
             color=0x0066ff
         )
@@ -135,8 +135,8 @@ class Debug(commands.Cog):
         )
 
 
-async def setup(bot):
-    await bot.add_cog(Debug(bot))
+def setup(bot):
+    bot.add_cog(Debug(bot))
 
 
 if __name__ == "__main__":

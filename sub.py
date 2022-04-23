@@ -14,6 +14,7 @@ import discord
 commands.Cog.route = lambda *args, **kwargs: lambda *args, **kwargs: (args, kwargs)
 
 from aiohttp import ClientSession
+import asyncio
 from sys import argv
 import ujson
 import rtlib
@@ -29,7 +30,7 @@ TOKEN = secret["token"]["sub"]
 prefixes = data["prefixes"]["sub"]
 
 
-def setup(bot):
+async def setup(bot):
     bot.admins = data["admins"]
 
     @bot.listen()
@@ -44,7 +45,7 @@ def setup(bot):
         pool = True, minsize=1, maxsize=30, autocommit=True)
 
     rtlib.setup(bot)
-    bot.load_extension("jishaku")
+    await bot.load_extension("jishaku")
 
     bot._loaded = False
 
@@ -61,6 +62,7 @@ def setup(bot):
 
 intents = discord.Intents.default()
 intents.members = True
+intents.message_content = True
 intents.typing = False
 intents.guild_typing = False
 intents.dm_typing = False
@@ -86,8 +88,10 @@ bot.is_owner = _is_owner
 del is_admin, _is_owner
 
 
-setup(bot)
-
-
-bot.run(TOKEN)
+async def main():
+    async with bot:
+        await bot.run(TOKEN)
+        
+asyncio.run(setup(bot))
+asyncio.run(main(bot))
 

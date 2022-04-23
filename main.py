@@ -15,6 +15,7 @@ import discord
 
 from aiohttp import ClientSession
 from ujson import load, dumps
+import asyncio
 
 import asyncio
 
@@ -26,6 +27,7 @@ with open("auth.json", "r") as f:
 
 # Botの準備を行う。
 intents = discord.Intents.default()  # intents指定
+intents.message_content = True
 intents.typing = False
 intents.members = True
 bot = RT(
@@ -58,19 +60,6 @@ bot.pool = bot.mysql.pool  # bot.mysql.pool のエイリアス
 bot.colors = data["colors"]  # 下のColorsを辞書に変換したもの
 bot.Colors = Colors  # botで使う基本色が入っているclass
 bot._load = False  # 完全な(cogsなどの)ロードが完了していなおことを表す
-
-
-async def load_ext():
-    async with bot:
-        # 起動中だと教えられるようにするためのコグを読み込む
-        await bot.load_extension("cogs._first")
-        # スラッシュマネージャーを設定する
-        await bot.load_extension("rtlib.slash")
-        # onami(jishakuのnextcord版)を読み込む
-        await bot.load_extension("onami")
-
-
-asyncio.run(load_ext())
 
 
 @bot.listen()
@@ -118,7 +107,14 @@ logger.addHandler(handler)
 
 async def main():
     async with bot:
-        bot.run(secret["token"][argv[-1]])
+        # 起動中だと教えられるようにするためのコグを読み込む
+        await bot.load_extension("cogs._first")
+        # スラッシュマネージャーを設定する
+        await bot.load_extension("rtlib.slash")
+        # onami(jishakuのnextcord版)を読み込む
+        await bot.load_extension("onami")
+        # Bot実行
+        await bot.run(secret["token"][argv[-1]])  
 
 
 # 実行
