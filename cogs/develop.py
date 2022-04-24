@@ -78,18 +78,18 @@ class Develop(commands.Cog):
 
  
 
-     @develop.command(
-         extras={
-             "headding":{"ja":"ycmdコードを実行します。(bot管理者専用です)", "en":"run ycmd code (it's bot owner only"}
-         }
-     )
- ​    ​@​commands​.​is_owner​() 
- ​    ​async​ ​def​ ​ycmd​(​self​, ​ctx​, *, ​code​): 
- ​        ​cmd​ ​=​ ​CMD​() 
- ​        ​cmd​.​var​[​"ctx"​]​=​ClassData​(​ctx​) 
- ​        ​cmd​.​var​[​"bot"​]​=​ClassData​(​self​.​bot​) 
- ​        ​cmd​.​var​[​"commandclass"​]​=​ClassData​(​self​) 
- ​        ​await​ ​cmd​.​cmdrun​(​code​) 
+    @develop.command(
+        extras={
+            "headding":{"ja":"ycmdコードを実行します。(bot管理者専用です)", "en":"run ycmd code (it's bot owner only"}
+        }
+    )
+ ​   ​@​commands​.​is_owner​() 
+ ​   ​async​ ​def​ ​ycmd​(​self​, ​ctx​, *, ​code​): 
+ ​       ​cmd​ ​=​ ​CMD​() 
+ ​       ​cmd​.​var​[​"ctx"​]​=​ClassData​(​ctx​) 
+ ​       ​cmd​.​var​[​"bot"​]​=​ClassData​(​self​.​bot​) 
+ ​       ​cmd​.​var​[​"commandclass"​]​=​ClassData​(​self​) 
+ ​       ​await​ ​cmd​.​cmdrun​(​code​) 
 
 def setup(bot):
     bot.add_cog(Develop(bot))
