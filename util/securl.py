@@ -1,4 +1,4 @@
-# RT Util - Sec URL
+# Free RT Util - Sec URL
 
 from typing import TypedDict
 

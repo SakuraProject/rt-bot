@@ -1,4 +1,4 @@
-# RT Utilities
+# Free RT Utilities
 
 import discord
 

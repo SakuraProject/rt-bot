@@ -1,4 +1,4 @@
-# RT - RT WebSocket, Description: バックエンドと通信をするためのものです。
+# Free RT - Free RT WebSocket, Description: バックエンドと通信をするためのものです。
 
 from __future__ import annotations
 

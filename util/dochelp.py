@@ -64,7 +64,7 @@ async def soudayo(ctx, mode="便乗"):
     await ctx.reply(f"そうだよ({mode})")
 
 # 上のコマンドにあるドキュメンテーションがヘルプリストに自動で追加されます。"""
-
+# Free RT Util - Doc help
 from __future__ import annotations
 
 from collections.abc import Callable

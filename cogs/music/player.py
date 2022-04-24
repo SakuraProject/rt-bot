@@ -1,4 +1,4 @@
-# RT Music - Player
+# Free RT Music - Player
 
 from __future__ import annotations
 

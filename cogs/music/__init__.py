@@ -1,4 +1,4 @@
-# RT - Music
+# Free RT - Music
 
 from __future__ import annotations
 
@@ -76,9 +76,9 @@ def check(check_state: bool = True, check_dj: bool = True) -> Callable[[DecoT], 
                 return await ctx.reply(
                     {
                         "ja": "自分ボイスチャンネルに参加していないです。音楽再生をしてください。\n"
-                            "*P.S.* もしボイスチャンネルにいるのにこうなる場合は`rt!disconnect on`を実行してください。",
+                            "*P.S.* もしボイスチャンネルにいるのにこうなる場合は`rf!disconnect on`を実行してください。",
                         "en": "I have not joined my own voice channel. Please play the music.\n"
-                            "*P.S.* If this happens while you are on the voice channel, run `rt!disconnect on`."
+                            "*P.S.* If this happens while you are on the voice channel, run `rf!disconnect on`."
                     }
                 )
             elif check_dj and (data := is_require_dj(self, ctx.author))[0]:
@@ -235,7 +235,7 @@ class MusicCog(commands.Cog, name="Music"):
                     # もし何かしら発生したのなら警告を入れる。
                     status = self._get_status(status)
         elif isinstance(url, list):
-            # `rt!playlist play`によってplayされた際にはurlにlist[Music]が入るのでここが実行される。
+            # `rf!playlist play`によってplayされた際にはurlにlist[Music]が入るのでここが実行される。
             for music in url:
                 self.now[ctx.guild.id].add(music)
             ctx.reply_edit = True
@@ -281,7 +281,7 @@ class MusicCog(commands.Cog, name="Music"):
 
         Notes
         -----
-        `rt!disconnect on`とすると強制的に切断させることができます。
+        `rf!disconnect on`とすると強制的に切断させることができます。
 
         Aliases
         -------
@@ -293,7 +293,7 @@ class MusicCog(commands.Cog, name="Music"):
 
         Notes
         -----
-        `rt!disconnect on` to disconnect forcibly
+        `rf!disconnect on` to disconnect forcibly
 
         Aliases
         -------
@@ -486,7 +486,7 @@ class MusicCog(commands.Cog, name="Music"):
         プレイリストです。
         十個までプレイリストを作成することができます。
         また、一つのプレイリストには八百曲まで登録することができます。
-        `rt!playlist`で現在登録されているプレイリストの一覧を表示します。
+        `rf!playlist`で現在登録されているプレイリストの一覧を表示します。
 
         Aliases
         -------
@@ -497,7 +497,7 @@ class MusicCog(commands.Cog, name="Music"):
         Playlists.
         You can create up to ten playlists.
         Also, up to 800 songs can be registered in one playlist.
-        `rt!playlist` to displays list of playlists created.
+        `rf!playlist` to displays list of playlists created.
 
         Aliases
         -------
@@ -516,8 +516,8 @@ class MusicCog(commands.Cog, name="Music"):
     def assert_playlist(self, author_id: int):
         "プレイリストを作っているかのチェックをします。"
         assert "playlists" in self.data[author_id], {
-            "ja": "現在あなたはプレイリストを所有していません。\n`rt!playlist create <名前>`で作成可能です。",
-            "en": "Currently, You don't have any playlists.\n`rt!playlist create <NAME>` to create a playlist."
+            "ja": "現在あなたはプレイリストを所有していません。\n`rf!playlist create <名前>`で作成可能です。",
+            "en": "Currently, You don't have any playlists.\n`rf!playlist create <NAME>` to create a playlist."
         }
 
     def get_playlist(self, author_id: int, name: str) -> Playlist:

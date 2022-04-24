@@ -231,7 +231,7 @@ class ForcePinnedMessage(commands.Cog, DataManager):
             if content.startswith("# "):
                 # もし埋め込みならjsonにする。
                 content = "<" + dumps(
-                    markdowns.embed(
+                    markdowns.create_embed(
                         content, color=ctx.author.color
                     ).to_dict()
                 ) + ">"

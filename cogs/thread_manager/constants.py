@@ -1,4 +1,4 @@
-# RT.thread_manager - Constants
+# Free-RT.thread_manager - Constants
 
 
 DB = "ThreadManager"    # データベースのテーブル名です。

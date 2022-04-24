@@ -1,4 +1,4 @@
-# RT Util - Data Manager
+# Free RT Util - Data Manager
 
 from collections.abc import Callable, Coroutine
 

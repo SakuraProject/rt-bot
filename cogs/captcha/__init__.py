@@ -1,4 +1,4 @@
-# RT - Captcha
+# Free RT - Captcha
 
 from __future__ import annotations
 

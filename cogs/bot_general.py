@@ -23,8 +23,6 @@ from util import RT
 from .server_tool import PERMISSION_TEXTS
 
 
-ERROR_CHANNEL = 962977145716625439
-
 INFO_DESC = {
     "ja": """どうもFree RTという新時代Botです。
 このBotは役職,投票,募集,チケットパネルやチャンネルステータスなどの定番機能はもちろん、声の変えれる読み上げやプレイリストのある音楽プレイヤーなどもある多機能Botです。

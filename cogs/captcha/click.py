@@ -1,4 +1,4 @@
-# RT Captcha - Click
+# Free RT Captcha - Click
 
 from typing import TYPE_CHECKING
 

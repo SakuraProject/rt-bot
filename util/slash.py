@@ -1,4 +1,4 @@
-# RT - Slash, Author: tasuren, Description: このコードはパブリックドメインとします。
+# Free RT - Slash, Author: tasuren, Description: このコードはパブリックドメインとします。
 
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Optional, Union, Literal, get_origin

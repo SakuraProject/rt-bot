@@ -1,4 +1,4 @@
-# RT - Monkey_Patch, Author: yaakiyu
+# Free RT - Monkey_Patch, Author: yaakiyu
 # これらのコードはd.pyでのみ動作します。
 
 from __future__ import annotations

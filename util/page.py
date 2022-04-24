@@ -1,4 +1,4 @@
-# RT - Page, Notes: これはパブリックドメインとします。
+# Free RT - Page, Notes: これはパブリックドメインとします。
 
 from __future__ import annotations
 

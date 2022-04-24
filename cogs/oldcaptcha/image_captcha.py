@@ -1,4 +1,4 @@
-# RT - Captcha Image Manager
+# Free RT - Captcha Image Manager
 
 from typing import TYPE_CHECKING, Optional, Dict, Tuple
 
@@ -68,9 +68,9 @@ class ImageCaptcha(ImageCaptcha):
                     except Exception as e:
                         await message.channel.send(
                             {"ja": (f"{message.author.mention}, 役職を付与することができませんでした。\n"
-                                    "付与する役職の位置がRTより下にあるか確認してください。\n"
+                                    "付与する役職の位置がFree RTより下にあるか確認してください。\n"
                                     f"エラーコード：`{e}`"),
-                             "en": f"{message.author.mention}, Failed, make sure that the role position below the RT role position."}
+                             "en": f"{message.author.mention}, Failed, make sure that the role position below the Free RT role position."}
                         )
                     else:
                         await message.channel.send(

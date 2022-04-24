@@ -1,4 +1,4 @@
-# RT - TTS
+# Free RT - TTS
 
 from __future__ import annotations
 

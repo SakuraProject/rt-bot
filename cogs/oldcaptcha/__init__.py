@@ -1,4 +1,4 @@
-# RT - Captcha
+# Free RT - Captcha
 
 from typing import TypedDict, Optional, Dict, Tuple
 

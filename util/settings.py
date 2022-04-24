@@ -1,4 +1,4 @@
-# RT Dashboard - Setting
+# Free RT Dashboard - Setting
 
 from __future__ import annotations
 

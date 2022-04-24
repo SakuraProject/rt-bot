@@ -1,4 +1,4 @@
-# RT - Data Manager
+# Free RT - Data Manager
 
 from __future__ import annotations
 

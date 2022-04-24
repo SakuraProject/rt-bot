@@ -1,4 +1,4 @@
-# RT AutoMod - Cache
+# Free RT AutoMod - Cache
 
 from typing import TYPE_CHECKING, Optional, Any, Dict, List
 

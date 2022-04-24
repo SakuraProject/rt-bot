@@ -1,4 +1,4 @@
-# rt util - Doc Parser
+# Free RT Util - Doc Parser
 
 from typing import Literal, Optional, Union, Callable, Tuple
 

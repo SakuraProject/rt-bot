@@ -1,4 +1,4 @@
-# RT Util - Bot
+# Free RT Util - Bot
 
 from typing import Union, Dict, List
 

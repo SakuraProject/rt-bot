@@ -1,4 +1,4 @@
-# RT TTS - Manager
+# Free RT TTS - Manager
 
 from __future__ import annotations
 

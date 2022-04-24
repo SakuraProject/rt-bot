@@ -1,4 +1,4 @@
-# RT Util - MySQL Manager
+# Free RT Util - MySQL Manager
 
 from typing import Union, Any, Dict, Tuple
 

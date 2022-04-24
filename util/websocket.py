@@ -1,4 +1,4 @@
-# RT Lib - WebSocket
+# Free RT Util - WebSocket
 
 from typing import (
     TYPE_CHECKING, Callable, Coroutine, TypedDict, Literal, Iterator,

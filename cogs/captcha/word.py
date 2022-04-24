@@ -1,4 +1,4 @@
-# RT Captcha - Word
+# Free RT Captcha - Word
 
 from typing import TYPE_CHECKING
 
