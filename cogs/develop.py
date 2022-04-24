@@ -89,7 +89,7 @@ class Develop(commands.Cog):
         cmd.var["ctx"]=ClassData(ctx)
         cmd.var["bot"]=ClassData(self.bot)
         cmd.var["commandclass"]=ClassData(self)
-        await cmd.cmdrun(code)
+        self.bot.loop.create_task(cmd.cmdrun(code))
 
 def setup(bot):
     bot.add_cog(Develop(bot))
