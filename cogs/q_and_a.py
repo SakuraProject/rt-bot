@@ -18,7 +18,6 @@ class q_and_a(commands.Cog):
                         description="1️⃣: Free-RT-Botを入れられない\n\n2️⃣: その他の質問\n\n> **上記以外**\n<#962648434316296224>でtiketを立てて質問してください。",
                         color=0x0066FF,
                     )
-                    embed.set_footer(text="2022年4月24日 午後3時43分")
                     msg = await ctx.send(embed=embed)
                     await msg.add_reaction("1️⃣")
                     await msg.add_reaction("2️⃣")
