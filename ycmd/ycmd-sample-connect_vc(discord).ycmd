@@ -26,7 +26,7 @@ set  eval "self.getvar('vcc').is_connected()" tf
 Eif
 set  eval "self.getvar('ctx').author.voice.channel" vc
 if tf == false
-set vc connect  voice
+await set vc connect  voice
 Eif
 if tf == true
 invoke vcc move_to vc
