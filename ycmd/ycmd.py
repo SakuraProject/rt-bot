@@ -51,11 +51,7 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        await eval("m("+args[0:-1]+")")
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            eval("m("+args[0:-1]+")")
+                    eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -74,11 +70,47 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                    self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                elif cmds.startswith("await invoke"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                        await eval("m("+args[0:-1]+")")
+                elif cmds.startswith("await set"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                    self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -133,11 +165,7 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        await eval("m("+args[0:-1]+")")
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            eval("m("+args[0:-1]+")")
+                    eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -156,11 +184,47 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                    self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                elif cmds.startswith("await invoke"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                        await eval("m("+args[0:-1]+")")
+                elif cmds.startswith("await set"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                    self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -217,11 +281,7 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        await eval("m("+args[0:-1]+")")
-                    except TypeError as e:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            eval("m("+args[0:-1]+")")
+                    eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -240,11 +300,47 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
-                    except TypeError as e:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                    self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                elif cmds.startswith("await invoke"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                        await eval("m("+args[0:-1]+")")
+                elif cmds.startswith("await set"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                    self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -301,11 +397,7 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        await eval("m("+args[0:-1]+")")
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            eval("m("+args[0:-1]+")")
+                    eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -324,11 +416,47 @@ class CMD():
                                     args = args + "self.var['" + v + "'].Class,"
                                 except KeyError:
                                     args = args + v + ","
-                    try:
-                        self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
-                    except TypeError:
-                        if str(e)!="object NoneType can't be used in 'await' expression":
-                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                    self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                elif cmds.startswith("await invoke"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                        await eval("m("+args[0:-1]+")")
+                elif cmds.startswith("await set"):
+                    cmd.pop(0)
+                    if cmd[1]=="":
+                        m = eval(cmd[2])
+                    else:
+                        c = self.var[cmd[1]]
+                        m = getattr(c.Class,cmd[2])
+                    arg = cmd[3].split(",")
+                    args = ""
+                    if cmd[3]!="":
+                        for v in arg:
+                            if v[0]=="\"":
+                                args = args + v +","
+                            else:
+                                try:
+                                    str(self.var[v])
+                                    args = args + "self.var['" + v + "'].Class,"
+                                except KeyError:
+                                    args = args + v + ","
+                    self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -343,4 +471,7 @@ class CMD():
          if name[0]=="\"":
              return name[1:-1]
          else:
-             return self.var[name].Class
+             try:
+                 return self.var[name].Class
+             except KeyError:
+                 return name
