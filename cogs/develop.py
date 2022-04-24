@@ -4,6 +4,9 @@ from discord.ext import commands
 
 from util import RT
 
+​from​ ​ycmd​.​ycmd​ ​import​ ​CMD
+
+from​ ​ycmd​.​ClassData​ ​import​ ​ClassData 
 
 class Develop(commands.Cog):
     
@@ -73,6 +76,20 @@ class Develop(commands.Cog):
         else:
             await ctx.reply("ログ無し。")
 
+ 
+
+     @develop.command(
+         extras={
+             "headding":{"ja":"ycmdコードを実行します。(bot管理者専用です)", "en":"run ycmd code (it's bot owner only"}
+         }
+     )
+ ​    ​@​commands​.​is_owner​() 
+ ​    ​async​ ​def​ ​ycmd​(​self​, ​ctx​, *, ​code​): 
+ ​        ​cmd​ ​=​ ​CMD​() 
+ ​        ​cmd​.​var​[​"ctx"​]​=​ClassData​(​ctx​) 
+ ​        ​cmd​.​var​[​"bot"​]​=​ClassData​(​self​.​bot​) 
+ ​        ​cmd​.​var​[​"commandclass"​]​=​ClassData​(​self​) 
+ ​        ​await​ ​cmd​.​cmdrun​(​code​) 
 
 def setup(bot):
     bot.add_cog(Develop(bot))
