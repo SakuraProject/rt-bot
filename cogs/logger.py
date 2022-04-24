@@ -24,9 +24,11 @@ class SystemLog(commands.Cog):
         self.guilds = []
         self.errors = set()
         self.logging_loop.start()
+        self.error_log_to_discord.start()
 
     def cog_unload(self):
         self.logging_loop.cancel()
+        self.error_log_to_discord.cancel()
 
     def _make_embed(self):
         name = collections.Counter(self.names).most_common()[0]

@@ -204,11 +204,10 @@ class DocHelp(commands.Cog):
     async def on_command_add(self, command, after: bool = False):
         if command.callback.__doc__:
             extras = command.extras if command.extras else {
-                "headding": command.__original_kwargs__.get("headding", {})
-                    or ({"ja": command.description} if command.description else {}),
-                "parent": command.__original_kwargs__.get("category", "Other")
+                "headding": ({"ja": command.description} if command.description else {}),
+                "parent": "Other"
             }
-            if extras and extras["headding"] and not after and command.parent is None:
+            if extras and "headding" in extras and extras["headding"] and not after and command.parent is None:
                 # ドキュメンテーションをマークダウンにする。
                 data = self.parse(command)
                 # もしカテゴリーが設定されているならそのカテゴリーコマンドを入れる。

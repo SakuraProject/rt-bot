@@ -18,6 +18,13 @@ class Develop(commands.Cog):
     )
     @commands.is_owner()
     async def develop(self, ctx):
+        """!lang ja
+        --------
+        管理者専用のコマンドです。sub_commands: reload_help, command_log
+        
+        !lang en
+        --------
+        Command for developers only. sub_commands: reload_help, command_log"""
         if ctx.invoked_subcommand is None:
             return await ctx.send("使用方法が違います。")
     
