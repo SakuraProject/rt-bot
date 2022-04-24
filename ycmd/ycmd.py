@@ -54,7 +54,8 @@ class CMD():
                     try:
                         await eval("m("+args[0:-1]+")")
                     except TypeError:
-                        eval("m("+args[0:-1]+")")
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -76,7 +77,8 @@ class CMD():
                     try:
                         self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                     except TypeError:
-                        self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -134,7 +136,8 @@ class CMD():
                     try:
                         await eval("m("+args[0:-1]+")")
                     except TypeError:
-                        eval("m("+args[0:-1]+")")
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -156,7 +159,8 @@ class CMD():
                     try:
                         self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                     except TypeError:
-                        self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -215,8 +219,9 @@ class CMD():
                                     args = args + v + ","
                     try:
                         await eval("m("+args[0:-1]+")")
-                    except TypeError:
-                        eval("m("+args[0:-1]+")")
+                    except TypeError as e:
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -237,8 +242,9 @@ class CMD():
                                     args = args + v + ","
                     try:
                         self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
-                    except TypeError:
-                        self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                    except TypeError as e:
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
@@ -298,7 +304,8 @@ class CMD():
                     try:
                         await eval("m("+args[0:-1]+")")
                     except TypeError:
-                        eval("m("+args[0:-1]+")")
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            eval("m("+args[0:-1]+")")
                 elif cmd[0]=="set":
                     if cmd[1]=="":
                         m = eval(cmd[2])
@@ -320,7 +327,8 @@ class CMD():
                     try:
                         self.var[cmd[4]] = ClassData(await eval("m("+args[0:-1]+")"))
                     except TypeError:
-                        self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
+                        if str(e)!="object NoneType can't be used in 'await' expression":
+                            self.var[cmd[4]] = ClassData(eval("m("+args[0:-1]+")"))
                 elif cmd[0]=="import":
                     exec("import "+cmd[1])
                 elif cmd[0]=="if":
