@@ -1,4 +1,4 @@
-# free RT utils - checks
+# Free RT Utils - Checks
 
 from typing import Union
 

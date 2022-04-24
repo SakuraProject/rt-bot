@@ -9,8 +9,8 @@ class percent(commands.Cog):
 
     @commands.command(name="%")
     async def percent(self, ctx):
-        embed = discord.Embed(title="完了%", description="**46%/100%**", color=0x0066ff)
-        embed.set_footer(text="2022年4月19日 午後19時39分")
+        embed = discord.Embed(title="完了%", description="**47%/100%**", color=0x0066ff)
+        embed.set_footer(text="2022年4月24日 午後3時43分")
         await ctx.send(embed=embed)
 
 

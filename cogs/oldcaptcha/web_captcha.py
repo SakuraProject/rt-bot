@@ -1,4 +1,4 @@
-# RT - Captcha Web Manager
+# Free RT - Captcha Web Manager
 
 from typing import TYPE_CHECKING, TypedDict, Dict, Tuple
 
@@ -42,8 +42,8 @@ class WebCaptcha:
                 except discord.Forbidden:
                     result = (
                         "認証に失敗しました。"
-                        "付与する役職がRTの役職より下にあるか確認してください。\n"
-                        "Failed, make sure that the role position below the RT role position.\n"
+                        "付与する役職がFree RTの役職より下にあるか確認してください。\n"
+                        "Failed, make sure that the role position below the Free RT role position.\n"
                     )
                 else:
                     result = (

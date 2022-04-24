@@ -1,4 +1,4 @@
-# RT util - markdowns
+# Free RT Util - Markdowns
 
 from discord import Embed
 from typing import Tuple

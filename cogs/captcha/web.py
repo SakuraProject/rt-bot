@@ -1,4 +1,4 @@
-# RT Captcha - Web Captcha
+# Free RT Captcha - Web Captcha
 
 from typing import TYPE_CHECKING
 

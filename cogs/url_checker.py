@@ -6,7 +6,9 @@ from discord.ext import commands
 import discord
 
 from util import securl, DatabaseManager
+
 from re import findall
+from urllib.parse import urlparse
 
 if TYPE_CHECKING:
     from aiomysql import Pool, Cursor
@@ -216,7 +218,7 @@ class UrlChecker(commands.Cog, DataManager):
                 url for url in findall(
                     r"https?://[\w/:%#\$&\?\(\)~\.=\+\-]+",
                     reaction.message.content
-                ) if not url.startswith("https://discord.com")
+                ) if urlparse(url).netloc != "discord.com"
             ]
             if len(urls) < 4:
                 ctx = await self.bot.get_context(reaction.message)
@@ -227,7 +229,7 @@ class UrlChecker(commands.Cog, DataManager):
                     )
             else:
                 await reaction.message.channel.send(
-                    f"{user.author.mention}, 四つ以上のURLは同時にちぇっくすることができません。"
+                    f"{user.author.mention}, 四つ以上のURLは同時にチェックすることができません。"
                 )
             self.channel_runnings.remove(reaction.message.channel.id)
 

@@ -1,4 +1,4 @@
-# RT util - webhooks
+# Free RT Util - webhooks
 
 import discord
 from discord.ext import commands

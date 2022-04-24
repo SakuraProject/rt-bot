@@ -1,4 +1,4 @@
-# free rt util - Converters
+# Free RT Utils - Converters
 
 from discord.ext import commands
 

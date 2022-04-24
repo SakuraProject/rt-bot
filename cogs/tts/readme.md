@@ -1,4 +1,4 @@
-# RTの読み上げ
+# Free RTの読み上げ
 RTの読み上げではOpenJTalkとAquesTalkとgTTSを使用します。
 
 ## Installation

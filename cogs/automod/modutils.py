@@ -1,4 +1,4 @@
-# RT AUtoMod - Mod Utils
+# Free RT AUtoMod - Mod Utils
 
 from __future__ import annotations
 

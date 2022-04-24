@@ -1,4 +1,4 @@
-# RT Captcha - Image
+# Free RT Captcha - Image
 
 from __future__ import annotations
 

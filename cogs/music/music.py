@@ -1,4 +1,4 @@
-# RT Music - Music Data class
+# Free RT Music - Music Data class
 
 from __future__ import annotations
 

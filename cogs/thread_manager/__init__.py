@@ -1,4 +1,4 @@
-# RT - Thread Manager
+# Free RT - Thread Manager
 
 from typing import TYPE_CHECKING
 

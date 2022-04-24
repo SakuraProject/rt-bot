@@ -1,4 +1,4 @@
-# RT AutoMod - Data Manager
+# Free RT AutoMod - Data Manager
 
 from typing import TYPE_CHECKING, NewType, TypedDict, Literal, Union, Optional, Dict, Tuple, List
 

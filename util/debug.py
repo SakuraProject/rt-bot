@@ -1,4 +1,4 @@
-# RT Ext - Debug
+# Free RT Ext - Debug
 
 from discord.ext import commands
 import discord
@@ -108,7 +108,7 @@ class Debug(commands.Cog):
     @executor_function
     def make_monitor_embed(self):
         embed = discord.Embed(
-            title="RT-Run info",
+            title="Free-RT-Run info",
             description="Running on Ubuntu Linux",
             color=0x0066ff
         )

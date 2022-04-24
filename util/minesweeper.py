@@ -1,4 +1,4 @@
-# RT util - Mine Sweeper Game Engine
+# Free RT Util - Mine Sweeper Game Engine
 
 from typing import Optional
 

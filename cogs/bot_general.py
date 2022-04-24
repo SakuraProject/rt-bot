@@ -23,8 +23,6 @@ from util import RT
 from .server_tool import PERMISSION_TEXTS
 
 
-ERROR_CHANNEL = 962977145716625439
-
 INFO_DESC = {
     "ja": """どうもFree RTという新時代Botです。
 このBotは役職,投票,募集,チケットパネルやチャンネルステータスなどの定番機能はもちろん、声の変えれる読み上げやプレイリストのある音楽プレイヤーなどもある多機能Botです。
@@ -235,13 +233,20 @@ class BotGeneral(commands.Cog):
             description=INFO_DESC,
             color=self.bot.colors["normal"]
         )
+        embed.add_field(
+            name="Servers", value=len(self.bot.guilds),
+            inline=False
+        )
+        embed.add_field(
+            name="Users", value=len(self.bot.users),
+            inline=False
+        )
         for item_variable_name, item_name in INFO_ITEMS:
             embed.add_field(
                 name=item_name, value=eval("INFO_" + item_variable_name),
                 inline=False
             )
         await ctx.reply(
-            content=f"Servers:{len(self.bot.guilds)}, Users:{len(self.bot.users)}",
             embed=embed
         )
 
@@ -277,14 +282,14 @@ class BotGeneral(commands.Cog):
             title = "404 Not Found"
             description = {
                 "ja": "そのコマンドが見つかりませんでした。\n" \
-                    f"`rt!help <word>`で検索が可能です。\nもしかして：{suggestion}",
-                "en": f"It can't found that command.\n`rt!help <word>`This can search command.\nSuggetion:{suggestion}"}
+                    f"`rf!help <word>`で検索が可能です。\nもしかして：{suggestion}",
+                "en": f"It can't found that command.\n`rf!help <word>`This can search command.\nSuggetion:{suggestion}"}
             color = self.bot.colors["unknown"]
         elif isinstance(error, discord.Forbidden):
             title = "500 Internal Server Error"
             description = {
-                "ja": "RTに権限がないため正常にコマンドを実行できませんでした。",
-                "en": "The command could not be executed successfully because RT does not have permissions."
+                "ja": "Free-RTに権限がないため正常にコマンドを実行できませんでした。",
+                "en": "The command could not be executed successfully because Free-RT does not have permissions."
             }
         elif isinstance(error, commands.CommandOnCooldown):
             if (ctx.command.qualified_name in self.cache.get(ctx.author.id, {})
@@ -422,7 +427,7 @@ class BotGeneral(commands.Cog):
         self.errors = set()
 
     def get_help_url(self, category: str, name: str) -> str:
-        return f"https://rt-bot.com/help.html?g={category}&c={name}"
+        return f"https://free-rt.com/help.html?g={category}&c={name}"
 
     def get_command_url(self, command: commands.Command) -> str:
         "渡されたコマンドのヘルプのURLを返します。"

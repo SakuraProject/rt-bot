@@ -1,4 +1,4 @@
-# RT Util - Views
+# Free RT Util - Views
 
 import discord
 

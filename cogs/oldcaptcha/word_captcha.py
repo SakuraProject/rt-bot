@@ -1,4 +1,4 @@
-# RT - Captcha Word Manager
+# Free RT - Captcha Word Manager
 
 from typing import TYPE_CHECKING, Dict, Tuple
 

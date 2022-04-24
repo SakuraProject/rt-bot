@@ -1,4 +1,4 @@
-# RT - Cacher, キャッシュ管理
+# Free RT - Cacher, キャッシュ管理
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ class Cache(Generic[DataT]):
 
 KeyT, ValueT = TypeVar("KeyT"), TypeVar("ValueT")
 class Cacher(Generic[KeyT, ValueT]):
-    "キャッシュを管理するためのクラスです。\n注意：CacherPoolと兼用しないとデータは自然消滅しません。"
+    "キャッシュを管理するためのクラスです。\n注意: CacherPoolと兼用しないとデータは自然消滅しません。"
 
     def __init__(self, lifetime: float, default: Optional[Callable[[], Any]] = None):
         self.data: dict[KeyT, Cache[ValueT]] = {}
