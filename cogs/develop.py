@@ -4,9 +4,9 @@ from discord.ext import commands
 
 from util import RT
 
-?from???ycmd?.?ycmd???import???CMD
+from ycmd.ycmd import CMD
 
-from???ycmd?.?ClassData???import???ClassData 
+from ycmd.ClassData import ClassData 
 
 class Develop(commands.Cog):
     
