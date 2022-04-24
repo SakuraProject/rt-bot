@@ -4,6 +4,9 @@ from discord.ext import commands
 
 from util import RT
 
+from ycmd.ycmd import CMD
+
+from ycmd.ClassData import ClassData 
 
 class Develop(commands.Cog):
     
@@ -67,12 +70,26 @@ class Develop(commands.Cog):
         """
         if mode:
             getattr(self.bot.cogs["SystemLog"].logging_loop, mode)()
-            await ctx.message.add_reaction("✅")
+            await ctx.message.add_reaction("?")
         elif len(self.bot.cogs["SystemLog"].names) != 0:
             await ctx.reply(embed=self.bot.cogs["SystemLog"]._make_embed())
         else:
             await ctx.reply("ログ無し。")
 
+
+
+    @develop.command(
+        extras={
+            "headding":{"ja":"ycmdコードを実行します。(bot管理者専用です)", "en":"run ycmd code (it's bot owner only"}
+        }
+    )
+    @commands.is_owner()
+    async def ycmd(self, ctx, *, code):
+        cmd = CMD()
+        cmd.var["ctx"]=ClassData(ctx)
+        cmd.var["bot"]=ClassData(self.bot)
+        cmd.var["commandclass"]=ClassData(self)
+        self.bot.loop.create_task(cmd.cmdrun(code))
 
 def setup(bot):
     bot.add_cog(Develop(bot))
