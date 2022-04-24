@@ -1,0 +1,32 @@
+import discord.utils
+set  eval "discord.utils.get(self.getvar('bot').voice_clients,guild=self.getvar('ctx').guild)" vcc
+set  eval "True" true
+set  eval "False" false
+set  eval "None" none
+= tf false
+if vcc != none
+set  eval "self.getvar('vcc').is_connected()" tf
+Eif
+set  eval "self.getvar('ctx').author.voice.channel" vc
+if tf == false
+set vc connect  voice
+Eif
+if tf == true
+invoke vcc move_to vc
+[16:25]
+rf2!ycmd 
+import discord.utils
+set  eval "discord.utils.get(self.getvar('bot').voice_clients,guild=self.getvar('ctx').guild)" vcc
+set  eval "True" true
+set  eval "False" false
+set  eval "None" none
+= tf false
+if vcc != none
+set  eval "self.getvar('vcc').is_connected()" tf
+Eif
+set  eval "self.getvar('ctx').author.voice.channel" vc
+if tf == false
+set vc connect  voice
+Eif
+if tf == true
+invoke vcc move_to vc
