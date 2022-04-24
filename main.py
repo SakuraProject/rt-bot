@@ -55,12 +55,14 @@ bot.pool = bot.mysql.pool  # bot.mysql.pool のエイリアス
 bot.colors = data["colors"]  # 下のColorsを辞書に変換したもの
 bot.Colors = Colors  # botで使う基本色が入っているclass
 
-# 起動中だと教えられるようにするためのコグを読み込む
-bot.load_extension("cogs._first")
-# スラッシュマネージャーを設定する
-bot.load_extension("util.slash")
+@bot.listen()
+async def setup_hook():
+    # 起動中だと教えられるようにするためのコグを読み込む
+    await bot.load_extension("cogs._first")
+    # スラッシュマネージャーを設定する
+    await bot.load_extension("util.slash")
 # onami(jishakuのnextcord版)を読み込む
-bot.load_extension("onami")
+    await bot.load_extension("onami")
 
 
 @bot.listen()
@@ -68,11 +70,11 @@ async def on_ready():
     bot.print("Connected to discord")
     # 起動中いつでも使えるaiohttp.ClientSessionを作成
     bot.session = ClientSession(loop=bot.loop, json_serialize=dumps)
-    bot.unload_extension("cogs._first")
+    await bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
     setup(bot)  # util.setup
-    bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
+    await bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
     for name in listdir("cogs"):
         if not name.startswith(("_", ".")):
             try:
