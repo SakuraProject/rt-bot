@@ -13,7 +13,7 @@ class CMD():
         doif = False
         ifrun = False
         for cmds in tempInside:
-            cmd = cmds.split(" ")
+            cmd = cmds.replace('\n','').split(" ")
             if cmd[0]=="EMethod":
                 dom = True
             if cmd[0]=="Eif":
@@ -174,7 +174,7 @@ class CMD():
         doif = False
         ifrun = False
         for cmds in tempInside:
-            cmd = cmds.split(" ")
+            cmd = cmds.replace('\n','').split(" ")
             if cmd[0]=="NMethod":
                 if cmd[1]==name:
                     dom = True
