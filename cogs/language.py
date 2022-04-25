@@ -187,17 +187,6 @@ class Language(commands.Cog):
         async with async_open("data/replies.json") as f:
             self.replies = loads(await f.read())
 
-    @commands.command(
-        extras={"headding": {"ja": "言語データを再読込します。",
-                             "en": "Reload language data."},
-                "parent": "Admin"})
-    @commands.is_owner()
-    async def reload_language(self, ctx):
-        """言語データを再読込します。"""
-        await ctx.trigger_typing()
-        await self.update_language()
-        await ctx.reply("Ok")
-
     async def update_cache(self, cursor):
         # キャッシュを更新します。
         await cursor.execute("SELECT * FROM language;")
