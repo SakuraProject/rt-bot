@@ -138,6 +138,8 @@ class ConnectionFailed(Exception):
 
 
 PacketData = Union[str, dict]
+
+
 class Packet(TypedDict):
     "WebSocketで通信するデータの辞書の型です。"
     event_type: str
@@ -197,7 +199,7 @@ class WebSocket:
                 self.ws = await websockets.connect(
                     self.uri, **self._kwargs
                 )
-            except OSError as e:
+            except OSError:
                 if self._reconnect:
                     self.print("Failed to connect to websocket, I will try to reconnect.")
                     await sleep(3)
@@ -221,8 +223,10 @@ class WebSocket:
                     if data:
                         if data["event_type"] in self.event_handlers:
                             # イベントハンドラを実行してもしデータを返されたならそれを送り返す。
-                            if (return_data := await self.run_event(
-                                data["event_type"], data["data"])
+                            if (
+                                return_data := await self.run_event(
+                                    data["event_type"], data["data"]
+                                )
                             ):
                                 await self.send(data["event_type"], return_data)
                         else:

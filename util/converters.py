@@ -30,4 +30,3 @@ class VoiceChannelsConverter(Multiple):
 
 class RolesConverter(Multiple):
     _original = commands.RoleConverter
-

@@ -77,7 +77,8 @@ class DocParser:
             if type_name in line:
                 line = line.replace(
                     type_name, self.ITEM_REPLACE_TEXTS[now_lang]
-                        .get(type_name, type_name))
+                    .get(type_name, type_name)
+                )
         # 名前の部分を**で囲む。
         if ":" in line:
             left, right, left_count, right_count = self._split(line)
@@ -89,8 +90,8 @@ class DocParser:
     def _item_parser(self, line: str, now: dict, before: dict) -> str:
         # 項目に含まれているものを最適なマークダウンに変換するものです。
         if now["item"] in ("Parameters", "Raises", "Returns", "See Also"):
-            if  (all(char in self.indent_type for char in line[:self.indent])
-                 if len(line) >= self.indent else line == ""):
+            if (all(char in self.indent_type for char in line[:self.indent])
+                    if len(line) >= self.indent else line == ""):
                 # 引数の説明。
                 return line[self.indent:]
             elif all(char in (" ", "*") for char in line[:-2]):
@@ -197,9 +198,9 @@ class DocParser:
                     now["item"] = before["line"]
                     t = self.HEADDINGS[now["lang"]].get(now["item"], now["item"]) + "\n"
                     text[now["lang"]] += t
-            elif (line not in self.HEADDINGS[now["lang"]] and (
-                        now["code"] or not line.startswith("!"))
-                    and now["item"] != "!"):
+            elif (line not in self.HEADDINGS[now["lang"]]
+                  and (now["code"] or not line.startswith("!"))
+                  and now["item"] != "!"):
                 # もし改行のみで空白2個が後ろにないなら改行を空白二個と置き換える。
                 if not line.endswith("  ") and not now["code"]:
                     line = line + "  "

@@ -12,8 +12,6 @@ import discord
 
 from pytz import utc
 
-from ujson import dumps
-
 from util.rt_module.src.setting import CommandData, CommandRunData
 from . import RT
 from .olds import clean_content
@@ -165,9 +163,11 @@ class SettingManager(commands.Cog):
             kwargs = {}
             for parameter in command.clean_params.values():
                 kwargs[parameter.name] = {
-                    "type": "str", "default": None
-                        if parameter.default == parameter.empty
-                        else self._get_default(parameter.default),
+                    "type": "str",
+                    "default": (
+                        None if parameter.default == parameter.empty
+                        else self._get_default(parameter.default)
+                    ),
                     "extra": None
                 }
                 if parameter.annotation in (

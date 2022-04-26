@@ -63,18 +63,20 @@ class Debug(commands.Cog):
         printer = Printer()
         exec(
             "async def _program():\n  {}\n{}"
-                .format(
-                    '\n  '.join(code.splitlines()),
-                    "self._program = _program\ndel _program"
-                ),
-            {"bot": self.bot, "ctx": ctx, "discord": discord,
-             "self": self, "print": printer.print}
+            .format(
+                '\n  '.join(code.splitlines()),
+                "self._program = _program\ndel _program"
+            ),
+            {
+                "bot": self.bot, "ctx": ctx, "discord": discord,
+                "self": self, "print": printer.print
+            }
         )
         result = await self._program()
         async with async_open(self.OUTPUT_PATH, "w") as f:
             await f.write(
                 "<<<STDOUT>>>\n{}\n<<<RETURN>>>\n{}"
-                    .format(printer.output, str(result))
+                .format(printer.output, str(result))
             )
         await ctx.reply(file=discord.File(self.OUTPUT_PATH))
         await os.remove(self.OUTPUT_PATH)

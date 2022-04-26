@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Coroutine, Callable, Union
+from typing import Union
 
 from dataclasses import dataclass
 from time import time

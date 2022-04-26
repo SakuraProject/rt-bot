@@ -15,7 +15,7 @@ class DatabaseManager(commands.Cog):
 
     @commands.command(
         description="渡された命令文でデータベースを操作します。",
-        extras={"parent":"Admin"}, aliases=["db", "mysql", "execute", "実行"]
+        extras={"parent": "Admin"}, aliases=["db", "mysql", "execute", "実行"]
     )
     @commands.is_owner()
     async def sql(
@@ -49,7 +49,7 @@ class DatabaseManager(commands.Cog):
                 if show:
                     result = "\n".join(
                         map(lambda x: "\t".join(map(str, x)),
-                        await cursor.fetchall())
+                            await cursor.fetchall())
                     )
             if result is None:
                 await ctx.reply("Ok")

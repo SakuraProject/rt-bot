@@ -325,8 +325,8 @@ class GlobalChat(commands.Cog, DataManager):
             for sticker in message.stickers:
                 embeds.append(
                     discord.Embed(color=message.author.color)
-                        .set_image(url=sticker.url)
-                        .set_footer(text="添付されたスタンプ")
+                    .set_image(url=sticker.url)
+                    .set_footer(text="添付されたスタンプ")
                 )
 
         # 送る。

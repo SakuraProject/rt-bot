@@ -3,15 +3,8 @@ LICENSE : ./LICENSE
 README  : ./readme.md
 """
 
-desc = """ふりーりつたん - (C) 2022 Free RT
-少女起動中..."""
-print(desc)
-
 from discord.ext import commands
 import discord
-
-# routeは無効にする。
-commands.Cog.route = lambda *args, **kwargs: lambda *args, **kwargs: (args, kwargs)
 
 from aiohttp import ClientSession
 from sys import argv
@@ -19,6 +12,14 @@ import ujson
 import util
 
 from data import data, RTCHAN_COLORS
+
+
+desc = """ふりーりつたん - (C) 2022 Free RT
+少女起動中..."""
+print(desc)
+
+# routeは無効にする。
+commands.Cog.route = lambda *args, **kwargs: lambda *args, **kwargs: (args, kwargs)
 
 
 with open("token.secret", "r", encoding="utf-8_sig") as f:
@@ -39,9 +40,9 @@ def setup(bot):
 
     bot.mysql = bot.data["mysql"] = util.mysql.MySQLManager(
         loop=bot.loop, user=secret["mysql"]["user"],
-        host="146.59.153.178" if argv[1] == "production" else "localhost",
+        host=("146.59.153.178" if argv[1] == "production" else "localhost"),
         password=secret["mysql"]["password"], db="mysql",
-        pool = True, minsize=1, maxsize=30, autocommit=True)
+        pool=True, minsize=1, maxsize=30, autocommit=True)
 
     util.setup(bot)
     bot.load_extension("jishaku")
@@ -83,4 +84,3 @@ setup(bot)
 
 
 bot.run(TOKEN)
-

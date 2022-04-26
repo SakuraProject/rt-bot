@@ -9,10 +9,12 @@ from functools import wraps
 
 
 CHP_HELP = {
-    "ja": ("ログ機能。",
-"""# ログプラグイン - log
+    "ja": (
+        "ログ機能。",
+        """# ログプラグイン - log
 `rf>log`をチャンネルのトピックに入れることでログを表示することができます。  
-例：`rf>log` (これをトピックに入れたチャンネルにログが送られます)"""),
+例：`rf>log` (これをトピックに入れたチャンネルにログが送られます)"""
+    ),
     "en": ("...", """...""")
 }
 
@@ -81,7 +83,7 @@ class Log(commands.Cog):
     @commands.Cog.listener()
     @log()
     async def on_message(self, message):
-        if message.content and (ever:=("@everyone" in message.content) or "@here" in message.content):
+        if message.content and ((ever := "@everyone" in message.content) or "@here" in message.content):
             return discord.Embed(
                 title="全員メンション",
                 description=f"{message.author} ({message.author.id})が{'everyone' if ever else 'here'}メンションをしました。",
@@ -115,7 +117,7 @@ class Log(commands.Cog):
         embed.add_field(name="ユーザーID", value=str(member.id))
         embed.set_thumbnail(url=getattr(member.avatar, "url", ""))
         return embed
-    
+
     @commands.Cog.listener()
     @log()
     async def on_message_edit(self, before, after):

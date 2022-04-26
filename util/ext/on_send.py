@@ -40,7 +40,6 @@ from typing import Callable, Optional
 from discord.ext import commands
 import discord
 
-from traceback import print_exc
 from functools import wraps
 from copy import copy
 
@@ -60,6 +59,7 @@ class OnSend(commands.Cog):
 
     def wrap_send(self, coro, event_name="on_send"):
         default = copy(coro)
+
         @wraps(default)
         async def new(ir, *args, **kwargs):
             args, kwargs = await self._run_event(
@@ -138,7 +138,7 @@ class OnSend(commands.Cog):
         登録したコルーチン関数は`送信対象のチャンネル, *args, **kwargs`の引数が渡されます。  
         そして`args, kwargs`を返却しなければなりません。  
         この時`args, kwargs`の値を変えることでsendの引数ができます。
-        
+
         Parameters
         ----------
         coro : Callable
@@ -158,7 +158,7 @@ class OnSend(commands.Cog):
 
     def remove_event(self, coro: Callable, event_name: Optional[str]):
         """OnSend.add_eventで登録したコルーチン関数を削除します。
-        
+
         Parameters
         ----------
         coro : Callable

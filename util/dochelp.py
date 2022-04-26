@@ -94,6 +94,7 @@ def make_new_hp(original):
     @wraps(original)
     def new_hp(**perms):
         decorator = original(**perms)
+
         @wraps(decorator)
         def new_decorator(func):
             if func.__doc__ and "!lang en" in func.__doc__:
@@ -104,6 +105,8 @@ def make_new_hp(original):
             return decorator(func)
         return new_decorator
     return new_hp
+
+
 commands.has_permissions = make_new_hp(commands.has_permissions)
 commands.has_guild_permissions = make_new_hp(commands.has_guild_permissions)
 
@@ -154,8 +157,11 @@ class DocHelp(commands.Cog):
         -------
         List[discord.Embed]"""
         text, embeds, length = "", [], 0
-        make_embed = lambda text: discord.Embed(
-            title=f"**{command_name}**", description=text, **kwargs)
+
+        def make_embed(text):
+            return discord.Embed(
+                title=f"**{command_name}**", description=text, **kwargs
+            )
 
         for line in doc.splitlines():
             is_item = line.startswith("## ")
@@ -250,7 +256,7 @@ class DocHelp(commands.Cog):
 
     async def output(self, path: str) -> None:
         """作ったヘルプのデータをjson形式でファイルに出力します。
-        
+
         Parameters
         ----------
         path : str
@@ -260,7 +266,7 @@ class DocHelp(commands.Cog):
 
     async def input(self, path: str) -> None:
         """util.dochelpが読み込める形式のjsonファイルのヘルプを読み込みます。
-        
+
         Parameters
         ----------
         path : str

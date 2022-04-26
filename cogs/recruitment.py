@@ -23,7 +23,7 @@ class Recruitment(commands.Cog):
         },
         aliases=["recruit", "rct"]
     )
-    async def recruitment(self, ctx, title, max_: int, deadline: int, *, description = ""):
+    async def recruitment(self, ctx, title, max_: int, deadline: int, *, description=""):
         """!lang ja
         --------
         募集パネルを作ります。
@@ -53,7 +53,7 @@ class Recruitment(commands.Cog):
         Aliases
         -------
         recruit, rct
-        
+
         !lang en
         --------
         Create a recruitment panel.

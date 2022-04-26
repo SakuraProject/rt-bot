@@ -24,8 +24,7 @@ class OnFullReactionAddRemove(commands.Cog):
             )
             payload.message = await channel.fetch_message(payload.message_id)
             payload.member = (
-                payload.message.guild.get_member(
-                payload.user_id)
+                payload.message.guild.get_member(payload.user_id)
                 if payload.guild_id else None
             )
         except Exception:

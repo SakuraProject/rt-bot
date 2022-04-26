@@ -192,7 +192,7 @@ class DelayLottery(commands.Cog, DataManager):
                                     (length if (
                                         c := int(message.content)
                                     ) > (length := len(members))
-                                    else c),
+                                     else c),
                                     target=members
                                 )
                     else:

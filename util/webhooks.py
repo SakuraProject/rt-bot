@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from typing import Optional
 
+
 async def get_webhook(
     channel: discord.TextChannel, name: str = "RT-Tool"
 ) -> Optional[discord.Webhook]:
@@ -16,7 +17,7 @@ async def webhook_send(
 ):
     """`channel.send`感覚でウェブフック送信をするための関数です。  
     `channel.webhook_send`のように使えます。  
-    
+
     Parameters
     ----------
     *args : tuple
@@ -28,9 +29,10 @@ async def webhook_send(
         discord.pyのWebhook.sendに入れるキーワード引数です。"""
     if isinstance(channel, commands.Context):
         channel = channel.channel
-    wb = (wb if (wb := discord.utils.get(
-            await channel.webhooks(), name=webhook_name))
-          else await channel.create_webhook(name=webhook_name))
+    wb = (
+        wb if (
+            wb := discord.utils.get(await channel.webhooks(), name=webhook_name)
+        ) else await channel.create_webhook(name=webhook_name))
     try:
         return await wb.send(*args, **kwargs)
     except discord.InvalidArgument as e:

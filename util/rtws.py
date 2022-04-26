@@ -36,12 +36,12 @@ class RTWSGeneralFeatures(commands.Cog):
 
     def _get_guild_child(
         self, guild: rft.Guild, key: str, id_: int
-    )-> Optional[dict]:
+    ) -> Optional[dict]:
         data = discord.utils.get(guild[key], id=id_)
         data["guild"] = guild
         return data
 
-    async def get_member(self, data: tuple[rft.Guild, int])-> Optional[rft.Member]:
+    async def get_member(self, data: tuple[rft.Guild, int]) -> Optional[rft.Member]:
         return self._get_guild_child(data[0], "members", data[1])
 
     def _get_channel(
@@ -96,10 +96,11 @@ class RTWSGeneralFeatures(commands.Cog):
         return self.bot.cogs["Language"].get(user_id)
 
     def cog_unload(self):
-        if self.bot.rtws.is_connected(): self.bot.loop.create_task(
-            self.bot.rtws.close(1000, "再接続または停止のため切断しました。"),
-            name="Disconnect RTWebSocket"
-        )
+        if self.bot.rtws.is_connected():
+            self.bot.loop.create_task(
+                self.bot.rtws.close(1000, "再接続または停止のため切断しました。"),
+                name="Disconnect RTWebSocket"
+            )
         self.bot.rtws.task.cancel()
         del self.bot.rtws
 

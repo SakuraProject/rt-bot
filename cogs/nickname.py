@@ -1,10 +1,10 @@
 # Free RT - Nickname Panel
 
-from discord.ext import commands, tasks
+from discord.ext import commands
 import discord
 
 from emoji import UNICODE_EMOJI_ENGLISH
-from typing import Type, Dict
+from typing import Dict
 
 
 class NicknamePanel(commands.Cog):

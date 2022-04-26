@@ -13,7 +13,6 @@ from util.page import EmbedPage
 from data import PERMISSION_TEXTS
 
 
-
 STAR_HELP = {
     "ja": (
         "スターボード機能",
@@ -277,7 +276,6 @@ class ServerTool(commands.Cog):
 
         return e
 
-
     @commands.command(
         aliases=["抽選", "choice", "lot"], extras={
             "headding": {
@@ -286,9 +284,9 @@ class ServerTool(commands.Cog):
         }
     )
     async def lottery(
-        self, ctx, count: int, *,
-        obj: Union[discord.Role, discord.TextChannel] = None,
-        target=None
+            self, ctx, count: int, *,
+            obj: Union[discord.Role, discord.TextChannel] = None,
+            target=None
     ):
         """!lang ja
         --------
@@ -582,9 +580,12 @@ class ServerTool(commands.Cog):
                     payload.message.guild.text_channels
                 )):
                     cache = channel.topic[channel.topic.find("rt>star")+7:]
-                    try: require = int(cache if (index := cache.find("\n")) == -1 else cache[:index])
-                    except ValueError: require = 1
-                    if count < require: return
+                    try:
+                        require = int(cache if (index := cache.find("\n")) == -1 else cache[:index])
+                    except ValueError:
+                        require = 1
+                    if count < require:
+                        return
                     embeds = []
                     embeds.append(
                         discord.Embed(

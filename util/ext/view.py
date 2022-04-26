@@ -3,7 +3,7 @@
 from discord.ext import commands
 import discord
 
-from typing import Union, Type, List, Tuple, Dict, Callable
+from typing import Union, Type, List, Dict, Callable
 from functools import wraps
 from time import time
 

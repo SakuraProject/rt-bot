@@ -29,10 +29,14 @@ if discord.__title__ == "nextcord":
     from .slash import Context as SlashContext
 else:
     from ._dpy_monky import _setup as setup
+    SlashContext = None
 
 
 __all__ = [
     "RT",
+    "Cache",
+    "Cacher",
+    "CacherPool",
     "isintable",
     "has_any_roles",
     "has_all_roles",
@@ -52,6 +56,7 @@ __all__ = [
     "olds",
     "tasks_extend",
     "sendKwargs",
+    "SlashContext",
     "setup",
     "EmbedPage",
     "rtws",

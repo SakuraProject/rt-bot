@@ -4,7 +4,9 @@ from typing import Optional
 
 import random
 
-newlinestr='\n'
+newlinestr = '\n'
+
+
 class MineSweeper:
 
     def __init__(
@@ -34,17 +36,16 @@ class MineSweeper:
             raw_data[i] = 9
         # 2次元配列に直す。
         t_data = [
-            [raw_data[x*self.ylen + y] for y in range(self.ylen)]
+            [raw_data[x * self.ylen + y] for y in range(self.ylen)]
             for x in range(self.xlen)
         ]
         for x_checking in len(t_data):
             for y_checking in len(t_data[x_checking]):
-                t_data[x_checking][y_chexking] = \
+                t_data[x_checking][y_checking] = \
                     self.get_around_data(t_data, x_checking, y_checking).count(9)
         self.data: tuple = tuple([tuple(i) for i in t_data])
         if self.logging:
             print(f"[util][MineSweeper]maked data: {newlinestr.join(self.data)}")
-
 
     def get_around_data(self, t_data, x, y) -> tuple:
         "t_dataのx番目のy番目の周りの数(壁を越えていたら0)を取得したリストを返します。"
@@ -53,11 +54,11 @@ class MineSweeper:
         d = []
 
         for m in (
-            (x-1, y-1), (x-1, y), (x-1, y+1),
-            (x, y-1), (x, y), (x, y+1),
-            (x+1, y-1), (x+1, y), (x+1, y+1)
+            (x - 1, y - 1), (x - 1, y), (x - 1, y + 1),
+            (x, y - 1), (x, y), (x, y + 1),
+            (x + 1, y - 1), (x + 1, y), (x + 1, y + 1)
         ):
-            if -1 in m or len(t_data)+1 == m[0] or len(t_data[x])+1 == m[1]:
+            if -1 in m or len(t_data) + 1 == m[0] or len(t_data[x]) + 1 == m[1]:
                 # 限界突破(壁を越えて判定している。)
                 d.append(0)
             d.append(t_data[m[0]][m[1]])
