@@ -4,6 +4,7 @@ from util import RT
 from datetime import datetime, timedelta
 from asyncio import Event
 TABLES = ("schedule","schedule_test")
+
 class DataManager:
     def __init__(self, cog: "schedule"):
         self.cog = cog
@@ -24,22 +25,12 @@ class DataManager:
                 for row in await cursor.fetchall():
                     if row and row[1]:
                         try:
-                            self.cog.cache[row[0]][row[1]] = {'UserID':row[0],'body':row[1],'stime':row[2],'etime':row[3],'day':row[4],'dmnotice':row[5]}
+                            self.cog.cache[row[0]][row[1]] = {'UserID': row[0], 'body': row[1], 'stime': row[2], 'etime':row[3], 'day': row[4], 'dmnotice': row[5]}
                         except KeyError:
                             self.cog.cache[row[0]] = dict()
-                            self.cog.cache[row[0]][row[1]] = {'UserID':row[0],'body':row[1],'stime':row[2],'etime':row[3],'day':row[4],'dmnotice':row[5]}
+                            self.cog.cache[row[0]][row[1]] = {'UserID': row[0], 'body': row[1], 'stime': row[2], 'etime': row[3], 'day': row[4], 'dmnotice': row[5]}
         self.cog.ready.set()
 
-    async def delete(self, user_id: int) -> None:
-        "ユーザーのデータを削除します。"
-        async with self.pool.acquire() as conn:
-            async with conn.cursor() as cursor:
-                if ((i and user_id in self.cog.cache_plus)
-                        or (not i and user_id in self.cog.cache)):
-                    await cursor.execute(
-                        f"DELETE FROM {TABLES[0]} WHERE UserID = %s;"
-                    )
-                    del self.cog.cache[user_id]
 
 class schedule(commands.Cog, DataManager): 
 
@@ -201,7 +192,7 @@ class schedule(commands.Cog, DataManager):
                         if data['day'] + data['stime'] == now:
                             if (user := self.bot.get_user(user_id)):
                                 if data['dmnotice'] == "on":
-                                    await user.send("予定のお時間です\n予定:"+title)
+                                    await user.send("予定のお時間です\n予定:" + title)
                             else:
                                 # もしユーザーが見つからなかったのならそのデータを削除する。
                                 await self.delete(user_id)
