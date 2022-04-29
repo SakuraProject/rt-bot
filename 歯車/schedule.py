@@ -291,5 +291,6 @@ class schedule(commands.Cog, DataManager):
                 )
     def cog_unload(self):
         self.process_notice.cancel()
+
 def setup(bot):
     bot.add_cog(schedule(bot))
