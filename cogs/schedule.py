@@ -1,12 +1,15 @@
 from discord.ext import commands, tasks
 import discord
 from util import RT
-from datetime import datetime, timedelta
+from datetime import datetime
 from asyncio import Event
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from aiomysql import Pool
+
 TABLES = ("schedule","schedule_test")
+
 
 class DataManager:
     def __init__(self, cog: "schedule"):
@@ -26,9 +29,9 @@ class DataManager:
                 # キャッシュを用意しておく。
                 await cursor.execute(f"SELECT * FROM {TABLES[0]};")
                 for row in await cursor.fetchall():
-                    if row and row[1]:
-                        try:
-                            self.cog.cache[row[0]][row[1]] = {'UserID': row[0], 'body': row[1], 'stime': row[2], 'etime':row[3], 'day': row[4], 'dmnotice': row[5]}
+                    if row and row[1]: 
+                        try: 
+                            self.cog.cache[row[0]][row[1]] = {'UserID': row[0], 'body': row[1], 'stime': row[2], 'etime': row[3], 'day': row[4], 'dmnotice': row[5]}
                         except KeyError:
                             self.cog.cache[row[0]] = dict()
                             self.cog.cache[row[0]][row[1]] = {'UserID': row[0], 'body': row[1], 'stime': row[2], 'etime': row[3], 'day': row[4], 'dmnotice': row[5]}
