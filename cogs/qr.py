@@ -61,5 +61,6 @@ class qr(commands.Cog):
         await ctx.send(data)
         os.remove(str(ctx.author.id) + 'r.png')
 
+
 def setup(bot): 
     bot.add_cog(qr(bot))
