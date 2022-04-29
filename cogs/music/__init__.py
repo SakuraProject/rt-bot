@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Coroutine
+from collections.abc import Callable
 from typing import TypeVar, Literal, Union, Optional, Any
 
 from functools import wraps
@@ -17,7 +17,7 @@ from util import RT, Table, sendKwargs
 
 from .views import (
     PLAYLIST_SELECT, is_require_dj, do_confirmation, MusicSelect, Queues,
-    ShowPlaylistSelect, PlayPlaylistSelect, AddMusicPlaylistSelect, AddMusicPlaylistView
+    AddMusicPlaylistSelect, AddMusicPlaylistView
 )
 from .player import Player, NotAddedReason, LoopMode
 from .music import MusicDict, Music
@@ -25,6 +25,8 @@ from .playlist import Playlist
 
 
 IM_MACHINE = "私は夢見るマシーンです。"
+
+
 class EMOJIS:
     start = "▶️"
     pause = "⏸"
@@ -56,11 +58,14 @@ def kwargs(headding: dict[str, str], **kwargs) -> dict:
 
 
 DecoT = TypeVar("DecoT")
+
+
 def check(check_state: bool = True, check_dj: bool = True) -> Callable[[DecoT], DecoT]:
     """音楽再生コマンドにつけるデコレータです。
     権限の確認等を行います。また、見出しをつけます。"""
     def decorator(func):
         original = func.callback
+
         @commands.cooldown(1, 3, commands.BucketType.user)
         @wraps(func._callback)
         async def new(self: MusicCog, ctx: commands.Context, *args, **kwargs):
@@ -76,9 +81,9 @@ def check(check_state: bool = True, check_dj: bool = True) -> Callable[[DecoT], 
                 return await ctx.reply(
                     {
                         "ja": "自分ボイスチャンネルに参加していないです。音楽再生をしてください。\n"
-                            "*P.S.* もしボイスチャンネルにいるのにこうなる場合は`rf!disconnect on`を実行してください。",
+                              "*P.S.* もしボイスチャンネルにいるのにこうなる場合は`rf!disconnect on`を実行してください。",
                         "en": "I have not joined my own voice channel. Please play the music.\n"
-                            "*P.S.* If this happens while you are on the voice channel, run `rf!disconnect on`."
+                              "*P.S.* If this happens while you are on the voice channel, run `rf!disconnect on`."
                     }
                 )
             elif check_dj and (data := is_require_dj(self, ctx.author))[0]:
@@ -107,7 +112,7 @@ class MusicCog(commands.Cog, name="Music"):
 
     def max(self, member: Union[discord.Member, discord.Guild, int] = None) -> int:
         "最大曲数を取得します。"
-        return 800 # TODO: 課金要素を作ったら課金している人のみ1600にする。
+        return 800
 
     def get_player(self, guild_id: int) -> Optional[Player]:
         "指定されたGuildIDの音楽プレイヤーを返します。ただのエイリアス"
@@ -163,7 +168,7 @@ class MusicCog(commands.Cog, name="Music"):
         if isinstance(status, Exception):
             return {
                 "ja": "楽曲の読み込みに失敗してしまいました。"
-                    + (code := f"\ncode: `{status.__class__.__name__} - {status}`"),
+                      + (code := f"\ncode: `{status.__class__.__name__} - {status}`"),
                 "en": f"Failed to load a music.{code}"
             }
         elif status == NotAddedReason.list_very_many:
@@ -186,7 +191,7 @@ class MusicCog(commands.Cog, name="Music"):
 
         # 接続しているはずなのに接続していない場合、接続していないことにする。
         if (ctx.guild.id in self.now
-            and ctx.guild.voice_client is None):
+                and ctx.guild.voice_client is None):
             del self.now[ctx.guild.id]
         # 接続していない場合は接続してPlayerを準備する。
         if ctx.guild.id not in self.now:
@@ -201,7 +206,8 @@ class MusicCog(commands.Cog, name="Music"):
                     await ctx.author.voice.channel.disconnect()
                     await sleep(1.5)
                     vc = await ctx.author.voice.channel.connect()
-                else: raise
+                else:
+                    raise
             self.now[ctx.guild.id] = Player(self, ctx.guild, vc)
             self.now[ctx.guild.id].channel = ctx.channel
 
@@ -634,7 +640,7 @@ class MusicCog(commands.Cog, name="Music"):
         self.assert_playlist(ctx.author.id)
         assert self.data[ctx.author.id].playlists, "プレイリストがまだ作られていません。"
         view = TimeoutView()
-        view.add_item(select:=AddMusicPlaylistSelect(
+        view.add_item(select := AddMusicPlaylistSelect(
             self.data[ctx.author.id].playlists, self
         ))
         select.song = url

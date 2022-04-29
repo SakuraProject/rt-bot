@@ -11,8 +11,6 @@ from time import time
 from discord.ext import commands, tasks
 import discord
 
-from ujson import dumps
-
 from util import RT, Table
 
 from .image import ImageCaptcha, QueueData as ImageQueue
@@ -161,7 +159,7 @@ class Captcha(commands.Cog, DataManager):
     @commands.group(
         aliases=["auth", "cta", "認証"], extras={
             "headding": {
-            "ja": "認証機能", "en": "Captcha"
+                "ja": "認証機能", "en": "Captcha"
             }, "parent": "ServerSafety"
         }
     )

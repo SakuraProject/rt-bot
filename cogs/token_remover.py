@@ -19,15 +19,13 @@ class TokenRemover(commands.Cog):
     def __init__(self, bot: RT):
         self.bot = bot
         self.cache: DefaultDict[int, DefaultDict[int, List[int, float]]] = \
-            defaultdict(
-                lambda : defaultdict(lambda : [0, time() + self.DEFAULT_TIMEOUT])
-            )
+            defaultdict(lambda: defaultdict(lambda: [0, time() + self.DEFAULT_TIMEOUT]))
         self.cache_remover.start()
 
     def check_token(self, content: str) -> bool:
         "TOKENが含まれているか確認します。"
         return bool(findall(
-            "[N]([a-zA-Z0-9]{23})\.([a-zA-Z0-9]{6})\.([a-zA-Z0-9]{27})", content
+            r"[N]([a-zA-Z0-9]{23})\.([a-zA-Z0-9]{6})\.([a-zA-Z0-9]{27})", content
         ))
 
     @commands.Cog.listener()

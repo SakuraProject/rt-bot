@@ -36,7 +36,7 @@ class SphinxObjectFileReader:
             pos = buf.find(b"\n")
             while pos != -1:
                 yield buf[:pos].decode("utf-8")
-                buf = buf[pos + 1 :]
+                buf = buf[pos + 1:]
                 pos = buf.find(b"\n")
 
 
@@ -126,14 +126,14 @@ class rtfm(commands.Cog, name="Documentation"):
     async def build_rtfm_lookup_table(self, page_types):
         cache = {}
         for key, page in page_types.items():
-                async with self.bot.session.get(page + "/objects.inv") as resp:
-                    if resp.status != 200:
-                        raise RuntimeError(
-                            "Cannot build rtfm lookup table, try again later."
-                        )
+            async with self.bot.session.get(page + "/objects.inv") as resp:
+                if resp.status != 200:
+                    raise RuntimeError(
+                        "Cannot build rtfm lookup table, try again later."
+                    )
 
-                    stream = SphinxObjectFileReader(await resp.read())
-                    cache[key] = self.parse_object_inv(stream, page)
+                stream = SphinxObjectFileReader(await resp.read())
+                cache[key] = self.parse_object_inv(stream, page)
 
         self._rtfm_cache = cache
 
@@ -177,4 +177,3 @@ class rtfm(commands.Cog, name="Documentation"):
 
 def setup(bot):
     bot.add_cog(rtfm(bot))
-

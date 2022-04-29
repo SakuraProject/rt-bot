@@ -162,15 +162,15 @@ class Help(commands.Cog):
                     "ja": "Help - カテゴリー選択", "en": "Help - Category Select"
                 },
                 description={
-                    "ja": f"カテゴリーを選択するとそのカテゴリーにあるコマンドが表示されます。\nまたこちらからも見れます：{url}" \
-                        "\n[こちら](https://rt-team.github.io/ja/notes/help)を見るとヘルプをよく理解できるようになれるかもしれません。" \
-                        "そしてスラッシュコマンドは少し特殊なので[こちら](https://free-rt.github.io/notes/slash_table)を確認してください。\n" \
-                        "Free RTを使用した場合は[利用規約](https://free-rt.com/terms.html)に同意したことになります。\n" \
-                        "また、プライバシーポリシーは[こちら](https://free-rt.com/privacy.html)から確認できます。",
-                    "en": f"Selecting a category will show you the commands in that category. \nYou can also see them here: {url}\n" \
-                        "You may be able to understand the help better by looking at [here](https://free-rt.github.io/en/notes/help).\n" \
-                        "By using Free RT, you agree to the [Terms of Use](https://free-rt.com/terms.html).\n" \
-                        "You can also view our privacy policy at [here](https://free-rt.com/privacy.html)."
+                    "ja": f"カテゴリーを選択するとそのカテゴリーにあるコマンドが表示されます。\nまたこちらからも見れます：{url}"
+                          "\n[こちら](https://rt-team.github.io/ja/notes/help)を見るとヘルプをよく理解できるようになれるかもしれません。"
+                          "そしてスラッシュコマンドは少し特殊なので[こちら](https://free-rt.github.io/notes/slash_table)を確認してください。\n"
+                          "Free RTを使用した場合は[利用規約](https://free-rt.com/terms.html)に同意したことになります。\n"
+                          "また、プライバシーポリシーは[こちら](https://free-rt.com/privacy.html)から確認できます。",
+                    "en": f"Selecting a category will show you the commands in that category. \nYou can also see them here: {url}\n"
+                          "You may be able to understand the help better by looking at [here](https://free-rt.github.io/en/notes/help).\n"
+                          "By using Free RT, you agree to the [Terms of Use](https://free-rt.com/terms.html).\n"
+                          "You can also view our privacy policy at [here](https://free-rt.com/privacy.html)."
                 }, color=self.bot.colors["normal"]
             )
             view = self.make_view(
@@ -216,7 +216,7 @@ class Help(commands.Cog):
                             return await callback(self, interaction)
                         embeds.add_item(
                             type(
-                                f"HelpSelector", (discord.ui.Select,),
+                                "HelpSelector", (discord.ui.Select,),
                                 {"callback": new}
                             )(**kwargs)
                         )
@@ -232,8 +232,8 @@ class Help(commands.Cog):
                         name=name,
                         value=("\n".join(
                             f"`{n}` {self.help[category][n][lang][0]}"
-                            for category, n in value
-                            ) if value else "見つかりませんでした。")
+                            for category, n in value)
+                            if value else "見つかりませんでした。")
                     )
                 kwargs = {"embed": embed}
 
@@ -248,9 +248,9 @@ class Help(commands.Cog):
     @commands.command(
         name="help", aliases=["h", "Help_me,_ERINNNNNN!!", "たすけて！"],
         extras={
-              "headding": {"ja": "Helpを表示します。",
-                           "en": "Get help."},
-              "parent": "RT"
+            "headding": {"ja": "Helpを表示します。",
+                         "en": "Get help."},
+            "parent": "RT"
         }, slash_command=True, description="ヘルプを表示します。"
     )
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -283,7 +283,7 @@ class Help(commands.Cog):
         word : command name/search word, optional
             The command name of the help to be displayed.  
             If a word that is not a command name is specified, a search will be performed.
-        
+
         Aliases
         -------
         `h`"""

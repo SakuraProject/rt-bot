@@ -5,7 +5,6 @@ import discord
 
 from jishaku.functools import executor_function
 from asyncio import sleep
-from typing import List
 import deep_translator
 
 from util import RT
@@ -13,7 +12,7 @@ from util import RT
 
 CHP_HELP = {
     "ja": ("翻訳専用チャンネル機能。",
-"""# 翻訳チャンネルプラグイン - translate
+           """# 翻訳チャンネルプラグイン - translate
 これは`rf>translate <翻訳先言語コード>`をチャンネルのトピックに入れることで翻訳専用チャンネルにすることのできる機能です。  
 例：`rf>translate ja` (これをトピックに入れたチャンネルに送信したメッセージは全て日本語に翻訳されます。)  
 
@@ -138,7 +137,7 @@ class Translator(commands.Cog):
             await ctx.reply(
                 embed=discord.Embed(
                     title={"ja": "翻訳結果",
-                        "en": "translate result"},
+                           "en": "translate result"},
                     description=await self.translate(content, lang),
                     color=self.bot.colors["normal"]
                 ).set_footer(

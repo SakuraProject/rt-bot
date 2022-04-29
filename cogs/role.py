@@ -85,7 +85,7 @@ class RoleSelectView(discord.ui.View):
         kwargs["timeout"] = kwargs.get("timeout", 60)
         super().__init__(*args, **kwargs)
         self.add_item(RoleSelect(
-            custom_id=f"{RoleSelect.CUSTOM_ID}{mode}", placeholder=f"Role Selector",
+            custom_id=f"{RoleSelect.CUSTOM_ID}{mode}", placeholder="Role Selector",
             max_values=max_, options=options
         ))
         self.cog.acquire(self.guild_id, self.user_id)
@@ -112,10 +112,10 @@ class RolePanelView(discord.ui.View):
     ) -> None:
         if self.cog.is_running(interaction.guild_id, interaction.user.id):
             return await interaction.response.send_message(
-                {"ja": "現在別で追加または削除が行われているのでロールの操作ができません。" \
-                    "\nもし別の追加または削除を行った際のメッセージを消してしまった場合は一分待ってください。",
+                {"ja": "現在別で追加または削除が行われているのでロールの操作ができません。"
+                       "\nもし別の追加または削除を行った際のメッセージを消してしまった場合は一分待ってください。",
                  "en": "The role cannot be manipulated because it is currently being added or deleted separately." 
-                    "\nIf you have deleted a message when you added or deleted another one, please wait a minute."},
+                       "\nIf you have deleted a message when you added or deleted another one, please wait a minute."},
                 ephemeral=True
             )
 
@@ -141,7 +141,7 @@ class RolePanelView(discord.ui.View):
             await interaction.response.send_message(
                 {
                     "ja": f"一分以内に{get_ja(mode)}してほしいロールを選択をしてください。",
-                    "en": f"Please select role within a minute."
+                    "en": "Please select role within a minute."
                 }, view=RoleSelectView(
                     interaction.guild_id, interaction.user.id, [
                         discord.SelectOption(

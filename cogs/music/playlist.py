@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 def to_musics(data: list[MusicDict], cog: MusicCog, author: discord.Member) -> list[Music]:
     return [Music.from_dict(cog, author, data) for data in data]
 
+
 class Playlist:
     "プレイリストのクラスです。"
 

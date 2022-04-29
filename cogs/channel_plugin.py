@@ -51,6 +51,8 @@ HELPS = {
         )
     }
 }
+
+
 class RemoveButton(discord.ui.View):
     def __init__(self, user_id: int):
         self.user_id = user_id
@@ -114,7 +116,6 @@ class ChannelPluginGeneral(commands.Cog):
                     for url in findall(self.URL_PATTERN, content):
                         content = content.replace(url, f"||{url}||", 1)
                     # もしスポイラーワードが設定されているならそれもスポイラーにする。
-                    view = None
                     for word in cmd.split()[1:]:
                         content = content.replace(word, f"||{word}||")
                     # Embedに画像が設定されているなら外してスポイラーを付けた画像URLをフィールドに入れて追加する。

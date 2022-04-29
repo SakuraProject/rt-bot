@@ -70,7 +70,7 @@ class Reprypt(commands.Cog):
 
         !lang en
         --------
-        
+
         Encrypts the specified text.
 
         Parameters

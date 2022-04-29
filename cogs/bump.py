@@ -79,7 +79,7 @@ def get_extras(mode: str) -> dict:
 
 
 class Bump(commands.Cog, DataManager):
-    
+
     IDS = {
         302050872383242240: {
             "mode": "bump",
@@ -213,7 +213,7 @@ class Bump(commands.Cog, DataManager):
             )
         )
 
-        del i, str_i
+        del i
         return embed
 
     def cog_unload(self):
@@ -242,7 +242,7 @@ class Bump(commands.Cog, DataManager):
                 else:
                     if "notification" in row[-1]:
                         if (row[-1]["notification"] <= now
-                            and row[-1]["notification"] != 0):
+                                and row[-1]["notification"] != 0):
                             # もし通知時刻になっているなら通知をする。
                             channel = self.bot.get_channel(
                                 int(row[-1]["channel"])
@@ -254,9 +254,9 @@ class Bump(commands.Cog, DataManager):
                                     kwargs["content"] = role.mention
                                 kwargs["embed"] = discord.Embed(
                                     title=f"Time to {mode}!",
-                                    description=f"{mode}の時間です。\n" \
-                                        f"`{self.REPLIES[mode]}`" \
-                                        "でこのサーバーの表示順位を上げよう！",
+                                    description=f"{mode}の時間です。\n"
+                                                f"`{self.REPLIES[mode]}`"
+                                                "でこのサーバーの表示順位を上げよう！",
                                     color=self.bot.colors["normal"]
                                 )
                                 try:
@@ -314,8 +314,8 @@ class Bump(commands.Cog, DataManager):
                     await message.channel.send(
                         embed=discord.Embed(
                             title="通知設定",
-                            description=f"{data['mode']}の通知を設定しました。\n" \
-                                + f"<t:{int(new['notification'])}:R>に通知します。",
+                            description=f"{data['mode']}の通知を設定しました。\n"
+                                        f"<t:{int(new['notification'])}:R>に通知します。",
                             color=self.bot.colors["normal"]
                         )
                     )

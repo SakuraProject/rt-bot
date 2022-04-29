@@ -47,10 +47,10 @@ class ImageCaptcha(ImageCaptcha):
         path = f"data/captcha/{name}.png"
         self.queue[name] = (await self.create_image(path), time())
         await channel.send(
-            {"ja": f"{member.mention}, 画像にある数字を入力してください。" \
-                f"\n放置すると無効になります。",
-             "en": f"{member.mention}, Please, type number on the picture." \
-                 "\nIf you leave it, it will become invalid."},
+            {"ja": f"{member.mention}, 画像にある数字を入力してください。"
+                   "\n放置すると無効になります。",
+             "en": f"{member.mention}, Please, type number on the picture."
+                   "\nIf you leave it, it will become invalid."},
             target=member.id, file=discord.File(path)
         )
         await remove(path)

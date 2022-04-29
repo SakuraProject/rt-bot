@@ -43,7 +43,7 @@ class Language(commands.Cog):
         self.pool = self.bot.mysql.pool
         self.bot.loop.create_task(self.on_ready())
 
-        with open("data/replies.json",encoding="utf-8") as f:
+        with open("data/replies.json", encoding="utf-8") as f:
             self.replies = loads(f.read())
 
     def cog_unload(self):
@@ -281,9 +281,6 @@ class Language(commands.Cog):
             code = "invalid language code is inserted. 無効な言語コードです。"
             return await ctx.reply(code)
 
-        # 返信内容と変更内容を用意する。
-        color = self.bot.colors["normal"]
-        title, description = "Ok", discord.Embed.Empty
         await ctx.trigger_typing()
 
         # データベースに変更内容を書き込む。

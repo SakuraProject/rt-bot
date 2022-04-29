@@ -79,8 +79,7 @@ class ThreadManager(commands.Cog, DataManager):
                     "en": "Inspection Target Channels"
                 }, description="\n".join(
                     f"・<#{channel_id}>"
-                    for channel_id in (await self.get_data(ctx.guild.id)
-                        .get_channels()).keys()
+                    for channel_id in (await self.get_data(ctx.guild.id).get_channels()).keys()
                 ), color=self.bot.colors["normal"]
             )
         )
@@ -373,11 +372,9 @@ class ThreadManager(commands.Cog, DataManager):
     async def on_thread_update(self, before: discord.Thread, after: discord.Thread):
         if (after.archived and not after.locked
             and after.parent.id in await (
-                self.get_data(after.guild.id)
-            ).get_channels()
-        ):
-                # 自動ロックされたならロックを解除する。
-                await after.edit(archived=False)
+                self.get_data(after.guild.id)).get_channels()):
+            # 自動ロックされたならロックを解除する。
+            await after.edit(archived=False)
         if (before.archived and not after.archived) or (before.locked and not after.locked):
             # アーカイブ解除時には通知を行う。
             if after.guild.id in self.cache:

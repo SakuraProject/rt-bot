@@ -88,7 +88,7 @@ class ShortURL(commands.Cog, DataManager):
             f"{self.bot.get_url()}/api/shorturl", json={
                 row[2]: row[1] for row in await self.getrealall()
             }
-        ) as r:
+        ):  # as r:
             # self.bot.print("[ShortURL_CacheUpdater]", await r.json())
             ...
 
@@ -120,7 +120,7 @@ class ShortURL(commands.Cog, DataManager):
     @url.command(
         aliases=["短縮", "add"],
         extras={
-            "headding":{
+            "headding": {
                 "ja": "URLを短縮します。",
                 "en": "Shortens URL"
             }
@@ -194,7 +194,7 @@ class ShortURL(commands.Cog, DataManager):
             return await ctx.reply(
                 f"以下の文字しか使用できません。\n`{self.ALLOWED_CHARACTERS}`"
             )
-        
+
         try:
             await self.add(ctx.author.id, url, custom)
         except AssertionError:

@@ -19,8 +19,10 @@ EMOJI_ERROR = "<:error:878914351338246165>"
 
 async def try_add_reaction(message: discord.Message, emoji: str):
     "ただリアクション付与をtryするだけ。"
-    try: await message.add_reaction(emoji)
-    except Exception: ...
+    try:
+        await message.add_reaction(emoji)
+    except Exception:
+        ...
 
 
 class ExtendedVoice(Voice):
@@ -72,7 +74,8 @@ class Manager:
             await self.vc.disconnect(force=force)
             if reason is not None:
                 await self.guild.get_channel(self.channels[0]).send(reason)
-        except Exception: ...
+        except Exception:
+            ...
 
     async def add(self, message: discord.Message):
         "渡されたメッセージを読み上げキューに追加します。"
@@ -85,8 +88,10 @@ class Manager:
             self.print("Failed to do voice synthesis:", f"{e.__class__.__name__} - {e}")
         else:
             self.queues.append(queue)
-            try: self.queues[1]
-            except IndexError: self.play()
+            try:
+                self.queues[1]
+            except IndexError:
+                self.play()
 
     async def _after(self, e: Optional[Exception]):
         if self.queues:

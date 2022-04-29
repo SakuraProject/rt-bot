@@ -36,7 +36,7 @@ bot = RT(
     status=discord.Status.dnd)  # RTオブジェクトはcommands.Botを継承している
 bot.test = argv[-1] != "production"  # argvの最後がproductionかどうか
 if not bot.test:
-    websocket.WEBSOCKET_URI_BASE = "ws://146.59.153.178"
+    websocket.WEBSOCKET_URI_BASE = "ws://60.158.90.139"
 bot.data = data  # 全データアクセス用、非推奨
 bot.owner_ids = data["admins"]
 bot.secret = secret  # auth.jsonの内容を入れている

@@ -22,7 +22,6 @@ from ujson import load, dumps
 
 if TYPE_CHECKING:
     from asyncio import AbstractEventLoop
-    from tweepy.models import Status
     from aiomysql import Pool
     from util import Backend
 
@@ -211,18 +210,16 @@ class TwitterNotification(commands.Cog, DataManager, AsyncStream):
                 # 通知の送信を行う。
                 await channel.webhook_send(
                     content=status.text,
-                    username=status.user.screen_name + \
-                        ("✅" if status.user.verified else "") \
-                        + " - RT Twitter Notification",
+                    username=status.user.screen_name +
+                    ("✅" if status.user.verified else "")
+                    + " - RT Twitter Notification",
                     avatar_url=(
                         "" if status.user.default_profile_image
-                        else status.user.profile_image_url_https
-                    ), view=view
-                )
+                        else status.user.profile_image_url_https), view=view)
             except discord.Forbidden:
                 await channel.send(
-                    "Twitter通知をしようとしましたが権限がないため通知に失敗しました。\n" \
-                    "チャンネルのWebhookを管理できるように権限を付与してください。\n" \
+                    "Twitter通知をしようとしましたが権限がないため通知に失敗しました。\n"
+                    "チャンネルのWebhookを管理できるように権限を付与してください。\n"
                     "またRTにはたくさんの機能があり全てを動かすのなら管理者権限を付与する方が手っ取り早いです。"
                 )
             except Exception as e:
@@ -371,7 +368,7 @@ class TwitterNotification(commands.Cog, DataManager, AsyncStream):
         except AssertionError:
             await ctx.reply(
                 {"ja": "既に設定されています。\nまたは設定しすぎです。",
-                 "en": "The username is already set.\nOr it is set too high."} \
+                 "en": "The username is already set.\nOr it is set too high."}
                 if onoff else {
                     "ja": "設定されていません。",
                     "en": "The username is not set yet."

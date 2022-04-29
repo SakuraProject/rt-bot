@@ -1,6 +1,6 @@
 # Free RT - Role Message
 
-from typing import TYPE_CHECKING, Optional, Optional, Union, Literal, Tuple, List
+from typing import TYPE_CHECKING, Optional, Union, Literal, Tuple, List
 
 from discord.ext import commands
 import discord
@@ -443,10 +443,11 @@ class RoleMessage(commands.Cog, DataManager):
                 and (channel := member.guild.get_channel(row[0]))
                 and await self.check(member, role.id)):
             await channel.send(
-                row[1].replace("!role_name!", role.name) \
-                    .replace("!role_mention!", role.mention) \
-                    .replace("!member_name!", member.name) \
-                    .replace("!member_mention!", member.mention)
+                row[1]
+                .replace("!role_name!", role.name)
+                .replace("!role_mention!", role.mention)
+                .replace("!member_name!", member.name)
+                .replace("!member_mention!", member.mention)
             )
 
     @commands.Cog.listener()

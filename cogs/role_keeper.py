@@ -1,6 +1,6 @@
 # Free RT - Role Keeper
 
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List
 
 from discord.ext import commands, tasks
 import discord

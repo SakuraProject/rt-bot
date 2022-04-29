@@ -10,7 +10,6 @@ from util.mysql_manager import DatabaseManager
 from util import RT, websocket
 
 from aiomysql import Pool, Cursor
-from ujson import loads, dumps
 from time import time
 
 from .image_captcha import ImageCaptcha
@@ -22,7 +21,7 @@ class TimeoutDataManager(RUDatabaseManager):
 
     TABLE = "captchaTimeout"
 
-    def __init__(self, cog: "Captcha"):
+    def __init__(self, cog: "OldCaptcha"):
         self.pool: Pool = cog.bot.mysql.pool
         self.cog = cog
         self.cog.bot.loop.create_task(self.init_timeout_table())
@@ -57,7 +56,7 @@ class TimeoutDataManager(RUDatabaseManager):
         "コグにあるキャッシュでタイムアウトしているものを削除します。"
         for captcha in list(self.cog.captchas.values()):
             for key in list(captcha.queue.keys()):
-                id_ = int(key[:(i:=key.find("-"))])
+                id_ = int(key[:(i := key.find("-"))])
                 obj = self.cog.bot.get_channel(id_)
                 if obj is None:
                     obj = self.cog.bot.get_guild(id_)
@@ -67,7 +66,7 @@ class TimeoutDataManager(RUDatabaseManager):
                     obj = obj.guild
                 row = await self.read_timeout(cursor, obj.id)
                 timeout, kick = row or (60, False)
-                user = discord.Object(int(key[i+1:]))
+                user = discord.Object(int(key[i + 1:]))
                 if now - captcha.queue[key][1] > (timeout := 60 * timeout):
                     del captcha.queue[key]
                     if kick:
@@ -138,7 +137,7 @@ class ClickCaptchaView(discord.ui.View):
         super().__init__(*args, **kwargs)
 
     @discord.ui.button(
-        label="認証",  custom_id="ClickCaptchaButton",
+        label="認証", custom_id="ClickCaptchaButton",
         style=discord.ButtonStyle.primary, emoji="🔎",
     )
     async def captcha(self, _, interaction: discord.Interaction):

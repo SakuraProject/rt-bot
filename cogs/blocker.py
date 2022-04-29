@@ -95,6 +95,7 @@ class DataManager(DatabaseManager):
         self.cache[guild_id][mode].remove(role)
         await self._update(cursor, guild_id, mode, [])
 
+
 Role = Union[discord.Role, discord.Object, Literal[0]]
 
 

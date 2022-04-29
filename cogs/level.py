@@ -15,9 +15,13 @@ from util import RT, Table
 
 Exp, Level = NewType("Exp", int), NewType("Level", int)
 UserMode = Literal["server", "global"]
+
+
 class LevelData(TypedDict):
     exp: Exp
     level: Level
+
+
 FIRST_LEVEL = LevelData(exp=0, level=0)
 
 
@@ -47,6 +51,8 @@ class Data:
 
 
 cooldown = commands.cooldown(1, 5, commands.BucketType.guild)
+
+
 class Level(commands.Cog):
     def __init__(self, bot: RT):
         self.bot = bot
@@ -93,12 +99,11 @@ class Level(commands.Cog):
                     title=self.__cog_name__,
                     color=self.bot.Colors.normal
                 ).add_field(
-                    name={
-                        "ja": f"{ctx.guild.name}でのレベル",
-                        "en": f"{ctx.guild.name} Level"
-                    }, value=self.get_now(
+                    name={"ja": f"{ctx.guild.name}でのレベル",
+                          "en": f"{ctx.guild.name} Level"},
+                    value=self.get_now(
                         self.data.l[ctx.guild.id].get('data', {})
-                            .get(str(ctx.author.id), FIRST_LEVEL)
+                        .get(str(ctx.author.id), FIRST_LEVEL)
                     )
                 ).add_field(
                     name={"ja": "グローバルでのレベル", "en": "Global Level"},
@@ -408,10 +413,10 @@ class Level(commands.Cog):
                 )
         else:
             await message.rely(
-                {"ja": "レベル報酬である役職を付与または剥奪しようとしましたが、その役職が見つからないため付与できませんでした。" \
-                    f"\nロールID：`{role_id}`",
-                 "en": "I tried to grant a role as a level reward, but could not do so because I could not find the role." \
-                    f"\nRoleID:`{role_id}`"}
+                {"ja": "レベル報酬である役職を付与または剥奪しようとしましたが、その役職が見つからないため付与できませんでした。"
+                       f"\nロールID：`{role_id}`",
+                 "en": "I tried to grant a role as a level reward, but could not do so because I could not find the role."
+                       f"\nRoleID:`{role_id}`"}
             )
 
     async def on_level(
@@ -455,6 +460,8 @@ class Level(commands.Cog):
         ):
             await self.on_level(message, now["level"], "g")
         self.data.g[message.author.id].level = now
+
+
 del cooldown
 
 

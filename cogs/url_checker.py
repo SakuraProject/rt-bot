@@ -73,7 +73,7 @@ class UrlChecker(commands.Cog, DataManager):
     @commands.cooldown(1, 10, commands.BucketType.channel)
     async def securl(
         self, ctx: commands.Context, *, url: str,
-        force: bool = "", author = None):
+            force: bool = "", author=None):
         """!lang ja
         --------
         SecURLを使用して渡されたURLのスクリーンショットを撮り危険性をチェックします。
@@ -193,9 +193,9 @@ class UrlChecker(commands.Cog, DataManager):
                 or message.guild.id not in self.cache):
             return
 
-        if (("http://" in message.content or "https://" in message.content
-                ) and "https://discord.com" not in message.content
-                and message.channel.id not in self.channel_runnings
+        if (("http://" in message.content or "https://" in message.content)
+            and "https://discord.com" not in message.content
+            and message.channel.id not in self.channel_runnings
                 and not message.content.startswith(tuple(self.bot.command_prefix))):
             try:
                 await message.add_reaction(self.EMOJI)

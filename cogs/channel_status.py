@@ -150,8 +150,7 @@ class ChannelStatus(commands.Cog, DataManager):
             channel = self.bot.get_channel(channel_id)
             if channel:
                 if channel.name != (
-                        text := self.replace_text(text, channel.guild)
-                    ):
+                        text := self.replace_text(text, channel.guild)):
                     try:
                         await channel.edit(
                             name=text, reason="ステータス更新のため。/To update status."

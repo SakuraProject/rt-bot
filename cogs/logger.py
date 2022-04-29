@@ -7,7 +7,6 @@ from traceback import TracebackException
 
 import collections
 import aiofiles
-import logging
 
 from util import RT
 
@@ -62,29 +61,26 @@ class SystemLog(commands.Cog):
             self.authors = []
             self.guilds = []
 
-
     @commands.Cog.listener()
     async def on_command(self, ctx):
         self.names.append(ctx.command.name)
         self.zero_parents.append(
-            ctx.command.name if len(ctx.command.parents) == 0 \
-                else ctx.command.parents[-1].name
+            ctx.command.name if len(ctx.command.parents) == 0 
+            else ctx.command.parents[-1].name
         )
         self.authors.append(ctx.author.id)
         self.guilds.append(getattr(ctx.guild, "id", 0))
 
-
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error: Exception):
         # エラー時のログ処理。大量のisinstance->returnがあるのはbot_general.pyで処理するから。
-        if isinstance(error, (
-                commands.CommandNotFound, discord.Forbidden, commands.CommandOnCooldown,
-                commands.MemberNotFound, commands.UserNotFound, commands.ChannelNotFound,
-                commands.RoleNotFound, commands.BadBoolArgument, commands.MissingRequiredArgument,
-                commands.BadArgument, commands.ArgumentParsingError, commands.TooManyArguments,
-                commands.BadUnionArgument, commands.BadLiteralArgument, commands.MissingPermissions,
-                commands.MissingRole, commands.CheckFailure, AssertionError
-            )):
+        if isinstance(
+            error,
+            (commands.CommandNotFound, discord.Forbidden, commands.CommandOnCooldown,
+             commands.MemberNotFound, commands.UserNotFound, commands.ChannelNotFound,
+             commands.RoleNotFound, commands.MissingRequiredArgument, commands.BadArgument,
+             commands.ArgumentParsingError, commands.TooManyArguments, commands.MissingPermissions,
+                commands.MissingRole, commands.CheckFailure, AssertionError)):
             return
         elif isinstance(error, commands.CommandInvokeError):
             return await self.on_command_error(ctx, error.original)

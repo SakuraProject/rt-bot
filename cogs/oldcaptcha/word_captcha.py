@@ -21,10 +21,10 @@ class WordCaptcha(commands.Cog):
         self, channel: discord.TextChannel, member: discord.Member
     ) -> None:
         await channel.send(
-            {"ja": f"{member.mention}, 合言葉を入力してください。" \
-                f"\n放置すると無効になります。",
-             "en": f"{member.mention}, Please type password." \
-                f"\nIf you leave it, it will become invalid."},
+            {"ja": f"{member.mention}, 合言葉を入力してください。"
+                   "\n放置すると無効になります。",
+             "en": f"{member.mention}, Please type password."
+                   "\nIf you leave it, it will become invalid."},
             target=member.id
         )
         row = await self.cog.load(channel.guild.id)

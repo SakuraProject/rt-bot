@@ -42,7 +42,7 @@ class OldRolePanel(commands.Cog):
         古いやり方なため`role`の方を使うのを強く推奨します。  
         使い方はその新しい`role`と同じです。  
         ※役職の個数制限機能はこの古い役職パネルだと使えません。
-        
+
         Parameters
         ----------
         title: タイトル
@@ -116,7 +116,7 @@ class OldRolePanel(commands.Cog):
                     await payload.member.remove_roles(role)
             except discord.Forbidden:
                 await payload.member.send(
-                    "役職の付与に失敗しました。\nサーバー管理者に以下のサイトを見るように伝えてください。\n" \
+                    "役職の付与に失敗しました。\nサーバー管理者に以下のサイトを見るように伝えてください。\n"
                     "https://rt-team.github.io/trouble/role"
                 )
 
@@ -186,14 +186,14 @@ class OldRolePanel(commands.Cog):
         return (payload.message.embeds and payload.message.author.bot
                 and payload.message.content == "RT役職パネル" and payload.message.guild
                 and any(str(payload.emoji) == str(reaction.emoji)
-                        or getattr(payload.emoji, "name", "") == \
-                            getattr(reaction.emoji, "name", "fdslafsjkfjskaj")
+                        or getattr(payload.emoji, "name", "p") == 
+                        getattr(reaction.emoji, "name", "r")
                         for reaction in payload.message.reactions))
 
     async def send_template(
         self, payload: discord.RawReactionActionEvent,
         send: Optional[Callable[..., Coroutine]] = None,
-        extend: Callable[[str, discord.RawReactionActionEvent], str] \
+        extend: Callable[[str, discord.RawReactionActionEvent], str]
             = lambda c, _: c, **kwargs
     ) -> None:
         await (send or payload.member.send)(
@@ -202,8 +202,8 @@ class OldRolePanel(commands.Cog):
                     (e + " " + getattr(
                         payload.message.guild.get_role(
                             int(m.split()[0][3:-1])
-                        ), "name", "役職が見つかりませんでした。")
-                    ) for e, m in self.parse_description(
+                        ), "name", "役職が見つかりませんでした。"))
+                    for e, m in self.parse_description(
                         payload.message.embeds[0].description,
                         payload.message.guild
                     ).items()

@@ -52,7 +52,7 @@ class DataManager(DatabaseManager):
 
     async def delete(self, guild_id: int, command: str, cursor: Cursor = None) -> None:
         "データを削除します"
-        if (c := await self._exists(cursor, guild_id, command))[0]:
+        if (await self._exists(cursor, guild_id, command))[0]:
             await cursor.execute(
                 f"DELETE FROM {self.TABLE} WHERE GuildID = %s AND Command = %s;",
                 (guild_id, command)

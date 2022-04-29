@@ -1,8 +1,6 @@
 # Free RT - Tools For Dashboard
 
-from typing import Literal
-
-from asyncio import sleep
+from asyncio import wait_for, TimeoutError
 
 from discord.ext import commands
 
@@ -25,7 +23,7 @@ class Tools(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.channel)
     async def send_(self, ctx: Context, *, content: str):
-        await ctx.channel.send(content)
+        await ctx.send(content)
         await ctx.reply(f"{ctx.channel.name}にメッセージを送信しました。")
 
     @commands.command(
@@ -41,15 +39,6 @@ class Tools(commands.Cog):
             f"サーバーID: `{ctx.guild.id}`\n"
             f"チャンネルID: `{ctx.channel.id}`"
         )
-
-    @commands.command(
-        extras={"headding": {"ja": "ダッシュボードのローディング表示テスト用のものです。"}
-        }
-    )
-    @commands.cooldown(1, 10, commands.BucketType.guild)
-    async def setting_test_loading(self, ctx: Context, number: Literal[1, 2, 3, 4, 5]):
-        await sleep(number)
-        await ctx.reply("Loading楽しかった？")
 
     OKES = ["+", "-", "*", "/", ".", "(", ")"]
     OKCHARS = list(map(str, range(10))) + OKES
@@ -84,14 +73,21 @@ class Tools(commands.Cog):
         ----------
         expression : str
             Expression"""
-        if len(expression) < 25:
-            await ctx.reply(f"計算結果：`{await self.bot.loop.run_in_executor(None, eval, self.safety(expression))}`")
-        else:
+        try:
+            x = await wait_for(
+                self.bot.loop.run_in_executor(None, eval, self.safety(expression)),
+                5, loop=self.bot.loop)
+        except SyntaxError:
+            raise commands.BadArgument("計算式がおかしいです！")
+        except ZeroDivisionError:
+            raise commands.BadArgument("0で割り算することはできません!")
+        except TimeoutError:
             raise commands.BadArgument("計算範囲が大きすぎます！頭壊れます。")
+        await ctx.reply(f"計算結果：`{x}`")
 
     @commands.command(
         extras={
-            "headding":{
+            "headding": {
                 "ja": "文字列を逆順にします。", "en": "Reverse text"
             }
         }

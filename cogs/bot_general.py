@@ -7,7 +7,6 @@ from collections import defaultdict
 from inspect import cleandoc
 from itertools import chain
 from random import choice
-from io import StringIO
 from time import time
 import speedtest
 
@@ -16,8 +15,6 @@ import discord
 
 from jishaku.functools import executor_function
 
-from util.page import EmbedPage
-from util.ext import componesy
 from util import RT
 
 from .server_tool import PERMISSION_TEXTS
@@ -70,6 +67,8 @@ THANKYOU_TEMPLATE = cleandoc(
     **If you do not understand Japanese**
     You can check what is written above in English by pressing the button at the bottom."""
 )
+
+
 class EnglishThxTemplateView(discord.ui.View):
     @discord.ui.button(label="See english version", custom_id="SeeEnglishVersionOfThx")
     async def sev(self, _, interaction: discord.Interaction):
@@ -139,8 +138,7 @@ class BotGeneral(commands.Cog):
 
         await self.bot.change_presence(
             activity=discord.Activity(
-                name=(now := self.STATUS_TEXTS[self._now_status_index])[0]
-                    .format(self.bot.command_prefix[0], now[1](self.bot)),
+                name=(now := self.STATUS_TEXTS[self._now_status_index])[0].format(self.bot.command_prefix[0], now[1](self.bot)),
                 type=discord.ActivityType.watching, state="RT Discord Bot",
                 details=f"PING：{self._get_ping()}\n絶賛稼働中...",
                 timestamps={"start": self._start_time},
@@ -223,7 +221,7 @@ class BotGeneral(commands.Cog):
         --------
         RTの情報を表示します。  
         RTの基本情報(招待リンク,ウェブサイトURL)やクレジットなどを確認することができます。  
-        
+
         !lang en
         --------
         Show you RT's information.  
@@ -281,8 +279,8 @@ class BotGeneral(commands.Cog):
             ) else "?"
             title = "404 Not Found"
             description = {
-                "ja": "そのコマンドが見つかりませんでした。\n" \
-                    f"`rf!help <word>`で検索が可能です。\nもしかして：{suggestion}",
+                "ja": "そのコマンドが見つかりませんでした。\n"
+                      f"`rf!help <word>`で検索が可能です。\nもしかして：{suggestion}",
                 "en": f"It can't found that command.\n`rf!help <word>`This can search command.\nSuggetion:{suggestion}"}
             color = self.bot.colors["unknown"]
         elif isinstance(error, discord.Forbidden):
@@ -297,12 +295,15 @@ class BotGeneral(commands.Cog):
                 return
             else:
                 title = "429 Too Many Requests"
-                description = {"ja": ("現在このコマンドはクールダウンとなっています。\n"
-                                    + "{:.2f}秒後に実行できます。".format(
-                                        error.retry_after)),
-                            "en": ("Currently, this command is on cooldown.\n"
-                                    + "You can do this command after {:.2f} seconds.".format(
-                                        error.retry_after))}
+                description = {
+                    "ja": (
+                        "現在このコマンドはクールダウンとなっています。\n"
+                        + "{:.2f}秒後に実行できます。".format(error.retry_after)
+                    ), "en": (
+                        "Currently, this command is on cooldown.\n"
+                        + "You can do this command after {:.2f} seconds.".format(error.retry_after)
+                    )
+                }
                 self.cache[ctx.author.id][ctx.command.qualified_name] = \
                     time() + error.retry_after
                 color = self.bot.colors["unknown"]
@@ -331,10 +332,10 @@ class BotGeneral(commands.Cog):
                            "en": f"{error.param.name} is a required argument that is missing."}
         elif isinstance(
             error, (commands.BadArgument,
-                commands.ArgumentParsingError,
-                commands.TooManyArguments,
-                commands.BadUnionArgument,
-                commands.BadLiteralArgument)
+                    commands.ArgumentParsingError,
+                    commands.TooManyArguments,
+                    commands.BadUnionArgument,
+                    commands.BadLiteralArgument)
         ):
             title = "400 Bad Request"
             description = {
@@ -344,13 +345,13 @@ class BotGeneral(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             title = "403 Forbidden"
             description = {
-                "ja": "あなたの権限ではこのコマンドを実行することができません。\n**実行に必要な権限**\n" \
-                    + ", ".join(
-                        f"`{PERMISSION_TEXTS.get(name, name)}`"
-                        for name in error.missing_permissions
-                    ),
-                "en": "You can't do this command.\n**You need these permissions**\n`" \
-                    + "`, `".join(error.missing_permissions) + "`"
+                "ja": "あなたの権限ではこのコマンドを実行することができません。\n**実行に必要な権限**\n"
+                      + ", ".join(
+                          f"`{PERMISSION_TEXTS.get(name, name)}`"
+                          for name in error.missing_permissions
+                      ),
+                "en": "You can't do this command.\n**You need these permissions**\n`"
+                      + "`, `".join(error.missing_permissions) + "`"
             }
         elif isinstance(error, commands.MissingRole):
             title = "403 Forbidden"
@@ -381,9 +382,9 @@ class BotGeneral(commands.Cog):
 
             title = "500 Internal Server Error"
             description = {
-                "ja": (f"コマンドの実行中にエラーが発生しました。\n"
+                "ja": ("コマンドの実行中にエラーが発生しました。\n"
                        + f"```python\n{error_message}\n```"),
-                "en": (f"I made an error!\n"
+                "en": ("I made an error!\n"
                        + f"```python\n{error_message}\n```"),
             }
 
@@ -415,17 +416,6 @@ class BotGeneral(commands.Cog):
             kwargs["content"] = str(e)
             await ctx.send(**kwargs)
 
-    @tasks.loop(hours=2)
-    async def error_log_to_discord(self):
-        # discordの特定のチャンネルにエラーを送信します。
-        if len(self.errors) == 0:
-            return
-        await self.bot.get_channel(ERROR_CHANNEL).send(
-            embed=discord.Embed(title="エラーログ", description=f"この2時間に発生したエラーの回数:{len(self.errors)}"),
-            file=discord.File(StringIO("\n\n".join(self.errors)))
-        )
-        self.errors = set()
-
     def get_help_url(self, category: str, name: str) -> str:
         return f"https://free-rt.com/help.html?g={category}&c={name}"
 
@@ -442,7 +432,7 @@ class BotGeneral(commands.Cog):
     async def on_guild_join(self, guild: discord.Guild):
         try:
             await guild.owner.send(THANKYOU_TEMPLATE, view=self.thx_view)
-        except:
+        except Exception:
             tentative = None
             for channel in guild.text_channels:
                 if "bot" in channel.name:

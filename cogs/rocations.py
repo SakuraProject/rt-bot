@@ -30,12 +30,14 @@ class Server(TypedDict):
     language: str
 
 
-RAISE_TIME = 14106 # 3時間55分06秒
+RAISE_TIME = 14106  # 3時間55分06秒
 Servers = OrderedDict[int, Server]
 
 
 # 何か必要なもの
 CheckFT = TypeVar("CheckFT")
+
+
 def check(function: CheckFT) -> CheckFT:
     "宣伝が有効になっているか"
     @wraps(function)
@@ -45,7 +47,8 @@ def check(function: CheckFT) -> CheckFT:
         try:
             return await function(self, ctx, *args, **kwargs)
         except Exception as e:
-            if ctx.bot.test or isinstance(e, AssertionError): raise
+            if ctx.bot.test or isinstance(e, AssertionError):
+                raise
             await ctx.reply(
                 {"ja": f"エラーが発生しました。\nサーバーを登録をしていますか？\nErrorCode: `{e}`",
                  "en": f"An error has occurred.\nAre you registering a server? \nErrorCode: `{e}`."}
@@ -134,7 +137,8 @@ class Rocations(commands.Cog):
 
     async def _get_invite(self, ctx: UnionContext):
         # 招待リンクを取得します。
-        try: return (await ctx.guild.vanity_invite()).url
+        try:
+            return (await ctx.guild.vanity_invite()).url
         except discord.Forbidden:
             return (await ctx.channel.create_invite(
                 reason="Rocationに登録する招待リンクの作成のため。"

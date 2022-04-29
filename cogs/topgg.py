@@ -1,6 +1,5 @@
 # Free RT - TopGG
 
-from discord.ext import commands, tasks
 from topgg import DBLClient
 
 

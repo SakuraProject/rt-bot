@@ -27,6 +27,7 @@ class RTRole(commands.Cog):
 
         if not getattr(self, "did", False):
             self.events = []
+
             @bot.check
             async def has_role(ctx):
                 if ctx.guild:
@@ -35,13 +36,9 @@ class RTRole(commands.Cog):
                         if "RT-" in r.name or (
                             str(ctx.guild.id) in self.data
                             and str(r.id) in self.data[str(ctx.guild.id)]
-                            and ctx.command.qualified_name in \
-                                self.data[str(ctx.guild.id)][str(r.id)].get(
-                                    "commands", ""
-                                )
-                            )
-                        ]
-                    ):
+                            and ctx.command.qualified_name in
+                            self.data[str(ctx.guild.id)][str(r.id)].get(
+                                "commands", ""))]):
                         channels = {
                             role.id: [
                                 ch.id for ch in ctx.guild.text_channels
@@ -50,8 +47,8 @@ class RTRole(commands.Cog):
                         }
                         return any(
                             bool(ctx.author.get_role(role.id)) and (
-                                not channels or not channels[role.id] or \
-                                    ctx.channel.id in channels[role.id]
+                                not channels or not channels[role.id] or
+                                ctx.channel.id in channels[role.id]
                             ) for role in roles
                         )
                 return True

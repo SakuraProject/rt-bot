@@ -50,7 +50,7 @@ class VoiceTypes(Enum):
     gtts = 3
 
 
-with open(ALLOWED_CHARACTERS_CSV, "r",encoding="utf8") as f:
+with open(ALLOWED_CHARACTERS_CSV, "r", encoding="utf8") as f:
     ALLOWED_CHARACTERS = tuple(f.read().split())
     "AquesTalkで使える文字のタプル"
 Source = Union[discord.FFmpegOpusAudio, discord.FFmpegPCMAudio]
@@ -75,6 +75,8 @@ async def _dumps_eng2kana_data():
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'}
 "英語をカタカナに変換するのに使うウェブサイトへアクセスするのに使うヘッダー"
 session, loop = None, None
+
+
 async def eng2kana(text: str) -> str:
     "渡された文字列にある英語をかなにします。"
     global session, loop
@@ -121,6 +123,8 @@ NO_JOINED_TWICE_CHARS = (
 REPLACES = (
     ("（", "("), ("）", ")"), ("＜", ""), ("＞", ""), ("？", "?")
 )
+
+
 async def adjust_text(text: str, gtts: bool = False) -> str:
     "日本語の文章をちょうどよく調整します。"
     if len(text) > 40:
@@ -173,7 +177,7 @@ class Agent:
         return AGENTS[code]
 
 
-with open(AGENTS_JSON, "r",encoding="utf8") as f:
+with open(AGENTS_JSON, "r", encoding="utf8") as f:
     for type_, datas in load(f).items():
         for agent, data in datas.items():
             AGENTS[f"{type_}-{agent}"] = Agent(
@@ -215,6 +219,8 @@ AQUESTALK_REPLACE_CHARACTERS = {
     "ァ": "あ", "ィ": "い", "ゥ": "う", "ェ": "え", "ォ": "お"
 }
 "AquesTalkで読めない文字の置き換えに使う辞書"
+
+
 async def aquestalk(text: str, path: str, agent: Union[Literal["f1", "f2"], str]) -> Source:
     "AquesTalkで音声合成をします。"
     # AquesTalk用に文字列を調整する。
@@ -240,23 +246,24 @@ async def aquestalk(text: str, path: str, agent: Union[Literal["f1", "f2"], str]
 
 
 #   OpenJTalk
-async def openjtalk(text: str, path: str, agent:str) -> Source:
+async def openjtalk(text: str, path: str, agent: str) -> Source:
     "OpenJTalkで音声合成を行います。"
     await _synthe(
-        f"OpenJTalk[{agent}]", f"""{OPENJTALK} -x {OPENJTALK_DICTIONARY}
-            -m {f'{OPENJTALK_VOICE_DIRECTORY}/{agent}.htsvoice'} -r 1.0 -ow {path}"""
-                .replace("\n", ""), text
+        f"OpenJTalk[{agent}]",
+        f"""{OPENJTALK} -x {OPENJTALK_DICTIONARY}
+            -m {f'{OPENJTALK_VOICE_DIRECTORY}/{agent}.htsvoice'} -r 1.0 -ow {path}""".replace("\n", ""),
+        text
     )
     return prepare_source(path)
 
 
 #   gTTS
 @executor_function
-def _gtts(text: str, path: str, agent:str):
+def _gtts(text: str, path: str, agent: str):
     gTTS(text, lang=agent).save(path)
 
 
-async def gtts(text: str, path: str, agent:str) -> Source:
+async def gtts(text: str, path: str, agent: str) -> Source:
     "gTTSを使用して音声合成をします。"
     await _gtts(text, path, agent)
     return prepare_source(path)

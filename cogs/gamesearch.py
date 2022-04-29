@@ -40,7 +40,7 @@ class GameSearch(commands.Cog):
         """
         async with self.bot.session.get(
             "https://ysmsrv.wjg.jp/disbot/gamesearch.php?q=" + quote_plus(name, encoding='utf-8')
-                ) as resp:
+        ) as resp:
             gj = loads(await resp.text())
             hdw = ""
             try:

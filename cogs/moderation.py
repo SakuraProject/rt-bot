@@ -1,9 +1,8 @@
 # Free RT - Moderation
 
-from typing import Literal, List
+from typing import Literal
 
 from discord.ext import commands
-import discord
 
 from util import RT
 
@@ -55,7 +54,7 @@ class Moderation(commands.Cog):
         for m in members:
             try:
                 await getattr(ctx.guild, mode)(m, reason=f"実行者:{ctx.author}")
-            except:
+            except Exception:
                 excepts.append(m)
         if excepts:
             mode = mode.upper()

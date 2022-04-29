@@ -6,10 +6,10 @@ from util import RT
 
 
 class Develop(commands.Cog):
-    
+
     def __init__(self, bot: RT):
         self.bot = bot
-    
+
     @commands.group(
         extras={
             "headding": {"ja": "管理者用のコマンドです。", "en": "Only for developers command."},

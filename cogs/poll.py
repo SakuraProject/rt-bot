@@ -58,7 +58,7 @@ class Poll(commands.Cog):
         self.view = CloseButton(color=self.bot.Colors.normal)
         self.bot.add_view(self.view)
         self.panel_updater.start()
-        
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.content.startswith("投票rt "):
@@ -101,11 +101,11 @@ class Poll(commands.Cog):
         ```
         好きな人を問う投票パネルを一人一票までとして作ります。  
         [実行結果](http://tasuren.syanari.com/RT/help/ServerPanel/poll.jpg)
-        
+
         !lang en
         --------
         Creates a voting panel.
-        
+
         Parameters
         ----------
         title : str
@@ -233,8 +233,13 @@ class Poll(commands.Cog):
             if before < (now := len(str(emojis[key]))):
                 before = now
         # Embedを編集する。
+
+        def _get_emoji(emoji):
+            return str({str(reaction.emoji): reaction.count - 1
+                        for reaction in payload.message.reactions}
+                       [emoji]).zfill(before)
         description, _ = self.make_description(
-            embed.description, lambda emoji: str(emojis[emoji]).zfill(before)
+            embed.description, _get_emoji
         )
         if description != embed.description:
             # もしカウントが変わっているならメッセージを編集する。
@@ -248,8 +253,7 @@ class Poll(commands.Cog):
                         payload.message_id, embed=embed,
                         content="".join(
                             (payload.message.content[:payload.message.content.find("\n")],
-                            "\n📊 ", self.graph(emojis), ""))
-                    )
+                             "\n📊 ", self.graph(emojis), "")))
                 except discord.InvalidArgument:
                     pass
         del description, emojis

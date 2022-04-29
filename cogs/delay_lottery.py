@@ -189,10 +189,7 @@ class DelayLottery(commands.Cog, DataManager):
                                 members = (await message.reactions[0].users().flatten())[1:]
                                 await self.bot.cogs["ServerTool"].lottery(
                                     await self.bot.get_context(message),
-                                    (length if (
-                                        c := int(message.content)
-                                    ) > (length := len(members))
-                                     else c),
+                                    (length if (c := int(message.content)) > (length := len(members)) else c),
                                     target=members
                                 )
                     else:

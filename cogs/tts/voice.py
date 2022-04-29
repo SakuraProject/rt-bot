@@ -42,7 +42,7 @@ class Voice:
         for routine in self.cog.user[self.message.author.id].get("routines", ()):
             if any(key in self.message.content for key in routine["keys"]):
                 if self.cog.RTCHAN:
-                    ... # TODO: りつたんでもバックエンドを経由してRoutineを手に入れて再生を行う。
+                    ...  # TODO: りつたんでもバックエンドを経由してRoutineを手に入れて再生を行う。
                 else:
                     # Routineがあればそれの再生を行う。
                     self.source = prepare_source(routine["path"], 1.5)
@@ -66,8 +66,10 @@ class Voice:
         "音声合成で作成したファイルを削除します。"
         if self.path is not None:
             self.print("Cleaning...")
-            try: await remove(self.path)
-            except Exception: ...
+            try:
+                await remove(self.path)
+            except Exception:
+                ...
             self.path = None
 
     def is_closed(self) -> bool:
@@ -75,9 +77,10 @@ class Voice:
         return self.path is None
 
     def __del__(self):
-        if not self.is_closed(): self.cog.bot.loop.create_task(
-            self.close(), name=f"{self}: Closing..."
-        )
+        if not self.is_closed():
+            self.cog.bot.loop.create_task(
+                self.close(), name=f"{self}: Closing..."
+            )
 
     def __str__(self) -> str: 
         return f"<Voice author={self.message.author} path={self.path}>"

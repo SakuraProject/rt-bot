@@ -320,7 +320,7 @@ class RequireSend(commands.Cog, DataManager):
             except AssertionError:
                 await ctx.reply(
                     {"ja": "これ以上追加できません。",
-                    "en": "No more can be added."}
+                     "en": "No more can be added."}
                 )
             else:
                 await ctx.reply("Ok")

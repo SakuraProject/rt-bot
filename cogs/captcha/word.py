@@ -13,10 +13,10 @@ class WordCaptcha:
         self.cog = cog
 
     async def on_message(self, message: discord.Message):
-        if message.channel.id == self.cog.queue[message.guild.id] \
-                [message.author.id][2].extras["data"]["channel_id"]:
-            if message.content == self.cog.queue[message.guild.id] \
-                    [message.author.id][2].extras["data"]["word"]:
+        if (message.channel.id == self.cog.queue[message.guild.id]
+                [message.author.id][2].extras["data"]["channel_id"]):
+            if (message.content == self.cog.queue[message.guild.id]
+                    [message.author.id][2].extras["data"]["word"]):
                 await message.delete()
                 role = message.guild.get_role(
                     self.cog.queue[message.guild.id][message.author.id][2].role_id
