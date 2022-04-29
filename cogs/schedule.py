@@ -41,9 +41,9 @@ class DataManager:
                     )
                     del self.cog.cache[user_id]
 
-class schedule(commands.Cog, DataManager):
+class schedule(commands.Cog, DataManager): 
 
-    def __init__(self, bot: RT):
+    def __init__(self, bot: RT): 
         self.bot, self.before = bot, ""
         self.cache = dict()
         super(commands.Cog, self).__init__(self)
@@ -52,14 +52,14 @@ class schedule(commands.Cog, DataManager):
         self.process_notice.start()
 
     @commands.group(
-        aliases=["予定","sch"], extras={
+        aliases=["予定", "sch"], extras={
             "headding": {
                 "ja": "スケジュール機能",
                 "en": "Setting schedule"
             }, "parent": "Individual"
         }
     )
-    async def schedule(self, ctx: commands.Context):
+    async def schedule(self, ctx: commands.Context): 
         """!lang ja
         --------
         discord上で予定を管理できるようにする機能です
@@ -67,7 +67,7 @@ class schedule(commands.Cog, DataManager):
         !lang en
         --------
         this command is add schedule manage function to discord"""
-        if not ctx.invoked_subcommand:
+        if not ctx.invoked_subcommand: 
             await ctx.reply(
                 {"ja": "使用方法が違います。",
                  "en": "It is wrong way to use this command."}
@@ -82,7 +82,7 @@ class schedule(commands.Cog, DataManager):
             }
         }
     )
-    async def set_(self, ctx: commands.Context, start, end, day, notice, *, title):
+    async def set_(self, ctx: commands.Context, start, end, day, notice, *, title): 
         """!lang ja
         --------
         予定を設定します。
@@ -134,7 +134,7 @@ class schedule(commands.Cog, DataManager):
         -------
         s"""
         await ctx.trigger_typing()
-        await self.set_schedule(ctx.author.id,start, end, day, notice, title)
+        await self.set_schedule(ctx.author.id, start, end, day, notice, title)
         await ctx.reply("Ok")
 
     @schedule.command(
@@ -172,7 +172,7 @@ class schedule(commands.Cog, DataManager):
         -------
         del"""
         try:
-            await self.delete_schedule(ctx.author.id,title)
+            await self.delete_schedule(ctx.author.id, title)
         except AssertionError:
             await ctx.reply(
                 {"ja": "その予定が見つかりませんでした。",
