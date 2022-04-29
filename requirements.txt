@@ -9,6 +9,7 @@ websockets
 reprypt
 # RT main
 onami
+jishaku
 pillow
 emoji
 youtube_dl
@@ -22,3 +23,6 @@ topggpy
 tweepy
 speedtest-cli
 gTTS
+opencv-contrib-python
+pyqrcode
+pypng
