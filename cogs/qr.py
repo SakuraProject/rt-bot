@@ -4,9 +4,14 @@ import aiohttp
 import discord
 import pyqrcode
 from discord.ext import commands
+
+
 class qr(commands.Cog): 
+
+
     def __init__(self, bot): 
         self.bot = bot
+
     @commands.group(
         extras={
             "headding":{"ja":"qr関連のコマンドです", "en":"qr command"},
@@ -23,6 +28,7 @@ class qr(commands.Cog):
         qr category command。sub_commands: make, read"""
         if ctx.invoked_subcommand is None:
             return await ctx.send("使用方法が違います。")
+
     @qr.command(
         extras={
             "headding":{"ja":"文字からqrコードを作成します", "en":"making qr code on string"},
@@ -34,6 +40,7 @@ class qr(commands.Cog):
         a.png(file=str(ctx.author.id)+'.png',scale=6)
         await ctx.send(file=discord.File(str(ctx.author.id)+'.png'))
         os.remove(str(ctx.author.id)+'.png')
+
     @qr.command(
         extras={
             "headding":{"ja":"qrコードを読み取ります", "en":"read qr code"},
@@ -55,5 +62,6 @@ class qr(commands.Cog):
         data,bbox,rectifiedImage = qrDetector.detectAndDecode(image)
         await ctx.send(data)
         os.remove(str(ctx.author.id)+'r.png')
+
 def setup(bot): 
     bot.add_cog(qr(bot))
