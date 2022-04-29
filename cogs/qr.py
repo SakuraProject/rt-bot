@@ -4,8 +4,8 @@ import aiohttp
 import discord
 import pyqrcode
 from discord.ext import commands
-class qr(commands.Cog):
-    def __init__(self, bot):
+class qr(commands.Cog): 
+    def __init__(self, bot): 
         self.bot = bot
     @commands.group(
         extras={
@@ -13,7 +13,7 @@ class qr(commands.Cog):
             "parent":"Entertainment"
         }
     )
-    async def qr(self, ctx):
+    async def qr(self, ctx): 
         """!lang ja
         --------
         qrコード関連のコマンドです。sub_commands: make, read
@@ -29,7 +29,7 @@ class qr(commands.Cog):
             "parent":"Entertainment"
         }
     )
-    async def make(self, ctx, text):
+    async def make(self, ctx, text): 
         a = pyqrcode.create(content=text,error='H') 
         a.png(file=str(ctx.author.id)+'.png',scale=6)
         await ctx.send(file=discord.File(str(ctx.author.id)+'.png'))
@@ -40,14 +40,14 @@ class qr(commands.Cog):
             "parent":"Entertainment"
         }
     )
-    async def read(self, ctx, url=None):
-        if url==None:
+    async def read(self, ctx, url=None): 
+        if url==None: 
             url = ctx.message.attachments[0].url
         async with self.bot.session.get(url) as resp:
             with open(str(ctx.author.id)+'r.png', 'wb') as fp:
-                while True:
+                while True: 
                     r = await resp.content.read(10) #4
-                    if not r:
+                    if not r: 
                         break
                     fp.write(r)
         image = cv2.imread(str(ctx.author.id)+'r.png')
@@ -55,5 +55,5 @@ class qr(commands.Cog):
         data,bbox,rectifiedImage = qrDetector.detectAndDecode(image)
         await ctx.send(data)
         os.remove(str(ctx.author.id)+'r.png')
-def setup(bot):
+def setup(bot): 
     bot.add_cog(qr(bot))
