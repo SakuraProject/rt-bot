@@ -55,7 +55,7 @@ class MusicTypes:
     spotify = 4
     ysmfilm = 5
     direct_url = 6
-    
+
 
 class MusicDict(TypedDict):
     "プレイリスト等に保存する際の音楽データの辞書の型です。"
