@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from aiomysql import Pool
 
-TABLES = ("schedule","schedule_test")
+TABLES = ("schedule", "schedule_test")
 
 
 class DataManager:
