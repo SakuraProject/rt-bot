@@ -41,7 +41,7 @@ class qr(commands.Cog):
 
     @qr.command(
         extras={
-            "headding": {"ja":"qrコードを読み取ります", "en": "read qr code"},
+            "headding": {"ja": "qrコードを読み取ります", "en": "read qr code"},
             "parent": "Entertainment"
         }
     )
@@ -57,7 +57,7 @@ class qr(commands.Cog):
                     fp.write(r)
         image = cv2.imread(str(ctx.author.id) + 'r.png')
         qrDetector = cv2.QRCodeDetector()
-        data,bbox,rectifiedImage = qrDetector.detectAndDecode(image)
+        data, bbox, rectifiedImage = qrDetector.detectAndDecode(image)
         await ctx.send(data)
         os.remove(str(ctx.author.id) + 'r.png')
 
