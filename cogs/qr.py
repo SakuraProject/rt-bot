@@ -1,13 +1,11 @@
 import os
 import cv2
-import aiohttp
 import discord
 import pyqrcode
 from discord.ext import commands
 
 
 class qr(commands.Cog): 
-
 
     def __init__(self, bot): 
         self.bot = bot
