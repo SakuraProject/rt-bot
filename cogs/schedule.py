@@ -3,6 +3,9 @@ import discord
 from util import RT
 from datetime import datetime, timedelta
 from asyncio import Event
+
+if TYPE_CHECKING:
+    from aiomysql import Pool
 TABLES = ("schedule","schedule_test")
 
 class DataManager:
