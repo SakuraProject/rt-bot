@@ -55,6 +55,7 @@ class MusicTypes:
     spotify = 4
     ysmfilm = 5
     direct_url = 6
+    
 
 class MusicDict(TypedDict):
     "プレイリスト等に保存する際の音楽データの辞書の型です。"
@@ -221,8 +222,8 @@ class Music:
                 )
             elif urllib.parse.urlparse(url).path.endswith('.mp4') or urllib.parse.urlparse(url).path.endswith('.mp3'):
                 return cls(
-                    cog, author, MusicTypes.direct_url, url, url,"","--:--:--"
-                 )
+                    cog, author, MusicTypes.direct_url, url, url, "", "--:--:--"
+                )
             else:
                 # YouTube
                 if not is_url(url):
