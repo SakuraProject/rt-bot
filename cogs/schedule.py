@@ -185,6 +185,7 @@ class schedule(commands.Cog, DataManager):
             )
         else:
             await ctx.reply("Ok")
+
     @tasks.loop(seconds=10)
     async def process_notice(self):
         try:
@@ -197,20 +198,21 @@ class schedule(commands.Cog, DataManager):
 
                 for user_id, datas in list(self.cache.items()):
                     for title, data in datas.items():
-                        if data['day']+data['stime'] == now:
+                        if data['day'] + data['stime'] == now:
                             if (user := self.bot.get_user(user_id)):
-                                if data['dmnotice']=="on":
+                                if data['dmnotice'] == "on":
                                     await user.send("予定のお時間です\n予定:"+title)
                             else:
                                 # もしユーザーが見つからなかったのならそのデータを削除する。
                                 await self.delete(user_id)
-                        if data['day']+data['etime'] == now:
+                        if data['day'] + data['etime'] == now:
                             try:
-                                await self.delete_schedule(user_id,title)
+                                await self.delete_schedule(user_id, title)
                             except AssertionError:
                                 len('test')
-        except Exception as e:
+        except Exception:
             datetime.now()
+
     async def delete_schedule(self, userid, data) -> None:
         for title, d in self.cache[userid].items():
             if title == data:
@@ -225,6 +227,7 @@ class schedule(commands.Cog, DataManager):
                 break
         else:
             assert False, "その予定は設定されていません。"
+
     @schedule.command(
         "list", aliases=["l", "一覧"],
         extras={
@@ -254,7 +257,7 @@ class schedule(commands.Cog, DataManager):
                 except KeyError:
                     days[d['day']] = list()
                     days[d['day']].append(d)
-            sdays = sorted(days.items(), key=lambda x:x[0])
+            sdays = sorted(days.items(), key=lambda x: x[0])
             for dal in sdays:
                 val = ""
                 for dt in dal[1]:
@@ -282,15 +285,17 @@ class schedule(commands.Cog, DataManager):
         elif userid in self.cog.cache:
             del self.cog.cache[userid]
         if title is None:
-            reason = ""
+            title = ""
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 await cursor.execute(
                     f"INSERT INTO {TABLES[0]} VALUES (%s, %s, %s, %s, %s, %s);",
                     (userid, title, start, end, day, notice)
                 )
+
     def cog_unload(self):
         self.process_notice.cancel()
+
 
 def setup(bot):
     bot.add_cog(schedule(bot))
