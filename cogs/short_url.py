@@ -142,14 +142,14 @@ class ShortURL(commands.Cog, DataManager):
             対象のURLです。
         custom : str, optional
             短縮URLをカスタマイズする場合に使います。  
-            例えば`tasuren`にすれば`http://rtbo.tk/tasuren`のように短縮されます。  
+            例えば`tasuren`にすれば`http://frrt.jp/tasuren`のように短縮されます。  
             ひらがななどは使用できないので英数字にしてください。  
             空白の場合はランダムな六文字のアルファベットとなります。
 
         Examples
         --------
         `rf!url short http://tasuren.f5.si tasuren`  
-        tasurenのホームページを`http://rtbo.tk/tasuren`からアクセスできるようにする。
+        tasurenのホームページを`http://frrt.jp/tasuren`からアクセスできるようにする。
 
         Aliases
         -------
@@ -170,14 +170,14 @@ class ShortURL(commands.Cog, DataManager):
             The target URL.
         custom : str, optional
             Use this to customize a shortened URL.  
-            For example, `tasuren` will shorten the URL to `https://rtbo.tk/tasuren`.  
+            For example, `tasuren` will shorten the URL to `https://frrt.jp/tasuren`.  
             This should be alphanumeric, since hiragana is not allowed.  
             If it is blank, it will be a random six-character alphanumeric string.
 
         Examples
         --------
         `rf!url short http://tasuren.f5.si tasuren`  
-        Make the home page of tasuren accessible from `http://rtbo.tk/tasuren`."""
+        Make the home page of tasuren accessible from `http://frrt.jp/tasuren`."""
         if len(await self.getall(ctx.author.id)) >= 15:
             await self.remove_last(ctx.author.id)
 
@@ -194,14 +194,13 @@ class ShortURL(commands.Cog, DataManager):
             return await ctx.reply(
                 f"以下の文字しか使用できません。\n`{self.ALLOWED_CHARACTERS}`"
             )
-
         try:
             await self.add(ctx.author.id, url, custom)
         except AssertionError:
             await ctx.reply("その短縮URLは既に存在するので作れません。")
         else:
             await self.update_cache()
-            await ctx.reply(f"短縮しました。>>>http://rtbo.tk/{custom}")
+            await ctx.reply(f"短縮しました。>>>http://frrt.jp/{custom}")
 
     @url.command(
         "list", aliases=["一覧"], 
@@ -230,7 +229,7 @@ class ShortURL(commands.Cog, DataManager):
                 embed=discord.Embed(
                     title="短縮URL一覧",
                     description="\n".join(
-                        f"* http://rtbo.tk/{row[2]}"
+                        f"* http://frrt.jp/{row[2]}"
                         for row in rows if row
                     ), color=self.bot.colors["normal"]
                 )
@@ -247,7 +246,7 @@ class ShortURL(commands.Cog, DataManager):
         }
     )
     async def remove_(
-        self, ctx, custom="URLの最後の部分です。 (End of URL (`...` of `http://rtbo.tk/...`))"
+        self, ctx, custom="URLの最後の部分です。 (End of URL (`...` of `http://frrt.jp/...`))"
     ):
         """!lang ja
         --------
@@ -257,7 +256,7 @@ class ShortURL(commands.Cog, DataManager):
         ----------
         custom : str
             短縮URLのアドレスです。  
-            `http://rtbo.tk/...`か`...`です。
+            `http://frrt.jp/...`か`...`です。
 
         Aliases
         -------
@@ -271,12 +270,12 @@ class ShortURL(commands.Cog, DataManager):
         ----------
         custom : str
             The address of the shortened URL.  
-            `http://rtbo.tk/... ` or `.... `.
+            `http://frrt.jp/... ` or `.... `.
 
         Aliases
         -------
         rm, delete, del"""
-        if "http://rtbo.tk/" in custom:
+        if "http://frrt.jp/" in custom:
             custom = custom[16:]
         try:
             await self.remove(ctx.author.id, custom)

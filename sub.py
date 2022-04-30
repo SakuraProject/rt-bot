@@ -40,7 +40,7 @@ def setup(bot):
 
     bot.mysql = bot.data["mysql"] = util.mysql.MySQLManager(
         loop=bot.loop, user=secret["mysql"]["user"],
-        host=("146.59.153.178" if argv[1] == "production" else "localhost"),
+        host=(secret["mysql"]["host"] if argv[1] == "production" else "localhost"),
         password=secret["mysql"]["password"], db="mysql",
         pool=True, minsize=1, maxsize=30, autocommit=True)
 

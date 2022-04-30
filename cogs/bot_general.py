@@ -34,35 +34,35 @@ Come on, let's put this Bot in and kick the other Bots."""
 }
 INFO_ITEMS = (("INVITE", {"ja": "招待リンク", "en": "invite link"}),
               ("SS", {"ja": "サポートサーバー", "en": "support server"}),
-              ("URL", {"ja": "RTのウェブサイト", "en": "RT offical website"}),
+              ("URL", {"ja": "RTのウェブサイト", "en": "free-RT offical website"}),
               ("GITHUB", {"ja": "GitHub", "en": "GitHub"}),
               ("CREDIT", {"ja": "クレジット", "en": "Credit"}))
 INFO_INVITE = "https://discord.com/api/oauth2/authorize?client_id=961521106227974174&permissions=8&scope=bot%20applications.commands"
-INFO_SS, INFO_URL = "https://discord.gg/VHwJ3CBuWw", "https://rt-bot.com"
-INFO_GITHUB = """* [RT-Team](https://github.com/RT-Team)
-* [RT-Bot](https://github.com/RT-Team/rt-bot)
-* [RT-Backend](https://github.com/RT-Team/rt-backend)
-* [RT-Frontend](https://github.com/RT-Team/rt-frontend)"""
-INFO_CREDIT = "[ここをご覧ください。](https://rt-bot.com/credit.html)"
+INFO_SS, INFO_URL = "https://discord.gg/KW4CZvYMJg", "https://free-rt.com"
+INFO_GITHUB = """* [free-RT-developers](https://github.com/free-RT)
+* [RT-Bot](https://github.com/free-RT/rt-bot)
+* [RT-Backend](https://github.com/free-RT/rt-backend)
+* [RT-Frontend](https://github.com/free-RT/rt-frontend)"""
+INFO_CREDIT = "[ここをご覧ください。](https://free-rt.com/credit.html)"
 
 THANKYOU_TEMPLATE = cleandoc(
-    """RTの導入ありがとうございます。
+    """free-RTの導入ありがとうございます。
     よろしくお願いします。
     もし何かバグや要望があればウェブサイトから公式サポートサーバーにてお伝えください。
 
     **RT 情報**
-    公式ウェブサイト：https://rt-bot.com
-    サポートサーバー：https://discord.gg/VHwJ3CBuWw
+    公式ウェブサイト：https://free-rt.com
+    サポートサーバー：https://discord.gg/KW4CZvYMJg
     チュートリアル　：https://rt-team.github.io/ja/notes/tutorial
-    プリフィックス　：`rf!`, `Rf!`, `RF!`, `rf.`, `Rf.`, `RF.`, `りふ！`, `りふ.`
+    プリフィックス　：`rf!`, `りふ！`, `RF!`, `rf.`, `Rf.`, `RF.`, `rF.`, `りふ.`, `Rf!`, `rF!`, `りふ!`
 
-    **RT 利用規約**
+    **free-RT 利用規約**
     RTを利用した場合以下の利用規約に同意したことになります。
-    https://rt-bot.com/terms.html
+    https://free-rt.com/terms.html
 
-    **RT プライバシーポリシー**
+    **free-RT プライバシーポリシー**
     RTのプライバシーポリシーは以下から閲覧可能です。
-    https://rt-bot.com/privacy.html
+    https:/free-rt.com/privacy.html
 
     **If you do not understand Japanese**
     You can check what is written above in English by pressing the button at the bottom."""
@@ -74,24 +74,24 @@ class EnglishThxTemplateView(discord.ui.View):
     async def sev(self, _, interaction: discord.Interaction):
         await interaction.response.send_message(
             cleandoc(
-                """Thank you for inviting RT.
+                """Thank you for inviting free-RT.
                 If you have any bugs or requests, please let us know on the official support server via the website.
-                You can also use `rt!lang en` to set the language to English.
-                (If you want to set it for the whole server, run `rt!lang en server`.)
+                You can also use `rf!lang en` to set the language to English.
+                (If you want to set it for the whole server, run `rf!lang en server`.)
 
-                **RT Info**.
-                Official website: https://rt-bot.com
+                **free-RT Info**.
+                Official website: https://free-rt.com
                 Support server: https://discord.gg/VHwJ3CBuWw
-                Tutorial: https://rt-team.github.io/en/notes/tutorial
-                Prefixes: `rt!`, `Rt!`, `RT!`, `rt.`, `Rt.`, `RT.`, `りつ！`, `りつ.`
+                Tutorial: https://free-rt.github.io/en/notes/tutorial
+                Prefixes: `rf!`, `りふ！`, `RF!`, `rf.`, `Rf.`, `RF.`, `rF.`, `りふ.`, `Rf!`, `rF!`, `りふ!`
 
                 **RT Terms of Service**.
                 By using RT, you agree to the following terms of use.
-                https://rt-bot.com/terms.html
+                https://free-rt.com/terms.html
 
                 **RT Privacy Policy**
                 RT's privacy policy can be viewed at
-                https://rt-bot.com/privacy.html"""
+                https://free-rt.com/privacy.html"""
             )
         )
 
@@ -139,20 +139,20 @@ class BotGeneral(commands.Cog):
         await self.bot.change_presence(
             activity=discord.Activity(
                 name=(now := self.STATUS_TEXTS[self._now_status_index])[0].format(self.bot.command_prefix[0], now[1](self.bot)),
-                type=discord.ActivityType.watching, state="RT Discord Bot",
+                type=discord.ActivityType.watching, state="Free-RT Bot",
                 details=f"PING：{self._get_ping()}\n絶賛稼働中...",
                 timestamps={"start": self._start_time},
-                buttons={"label": "RTのホームページに行く！", "url": "https://rt-bot.com/"}
+                buttons={"label": "free-RTのホームページに行く！", "url": "https://rt-bot.com/"}
             )
         )
 
         self._now_status_index = 0 if self._now_status_index else 1
 
     @commands.command(
-        extras={"headding": {"ja": "レイテンシを表示します。", "en": "Show you RT latency."},
+        extras={"headding": {"ja": "レイテンシを表示します。", "en": "Show you free-RT latency."},
                 "parent": "RT"},
         slash_command=True,
-        description="レイテンシを表示します。 / Show you RT latency."
+        description="レイテンシを表示します。 / Show you free-RT latency."
     )
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def ping(self, ctx):
@@ -163,12 +163,12 @@ class BotGeneral(commands.Cog):
 
         !lang en
         --------
-        You can view RT latency.  
+        You can view free-RT latency.  
         If latency is over to 400, network is bad."""
         embed = discord.Embed(
             title={
-                "ja": "現在のRTのレイテンシ",
-                "en": "Latency of current RT"
+                "ja": "現在のfree-RTのレイテンシ",
+                "en": "Latency of current free-RT"
             }, color=self.bot.Colors.normal
         )
         embed.add_field(
@@ -211,7 +211,7 @@ class BotGeneral(commands.Cog):
 
     @commands.command(
         extras={"headding": {
-            "ja": "RTの招待リンクを含めた情報を表示します。",
+            "ja": "free-RTの招待リンクを含めた情報を表示します。",
             "en": "Show you RT's invite link."
         }, "parent": "RT"},
         aliases=["credit", "invite", "about", "情報", "じょうほう"]
@@ -219,15 +219,15 @@ class BotGeneral(commands.Cog):
     async def info(self, ctx):
         """!lang ja
         --------
-        RTの情報を表示します。  
-        RTの基本情報(招待リンク,ウェブサイトURL)やクレジットなどを確認することができます。  
+        free-RTの情報を表示します。  
+        free-RTの基本情報(招待リンク,ウェブサイトURL)やクレジットなどを確認することができます。  
 
         !lang en
         --------
-        Show you RT's information.  
+        Show you free-RT's information.  
         It inclued invite link."""
         embed = discord.Embed(
-            title="RT 情報",
+            title="free-RT 情報",
             description=INFO_DESC,
             color=self.bot.colors["normal"]
         )
@@ -355,12 +355,14 @@ class BotGeneral(commands.Cog):
             }
         elif isinstance(error, commands.MissingRole):
             title = "403 Forbidden"
-            description = {"ja": f"あなたはこのコマンドの実行に必要な役職:{error.missing_role}を持っていないため、このコマンドを実行できません。",
-                           "en": f"You have to have the role:{error.argument} to run this command."}
+            description = {
+                "ja": f"あなたはこのコマンドの実行に必要な役職:{error.missing_role}を持っていないため、このコマンドを実行できません。",
+                "en": f"You have to have the role:{error.argument} to run this command."}
         elif isinstance(error, commands.CheckFailure):
             title = "403 Forbidden"
-            description = {"ja": "あなたはこのコマンドを実行することができません。",
-                           "en": "You can't do this command."}
+            description = {
+                "ja": "あなたはこのコマンドを実行することができません。",
+                "en": "You can't do this command."}
         elif isinstance(error, AssertionError):
             title = "400 Bad Request"
             description = error.args[0]
