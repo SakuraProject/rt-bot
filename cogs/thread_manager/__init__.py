@@ -94,9 +94,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["watch", "it", "監視", "inspect"]
     )
     async def monitor(
-        self, ctx, *, channel: discord.TextChannel = discord.SlashOption(
-            "channel", "監視するスレッドのある対象のチャンネルです。"
-        )
+        self, ctx, *, channel: discord.TextChannel
     ):
         """!lang ja
         --------
@@ -134,9 +132,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["unwatch", "unit", "監視解除", "uninspect"]
     )
     async def unmonitor(
-        self, ctx, *, channel: discord.TextChannel = discord.SlashOption(
-            "channel", "監視解除する対象のチャンネルです。"
-        )
+        self, ctx, *, channel: discord.TextChannel
     ):
         """!lang ja
         --------
@@ -174,9 +170,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["add", "追加", "a"]
     )
     async def join(
-        self, ctx: commands.Context, *, user: discord.Member = discord.SlashOption(
-            "user", "スレッドに参加させるユーザーです。"
-        )
+        self, ctx: commands.Context, *, user: discord.Member
     ):
         """!lang ja
         --------
@@ -213,9 +207,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["k", "rm", "remove", "キック", "追放"]
     )
     async def kick(
-        self, ctx: commands.Context, *, user: discord.Member = discord.SlashOption(
-            "user", "スレッドから退出させるユーザーです。"
-        )
+        self, ctx: commands.Context, *, user: discord.Member
     ):
         """!lang ja
         --------

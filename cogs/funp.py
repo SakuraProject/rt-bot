@@ -114,7 +114,7 @@ class Funp(commands.Cog, DataManager):
         )
         await self.init_table()
 
-    MODE_OPTION = discord.SlashOption(
+    """MODE_OPTION = discord.SlashOption(
         "category", "表示するみんなの画像のカテゴリーです。",
         choices={
             "普通": "normal",
@@ -124,7 +124,7 @@ class Funp(commands.Cog, DataManager):
             "CG (2.5次元, nsfw)": "cg",
             "三次元 (nsfw)": "3d"
         }
-    )
+    )"""
 
     @commands.group(
         slash_command=True, extras={
@@ -223,13 +223,13 @@ class Funp(commands.Cog, DataManager):
                  "en": "The category is not found."}
             )
 
-    NAME_OPTION = discord.SlashOption("name", "画像の名前です。")
+    """NAME_OPTION = discord.SlashOption("name", "画像の名前です。")"""
 
     @funp.command(
         aliases=["new", "ad", "あどど", "追加"],
         description="Funpを追加します。※スラッシュコマンドでは使えません。"
     )
-    async def add(self, ctx, mode: str = MODE_OPTION, name: str = NAME_OPTION):
+    async def add(self, ctx, mode: str, name: str):
         """!lang ja
         --------
         Funpに画像を追加します。  
@@ -275,11 +275,8 @@ class Funp(commands.Cog, DataManager):
         description="Funpを削除します。"
     )
     async def remove(
-        self, ctx, mode: str = MODE_OPTION, name: str = NAME_OPTION,
-        user_id: int = discord.SlashOption(
-            "id", "対象のユーザーIDです。(管理者のみ)", required=False,
-            default=None
-        )
+        self, ctx, mode: str, name: str,
+        user_id: int = None
     ):
         """!lang ja
         --------
@@ -317,10 +314,7 @@ class Funp(commands.Cog, DataManager):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _list(
         self, ctx, mode: str = MODE_OPTION,
-        user_id: int = discord.SlashOption(
-            "id", "対象のユーザーIDです。(管理者のみ)", required=False,
-            default=None
-        )
+        user_id: int = None
     ):
         """!lang ja
         --------
@@ -357,14 +351,7 @@ class Funp(commands.Cog, DataManager):
         aliases=["nb"], description="NekoBot APIを使用してNSFWな画像を表示します。"
     )
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def nekobot(
-        self, ctx, type_: str = discord.SlashOption(
-            "type", "NSFWの種類です。", choices={
-                "hentai": "hentai",
-                "nakadashi": "nakadashi",
-                "paizuri": "paizuri",
-                "tentacle": "tentacle",
-                "boobs": "boobs"})):
+    async def nekobot(self, ctx, type_):
         """!lang ja
         --------
         NekoBot APIを利用したNSFW画像を表示するコマンドです。  

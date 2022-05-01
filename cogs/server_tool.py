@@ -233,7 +233,7 @@ class ServerTool(commands.Cog):
 
     def old_easy_embed(
             self, content: str,
-            color: discord.Color = discord.Embed.Empty):
+            color: discord.Color = discord.Color.from_rgb(0, 156, 209)):
         es = ">>"
         spl = content.splitlines()
         title = spl[0][len(es):]

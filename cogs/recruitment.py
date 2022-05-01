@@ -85,7 +85,7 @@ class Recruitment(commands.Cog):
         recruit, rct"""
         embed = discord.Embed(
             title=title,
-            description=description if description else discord.Embed.Empty,
+            description=description if description else None,
             color=ctx.author.color
         )
         embed.add_field(

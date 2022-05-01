@@ -121,9 +121,7 @@ class MusicCog(commands.Cog, name="Music"):
 
     @check(False)
     @commands.command(aliases=["p", "再生"], **kwargs({"ja": "音楽再生をします。", "en": "Play music"}))
-    async def play(self, ctx: UnionContext, *, song: str = discord.SlashOption(
-        "song", PDETAILS := "曲のURLまたは検索ワード｜Song url or search term"
-    )):
+    async def play(self, ctx: UnionContext, *, song):
         """!lang ja
         --------
         音楽再生を行います。
@@ -536,9 +534,7 @@ class MusicCog(commands.Cog, name="Music"):
     @playlist.command(
         aliases=["c", "new", "作成"], description="プレイリストを新規作成します。｜Create a playlist"
     )
-    async def create(self, ctx: UnionContext, *, name: str = discord.SlashOption(
-        "name", PN := "プレイリストの名前です。｜Playlist name"
-    )):
+    async def create(self, ctx: UnionContext, *, name):
         """!lang ja
         --------
         プレイリストを作成します。
@@ -581,7 +577,7 @@ class MusicCog(commands.Cog, name="Music"):
     @playlist.command(
         aliases=["rm", "del", "削除"], description="プレイリストを削除します。｜Delete playlist"
     )
-    async def delete(self, ctx: UnionContext, *, name: str = discord.SlashOption("name", PN)):
+    async def delete(self, ctx: UnionContext, *, name):
         """!lang ja
         --------
         プレイリストを削除します。
@@ -612,7 +608,7 @@ class MusicCog(commands.Cog, name="Music"):
         await ctx.reply("Ok")
 
     @playlist.command(aliases=["a", "追加"])
-    async def add(self, ctx: UnionContext, *, url: str = discord.SlashOption("url", PDETAILS)):
+    async def add(self, ctx: UnionContext, *, url):
         """!lang ja
         --------
         プレイリストに曲を追加します。

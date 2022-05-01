@@ -27,7 +27,7 @@ async def on_send(channel, *args, **kwargs):
     # もし送信するのにembedがあればembedのフッターにテキストをつける。
     embed = kwargs.get("embed")
     if embed is not None:
-        if embed.footer.text is discord.Embed.Empty:
+        if embed.footer.text is None:
             embed.set_footer(text="なにかあれば`!help`を実行！")
         kwargs["embed"] = embed
     return args, kwargs

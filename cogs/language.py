@@ -145,7 +145,7 @@ class Language(commands.Cog):
         # Embedを指定された言語コードで交換します。
         # タイトルとディスクリプションを交換する。
         for n in ("title", "description"):
-            if getattr(embed, n) is not discord.Embed.Empty:
+            if getattr(embed, n) is not None:
                 setattr(embed, n, self._get_reply(getattr(embed, n), lang))
         # Embedにあるフィールドの文字列を交換する。
         for index in range(len(embed.fields)):
@@ -156,7 +156,7 @@ class Language(commands.Cog):
             )
         # Embedのフッターを交換する。
         if embed.footer:
-            if embed.footer.text is not discord.Embed.Empty:
+            if embed.footer.text is not None:
                 embed.set_footer(text=self._get_reply(embed.footer.text, lang),
                                  icon_url=embed.footer.icon_url)
         return embed

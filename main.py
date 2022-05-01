@@ -11,7 +11,7 @@ import discord
 from aiohttp import ClientSession
 from ujson import load, dumps
 
-from util import RT, mysql, websocket
+from util import RT, websocket
 from data import data, Colors
 
 

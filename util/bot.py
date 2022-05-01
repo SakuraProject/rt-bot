@@ -5,6 +5,7 @@ from discord.ext import commands
 from .dpy_monkey import _setup
 from . import mysql_manager as mysql
 
+
 class RT(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)

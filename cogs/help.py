@@ -255,9 +255,7 @@ class Help(commands.Cog):
     )
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def dhelp(
-        self, ctx, *, word: str = discord.SlashOption(
-            "word", "コマンド名または検索ワードです。", required=False, default=None
-        )
+        self, ctx, *, word=None
     ):
         """!lang ja
         --------

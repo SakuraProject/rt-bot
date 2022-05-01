@@ -117,7 +117,7 @@ class SettingManager(commands.Cog):
 
     def _get_default(self, default: object) -> object:
         # 渡されたものがスラッシュのオプションならそれに設定されているデフォルトを返す。
-        return default.default if isinstance(default, discord.SlashOption) else default
+        return default
 
     async def get_help(self, name: str) -> Optional[str]:
         "ヘルプを取得します。RTWSで使うためのものです。"
