@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, Tuple
 
-from asyncio import get_event_loop, iscoroutinefunction
+from asyncio import get_event_loop, iscoroutinefunction, run
 from aiomysql import create_pool, connect
 from functools import wraps
 import warnings

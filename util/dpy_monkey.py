@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from .bot import RT
 
 
-async def _setup(self, mode: str = None) -> None:
+async def _setup(self, mode: Tuple[str, ...] = ()) -> None:
     for name in ("on_send", "on_full_reaction", "on_cog_add"):
         if name in mode or mode == []:
             try:

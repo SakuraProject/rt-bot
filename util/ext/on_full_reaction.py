@@ -34,6 +34,6 @@ class OnFullReactionAddRemove(commands.Cog):
             self.bot.dispatch("full_reaction_" + event, payload)
 
 
-def setup(bot):
+async def setup(bot):
     timeout = getattr(bot, "_util_ofr_timeout", 0.025)
-    bot.add_cog(OnFullReactionAddRemove(bot, timeout=timeout))
+    await bot.add_cog(OnFullReactionAddRemove(bot, timeout=timeout))
