@@ -148,8 +148,7 @@ class Welcome(commands.Cog, DataManager):
                     await self.delete(ctx.guild.id, mode)
                 except KeyError:
                     await ctx.reply(
-                        {"ja": "まだ設定されていません。",
-                         "en": "Welcome has not set yet."}
+                        embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "まだ設定されていません。","en": "Welcome has not set yet."})
                     )
                 else:
                     await ctx.reply("Ok")
@@ -158,8 +157,7 @@ class Welcome(commands.Cog, DataManager):
                 await ctx.reply("Ok")
         else:
             await ctx.reply(
-                {"ja": "モードは参加時の`join`と退出時の`remove`のみが使用できます。",
-                 "en": "The only modes available are `join` for joining and `remove` for leaving."}
+                embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "モードは参加時の`join`と退出時の`remove`のみが使用できます。","en": "The only modes available are `join` for joining and `remove` for leaving."})
             )
 
     async def on_member_join_remove(self, mode: str, member: discord.Member):
