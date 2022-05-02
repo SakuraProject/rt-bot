@@ -173,7 +173,7 @@ class Funp(commands.Cog, DataManager):
         aliases=["see", "sw", "しょう", "見る"],
         description="Funpをランダムで取り出して表示します。"
     )
-    async def show(self, ctx, mode: str = MODE_OPTION):
+    async def show(self, ctx, mode: str):
         """!lang ja
         --------
         Funpを表示します。  
@@ -313,7 +313,7 @@ class Funp(commands.Cog, DataManager):
     )
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _list(
-        self, ctx, mode: str = MODE_OPTION,
+        self, ctx, mode: str,
         user_id: int = None
     ):
         """!lang ja
