@@ -3,6 +3,7 @@
 from typing import Literal, Optional, Union, Callable, Tuple
 
 from inspect import cleandoc
+import re
 
 
 class DocParser:
@@ -54,22 +55,15 @@ class DocParser:
 
     def _split(self, text: str, target: str = ":") -> Tuple[str, str, int, int]:
         # targetの左と右を分けてtargetの周りにある空白の数を取得する。
-        colon_index = text.find(":")
-        left, right = text[:colon_index], text[colon_index + 1:]
-        del colon_index
-        left_count, right_count = 0, 0
-        for i in range(len(left)):
-            if left[0 - (i + 1)] == " ":
-                left_count += 1
-            else:
-                break
-        for char in right:
-            if char == " ":
-                right_count += 1
-            else:
-                break
-        return (left[:0 - left_count], right[right_count:],
-                left_count, right_count)
+        match = re.search(" *" + target + " *", text)  # 空白に挟まれたコロンの検出。
+        if not match:
+            raise ValueError("見つからなかった。。。")
+
+        left, right = text[:match.start()], text[match.end():]
+        mg = match.group()
+        left_count, right_count = len(mg[:mg.find(":")]), len(mg[mg.find(":") + 1:])
+
+        return left, right, left_count, right_count
 
     def _colon_parser(self, line: str, now_lang: str) -> str:
         # ITEM_REPLACE_TEXTSにある文字列は日本語に置き換える。
