@@ -48,9 +48,9 @@ class NGNickName(commands.Cog):
                             pass
                         else:
                             await after.send(
-                                "<:error:878914351338246165> あなたのそのニックネームは" \
-                                f"`{after.guild.name}`で禁止する設定になっています。\n" \
-                                "お手数ですが別のものにしてください。\n" \
+                                "<:error:878914351338246165> あなたのそのニックネームは"
+                                f"`{after.guild.name}`で禁止する設定になっています。\n"
+                                "お手数ですが別のものにしてください。\n"
                                 f"検知した禁止ワード：`{word}`"
                             )
                         finally:
@@ -191,12 +191,12 @@ class NGNickName(commands.Cog):
                         failed.append(word)
         b = ', '.join(failed)
         await ctx.reply(
-            {"ja": "削除しました。" \
-                + (f"ですが{b}は見つかりませんでした。" if failed else ""),
-             "en": "Removed." \
-                + (f"But {b} are/is not found." if failed else "")}
+            {"ja": "削除しました。"
+                   (f"ですが{b}は見つかりませんでした。" if failed else ""),
+             "en": "Removed."
+                   (f"But {b} are/is not found." if failed else "")}
         )
 
 
-def setup(bot):
-    bot.add_cog(NGNickName(bot))
+async def setup(bot):
+    await bot.add_cog(NGNickName(bot))

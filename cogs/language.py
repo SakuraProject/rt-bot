@@ -43,7 +43,7 @@ class Language(commands.Cog):
         self.pool = self.bot.mysql.pool
         self.bot.loop.create_task(self.on_ready())
 
-        with open("data/replies.json",encoding="utf-8") as f:
+        with open("data/replies.json", encoding="utf-8") as f:
             self.replies = loads(f.read())
 
     def cog_unload(self):
@@ -145,7 +145,7 @@ class Language(commands.Cog):
         # Embedを指定された言語コードで交換します。
         # タイトルとディスクリプションを交換する。
         for n in ("title", "description"):
-            if getattr(embed, n) is not discord.Embed.Empty:
+            if getattr(embed, n) is not None:
                 setattr(embed, n, self._get_reply(getattr(embed, n), lang))
         # Embedにあるフィールドの文字列を交換する。
         for index in range(len(embed.fields)):
@@ -156,7 +156,7 @@ class Language(commands.Cog):
             )
         # Embedのフッターを交換する。
         if embed.footer:
-            if embed.footer.text is not discord.Embed.Empty:
+            if embed.footer.text is not None:
                 embed.set_footer(text=self._get_reply(embed.footer.text, lang),
                                  icon_url=embed.footer.icon_url)
         return embed
@@ -281,9 +281,6 @@ class Language(commands.Cog):
             code = "invalid language code is inserted. 無効な言語コードです。"
             return await ctx.reply(code)
 
-        # 返信内容と変更内容を用意する。
-        color = self.bot.colors["normal"]
-        title, description = "Ok", discord.Embed.Empty
         await ctx.trigger_typing()
 
         # データベースに変更内容を書き込む。
@@ -310,5 +307,5 @@ class Language(commands.Cog):
         await ctx.reply("Ok")
 
 
-def setup(bot):
-    bot.add_cog(Language(bot))
+async def setup(bot):
+    await bot.add_cog(Language(bot))

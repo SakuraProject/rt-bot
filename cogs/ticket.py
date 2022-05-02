@@ -107,7 +107,7 @@ class DataManager:
                 await cursor.execute(
                     f"""INSERT INTO {TABLES[1]} VALUES (%s, %s)
                         ON DUPLICATE KEY UPDATE Roles = %s;""",
-                    (channel_id, dumped:=dumps(roles), dumped)
+                    (channel_id, dumped := dumps(roles), dumped)
                 )
 
     async def read_roles(self, channel_id: int) -> List[int]:
@@ -230,7 +230,7 @@ class Ticket(commands.Cog, DataManager):
             )
             await ctx.webhook_send(
                 username=ctx.author.name, avatar_url=getattr(ctx.author.avatar, "url", ""),
-                content=f"RTチケットパネル, 2", embed=embed, wait=True,
+                content="RTチケットパネル, 2", embed=embed, wait=True,
                 replace_language=False, view=VIEW
             )
         else:
@@ -324,10 +324,8 @@ class Ticket(commands.Cog, DataManager):
                 ]
                 # overwritesを作る。
                 perms = {
-                    payload.message.guild.default_role: \
-                        discord.PermissionOverwrite(read_messages=False),
-                    payload.member: \
-                        discord.PermissionOverwrite(read_messages=True)
+                    payload.message.guild.default_role: discord.PermissionOverwrite(read_messages=False),
+                    payload.member: discord.PermissionOverwrite(read_messages=True)
                 }
                 if roles:
                     # もしroleが指定されているならroleもoverwritesに追加する。
@@ -356,5 +354,5 @@ class Ticket(commands.Cog, DataManager):
         await self.on_ticket(payload)
 
 
-def setup(bot):
-    bot.add_cog(Ticket(bot))
+async def setup(bot):
+    await bot.add_cog(Ticket(bot))

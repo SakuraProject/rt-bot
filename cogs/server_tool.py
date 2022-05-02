@@ -13,7 +13,6 @@ from util.page import EmbedPage
 from data import PERMISSION_TEXTS
 
 
-
 STAR_HELP = {
     "ja": (
         "スターボード機能",
@@ -208,8 +207,7 @@ class ServerTool(commands.Cog):
         if 0 < day:
             try:
                 async for message in ctx.channel.history(
-                        limit=1, before=datetime.now() - timedelta(days=day)
-                    ):
+                        limit=1, before=datetime.now() - timedelta(days=day)):
                     e = discord.Embed(
                         description=f"{message.content}\n[メッセージに行く]({message.jump_url})",
                         color=self.bot.colors["normal"]
@@ -226,8 +224,7 @@ class ServerTool(commands.Cog):
             except (OverflowError, discord.HTTPException):
                 await ctx.reply(
                     {"ja": "過去にさかのぼりすぎました。",
-                    "en": "I was transported back in time to another dimension."}
-                )
+                     "en": "I was transported back in time to another dimension."})
         else:
             await ctx.reply(
                 {"ja": "未来にはいけません。",
@@ -236,8 +233,7 @@ class ServerTool(commands.Cog):
 
     def old_easy_embed(
             self, content: str,
-            color: discord.Color = discord.Embed.Empty
-        ):
+            color: discord.Color = discord.Color.from_rgb(0, 156, 209)):
         es = ">>"
         spl = content.splitlines()
         title = spl[0][len(es):]
@@ -277,7 +273,6 @@ class ServerTool(commands.Cog):
 
         return e
 
-
     @commands.command(
         aliases=["抽選", "choice", "lot"], extras={
             "headding": {
@@ -286,9 +281,9 @@ class ServerTool(commands.Cog):
         }
     )
     async def lottery(
-        self, ctx, count: int, *,
-        obj: Union[discord.Role, discord.TextChannel] = None,
-        target=None
+            self, ctx, count: int, *,
+            obj: Union[discord.Role, discord.TextChannel] = None,
+            target=None
     ):
         """!lang ja
         --------
@@ -333,8 +328,8 @@ class ServerTool(commands.Cog):
 
         try:
             embed = discord.Embed(
-                title="抽選" if not ctx.message.embeds \
-                    else f"{ctx.message.embeds[0].title} - 抽選",
+                title="抽選" if not ctx.message.embeds
+                      else f"{ctx.message.embeds[0].title} - 抽選",
                 description=", ".join(
                     member.mention
                     for member in sample(
@@ -465,8 +460,7 @@ class ServerTool(commands.Cog):
                              for i in await ctx.guild.invites()],
                             reverse=True,
                             key=lambda p: int(p[1])
-                        )
-                    ),
+                        )),
                 color=self.bot.colors["normal"]
             )
         )
@@ -562,8 +556,8 @@ class ServerTool(commands.Cog):
     @commands.Cog.listener()
     async def on_full_reaction_add(self, payload):
         if (not payload.guild_id or not payload.member or payload.member.bot
-                or not hasattr(payload, "message")
-                or (getattr(payload.message.channel, "topic", "")
+            or not hasattr(payload, "message")
+            or (getattr(payload.message.channel, "topic", "")
                 and "rt>star" in payload.message.channel.topic)):
             return
 
@@ -574,17 +568,22 @@ class ServerTool(commands.Cog):
                 if str(reaction.emoji) in self.EMOJIS["star"]:
                     async for user in reaction.users():
                         # もしRTがスターをつけてるなら既にスターボードに乗っているのでやめる。
-                        if user.id == self.bot.user.id: return
-                        else: count += 1
+                        if user.id == self.bot.user.id:
+                            return
+                        else:
+                            count += 1
             else:
                 if (channel := discord.utils.find(
                     lambda ch: ch.topic and "rt>star" in ch.topic,
                     payload.message.guild.text_channels
                 )):
-                    cache = channel.topic[channel.topic.find("rt>star")+7:]
-                    try: require = int(cache if (index := cache.find("\n")) == -1 else cache[:index])
-                    except ValueError: require = 1
-                    if count < require: return
+                    cache = channel.topic[channel.topic.find("rt>star") + 7:]
+                    try:
+                        require = int(cache if (index := cache.find("\n")) == -1 else cache[:index])
+                    except ValueError:
+                        require = 1
+                    if count < require:
+                        return
                     embeds = []
                     embeds.append(
                         discord.Embed(
@@ -723,5 +722,5 @@ class ServerTool(commands.Cog):
             )
 
 
-def setup(bot):
-    bot.add_cog(ServerTool(bot))
+async def setup(bot):
+    await bot.add_cog(ServerTool(bot))

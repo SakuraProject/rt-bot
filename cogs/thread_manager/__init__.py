@@ -79,8 +79,7 @@ class ThreadManager(commands.Cog, DataManager):
                     "en": "Inspection Target Channels"
                 }, description="\n".join(
                     f"・<#{channel_id}>"
-                    for channel_id in (await self.get_data(ctx.guild.id)
-                        .get_channels()).keys()
+                    for channel_id in (await self.get_data(ctx.guild.id).get_channels()).keys()
                 ), color=self.bot.colors["normal"]
             )
         )
@@ -95,9 +94,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["watch", "it", "監視", "inspect"]
     )
     async def monitor(
-        self, ctx, *, channel: discord.TextChannel = discord.SlashOption(
-            "channel", "監視するスレッドのある対象のチャンネルです。"
-        )
+        self, ctx, *, channel: discord.TextChannel
     ):
         """!lang ja
         --------
@@ -135,9 +132,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["unwatch", "unit", "監視解除", "uninspect"]
     )
     async def unmonitor(
-        self, ctx, *, channel: discord.TextChannel = discord.SlashOption(
-            "channel", "監視解除する対象のチャンネルです。"
-        )
+        self, ctx, *, channel: discord.TextChannel
     ):
         """!lang ja
         --------
@@ -175,9 +170,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["add", "追加", "a"]
     )
     async def join(
-        self, ctx: commands.Context, *, user: discord.Member = discord.SlashOption(
-            "user", "スレッドに参加させるユーザーです。"
-        )
+        self, ctx: commands.Context, *, user: discord.Member
     ):
         """!lang ja
         --------
@@ -214,9 +207,7 @@ class ThreadManager(commands.Cog, DataManager):
         aliases=["k", "rm", "remove", "キック", "追放"]
     )
     async def kick(
-        self, ctx: commands.Context, *, user: discord.Member = discord.SlashOption(
-            "user", "スレッドから退出させるユーザーです。"
-        )
+        self, ctx: commands.Context, *, user: discord.Member
     ):
         """!lang ja
         --------
@@ -373,11 +364,9 @@ class ThreadManager(commands.Cog, DataManager):
     async def on_thread_update(self, before: discord.Thread, after: discord.Thread):
         if (after.archived and not after.locked
             and after.parent.id in await (
-                self.get_data(after.guild.id)
-            ).get_channels()
-        ):
-                # 自動ロックされたならロックを解除する。
-                await after.edit(archived=False)
+                self.get_data(after.guild.id)).get_channels()):
+            # 自動ロックされたならロックを解除する。
+            await after.edit(archived=False)
         if (before.archived and not after.archived) or (before.locked and not after.locked):
             # アーカイブ解除時には通知を行う。
             if after.guild.id in self.cache:
@@ -431,5 +420,5 @@ class ThreadManager(commands.Cog, DataManager):
                 )
 
 
-def setup(bot):
-    bot.add_cog(ThreadManager(bot))
+async def setup(bot):
+    await bot.add_cog(ThreadManager(bot))

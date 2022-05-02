@@ -376,5 +376,5 @@ class ForcePinnedMessage(commands.Cog, DataManager):
             ), custom[-1] == "1"
 
 
-def setup(bot):
-    bot.add_cog(ForcePinnedMessage(bot))
+async def setup(bot):
+    await bot.add_cog(ForcePinnedMessage(bot))

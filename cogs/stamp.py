@@ -217,7 +217,7 @@ class Stamp(commands.Cog, DataManager):
         rm, remove, del"""
         if name in self.cache.get(ctx.guild.id, {}):
             await self.delete(ctx.guild.id, name)
-            del self.cache[message.guild.id][name]
+            del self.cache[ctx.guild.id][name]
             await ctx.reply("Ok")
         else:
             await ctx.reply(
@@ -231,13 +231,12 @@ class Stamp(commands.Cog, DataManager):
                 and (data := self.cache.get(message.guild.id))
                 and not message.content.startswith(
                     tuple(self.bot.command_prefix)
-                )
-            ):
+                )):
             for name in data:
                 if name in message.content:
                     await message.channel.send(data[name])
                     break
 
 
-def setup(bot):
-    bot.add_cog(Stamp(bot))
+async def setup(bot):
+    await bot.add_cog(Stamp(bot))

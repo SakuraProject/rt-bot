@@ -1,6 +1,10 @@
 <!--[![Discord Bots](https://top.gg/api/widget/status/716496407212589087.svg)](https://top.gg/bot/716496407212589087) [![Discord Bots](https://top.gg/api/widget/servers/716496407212589087.svg)](https://top.gg/bot/716496407212589087) ![Discord](https://img.shields.io/discord/718641964672876614?label=support&logo=discord)-->
 <!-- To do: この部分をFreeRTのbotや公式サーバーのものにする。-->
 (日本語版のreadmeは[こちら](https://github.com/Free-RT/rt-bot/blob/main/readme.ja.md))
+## Important notice
+These features are disabled. You can't use them in this bot.
+* cogs.music
+
 # Free RT Bot
 This is an Discord's bot, Free RT.  
 There is 'RT bot' in discord and we can use it for paying to tasuren, so please use RT if you have enough money.  

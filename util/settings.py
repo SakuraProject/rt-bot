@@ -12,8 +12,6 @@ import discord
 
 from pytz import utc
 
-from ujson import dumps
-
 from util.rt_module.src.setting import CommandData, CommandRunData
 from . import RT
 from .olds import clean_content
@@ -119,7 +117,7 @@ class SettingManager(commands.Cog):
 
     def _get_default(self, default: object) -> object:
         # 渡されたものがスラッシュのオプションならそれに設定されているデフォルトを返す。
-        return default.default if isinstance(default, discord.SlashOption) else default
+        return default
 
     async def get_help(self, name: str) -> Optional[str]:
         "ヘルプを取得します。RTWSで使うためのものです。"
@@ -165,9 +163,11 @@ class SettingManager(commands.Cog):
             kwargs = {}
             for parameter in command.clean_params.values():
                 kwargs[parameter.name] = {
-                    "type": "str", "default": None
-                        if parameter.default == parameter.empty
-                        else self._get_default(parameter.default),
+                    "type": "str",
+                    "default": (
+                        None if parameter.default == parameter.empty
+                        else self._get_default(parameter.default)
+                    ),
                     "extra": None
                 }
                 if parameter.annotation in (
@@ -250,5 +250,5 @@ class SettingManager(commands.Cog):
             return ("Error", str(e))
 
 
-def setup(bot):
-    bot.add_cog(SettingManager(bot))
+async def setup(bot):
+    await bot.add_cog(SettingManager(bot))

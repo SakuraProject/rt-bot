@@ -30,12 +30,14 @@ class Server(TypedDict):
     language: str
 
 
-RAISE_TIME = 14106 # 3時間55分06秒
+RAISE_TIME = 14106  # 3時間55分06秒
 Servers = OrderedDict[int, Server]
 
 
 # 何か必要なもの
 CheckFT = TypeVar("CheckFT")
+
+
 def check(function: CheckFT) -> CheckFT:
     "宣伝が有効になっているか"
     @wraps(function)
@@ -45,7 +47,8 @@ def check(function: CheckFT) -> CheckFT:
         try:
             return await function(self, ctx, *args, **kwargs)
         except Exception as e:
-            if ctx.bot.test or isinstance(e, AssertionError): raise
+            if ctx.bot.test or isinstance(e, AssertionError):
+                raise
             await ctx.reply(
                 {"ja": f"エラーが発生しました。\nサーバーを登録をしていますか？\nErrorCode: `{e}`",
                  "en": f"An error has occurred.\nAre you registering a server? \nErrorCode: `{e}`."}
@@ -105,7 +108,7 @@ class Rocations(commands.Cog):
     async def rocations(self, ctx: UnionContext):
         """!lang ja
         --------
-        RTのウェブサイトにある[Rocations](https://rt-bot.com/rocations)というサーバー掲示板にサーバーを載せたりするためのコマンドです。
+        RTのウェブサイトにある[Rocations](https://free-rt.com/rocations)というサーバー掲示板にサーバーを載せたりするためのコマンドです。
 
         Aliases
         -------
@@ -113,7 +116,7 @@ class Rocations(commands.Cog):
 
         !lang en
         --------
-        This command is used to put the server on the server bulletin board called [Rocations](https://rt-bot.com/rocations) on the RT website.
+        This command is used to put the server on the server bulletin board called [Rocations](https://free-rt.com/rocations) on the Free RT website.
 
         Aliases
         -------
@@ -134,7 +137,8 @@ class Rocations(commands.Cog):
 
     async def _get_invite(self, ctx: UnionContext):
         # 招待リンクを取得します。
-        try: return (await ctx.guild.vanity_invite()).url
+        try:
+            return (await ctx.guild.vanity_invite()).url
         except discord.Forbidden:
             return (await ctx.channel.create_invite(
                 reason="Rocationに登録する招待リンクの作成のため。"
@@ -202,8 +206,8 @@ class Rocations(commands.Cog):
                     )
                     await ctx.reply(embed=discord.Embed(
                         title="Rocations", description={
-                            "ja": f"公開しました。\nhttps://rt-bot.com/rocations?search={ctx.guild.id}",
-                            "en": f"Published!\nhttps://rt-bot.com/rocations?search={ctx.guild.id}"
+                            "ja": f"公開しました。\nhttps://free-rt.com/rocations?search={ctx.guild.id}",
+                            "en": f"Published!\nhttps://free-rt.com/rocations?search={ctx.guild.id}"
                         }, color=self.bot.Colors.normal
                     ).set_footer(text={
                         "ja": "Tips: サーバーの表示順位は3時間55分06秒に一度`rf!raise`で上げられるよ。",
@@ -409,5 +413,5 @@ class Rocations(commands.Cog):
         await self.raise_(ctx)
 
 
-def setup(bot):
-    bot.add_cog(Rocations(bot))
+async def setup(bot):
+    await bot.add_cog(Rocations(bot))

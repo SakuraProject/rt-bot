@@ -28,12 +28,9 @@ PLAYLIST_SELECT = {
 
 def is_require_dj(self: MusicCog, author: discord.Member) -> tuple[bool, list[discord.Member]]:
     "DJが必要かどうかをチェックします。"
-    return len(members := [
-        member for member in author.voice.channel.members if not member.bot
-    ]) > 1 \
-        and author.get_role(
-            self.dj[author.guild.id].dj if "dj" in self.dj[author.guild.id] else 0
-        ) is None, members
+    return (
+        len(members := [member for member in author.voice.channel.members if not member.bot]) > 1
+        and author.get_role(self.dj[author.guild.id].dj if "dj" in self.dj[author.guild.id] else 0) is None), members
 
 
 class Confirmation(discord.ui.View):
@@ -85,11 +82,10 @@ async def do_confirmation(
     "DJがいない時のための募集ボタンを作ります。"
     if "content" not in kwargs:
         kwargs["content"] = {
-        "ja": "他の人が音楽を聞いている場合はDJ役職がなければこれを実行することができません。\n"
-            "または、以下のボタンをボイスチャンネルにいる人全員が押せば実行することができます。",
-        "en": "If other people are also listening to the music, you will not be able to execute without a DJ role.\n"
-            "Or, it can be done by having everyone in the voice channel press the following button."
-    }
+            "ja": "他の人が音楽を聞いている場合はDJ役職がなければこれを実行することができません。\n"
+                  "または、以下のボタンをボイスチャンネルにいる人全員が押せば実行することができます。",
+            "en": "If other people are also listening to the music, you will not be able to execute without a DJ role.\n"
+                  "Or, it can be done by having everyone in the voice channel press the following button."}
     view = Confirmation(coro, members, ctx)
     view.message = await reply(
         view=view, **kwargs
@@ -229,9 +225,9 @@ class Queues(MusicEmbedList):
                     self.cog.bot, interaction, self, "rt!DREAMER", True
                 ), content={
                     "ja": "他の人が音楽を聞いている場合はDJ役職がなければキューの削除を実行することができません。\n"
-                        "または、以下のボタンをボイスチャンネルにいる人全員が押せば実行することができます。",
+                          "または、以下のボタンをボイスチャンネルにいる人全員が押せば実行することができます。",
                     "en": "If other people are also listening to the music, you will not be able to delete queues without a DJ role.\n"
-                        "Or, it can be done by having everyone in the voice channel press the following button."
+                          "Or, it can be done by having everyone in the voice channel press the following button."
                 }, embed=discord.Embed(
                     title={"ja": "削除対象のキュー", "en": "Target queues"},
                     description="\n".join(

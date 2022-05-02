@@ -3,6 +3,7 @@
 from discord.ext import commands
 import discord
 
+
 class percent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -14,6 +15,5 @@ class percent(commands.Cog):
         await ctx.send(embed=embed)
 
 
-
-def setup(bot):
-    return bot.add_cog(percent(bot))
+async def setup(bot):
+    await bot.add_cog(percent(bot))

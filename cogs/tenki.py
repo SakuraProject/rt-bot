@@ -11,7 +11,7 @@ from ujson import loads
 from pytz import utc
 
 
-with open("data/area_code.json", "r",encoding="utf-8") as f:
+with open("data/area_code.json", "r", encoding="utf-8") as f:
     AREA_CODE = loads(f.read())
 
 
@@ -49,6 +49,7 @@ class DataManager(DatabaseManager):
     async def reads(self, cursor) -> list:
         return [row async for row in cursor.get_datas(self.DB, {})]
 
+
 i = -1
 PREFECTURES = [(data["@title"], i)
                for data in AREA_CODE["pref"]
@@ -61,12 +62,13 @@ class Tenki(commands.Cog, DataManager):
         self.tenki_notification.start()
 
         self.view = easy.View("TenkiPrefectureSelect")
-        add_item = lambda options, true_count: self.view.add_item(
-            "Select", self.on_select_prefecture,
-            options=options,
-            placeholder=f"都道府県 {true_count}",
-            custom_id="tenkiShowPrefecture%s" % true_count
-        )
+
+        def add_item(options, true_count):
+            return self.view.add_item(
+                "Select", self.on_select_prefecture,
+                options=options,
+                placeholder=f"都道府県 {true_count}",
+                custom_id="tenkiShowPrefecture%s" % true_count)
         count, options, true_count = 0, [], 0
         for name, value in PREFECTURES:
             count += 1
@@ -152,7 +154,7 @@ class Tenki(commands.Cog, DataManager):
                 i = -1
                 view = easy.View("TenkiShowCity")
                 view.add_item(
-                    "Select", self.on_select_prefecture, options = [
+                    "Select", self.on_select_prefecture, options=[
                         discord.SelectOption(
                             label=data["@title"], value=f"{select.values[0]} {i}"
                         )
@@ -239,5 +241,5 @@ class Tenki(commands.Cog, DataManager):
         self.tenki_notification.cancel()
 
 
-def setup(bot):
-    bot.add_cog(Tenki(bot))
+async def setup(bot):
+    await bot.add_cog(Tenki(bot))

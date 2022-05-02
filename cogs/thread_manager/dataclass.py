@@ -1,6 +1,6 @@
 # Free-RT.thread_manager - Data Class
 
-from typing import TYPE_CHECKING, Union, Dict, Optional
+from typing import TYPE_CHECKING, Union, Dict
 
 import discord
 

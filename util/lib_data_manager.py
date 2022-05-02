@@ -52,6 +52,8 @@ class DataDict(defaultdict):
 
 
 TableSelfT = TypeVar("TableSelfT", bound="Table")
+
+
 class Table:
 
     __allocation__: Optional[str] = None
@@ -131,7 +133,7 @@ class DataManager(commands.Cog):
     def __init__(self, bot: RT):
         self.bot = bot
         self.data: defaultdict[str, DataDict[Key, ChangedDict]] = defaultdict(
-            lambda : DataDict(ChangedDict)
+            lambda: DataDict(ChangedDict)
         )
         self.allocations: dict[str, str] = {}
         self._loaded: list[str] = []
@@ -246,5 +248,5 @@ class DataManager(commands.Cog):
             print(1)
 
 
-def setup(bot):
-    bot.add_cog(DataManager(bot))
+async def setup(bot):
+    await bot.add_cog(DataManager(bot))

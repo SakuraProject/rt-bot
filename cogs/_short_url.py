@@ -61,6 +61,7 @@ class DataManager(DatabaseManager):
         assert await cursor.exists(self.DB, target), "見つかりませんでした。"
         return (await cursor.get_data(self.DB, target))[1]
 
+
 CHARS = list(range(41, 91)) + list(range(61, 123))
 
 
@@ -225,7 +226,7 @@ class ShortURL(commands.Cog, DataManager):
         -------
         rm, delete, del"""
         try:
-            url = urlparse(url)
+            url = urlparse(custom)
         except ValueError:
             return await ctx.reply("正しいURLを入力してください。")
         try:
@@ -255,5 +256,5 @@ class ShortURL(commands.Cog, DataManager):
         return redirect(url)
 
 
-def setup(bot):
-    bot.add_cog(ShortURL(bot))
+async def setup(bot):
+    await bot.add_cog(ShortURL(bot))

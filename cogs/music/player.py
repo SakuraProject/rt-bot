@@ -231,8 +231,10 @@ class Player:
         await self.wait_until_stopped()
         # もし理由があるなら送信しておく。
         if self.channel is not None and reason is not None:
-            try: await self.channel.send(reason)
-            except Exception: ...
+            try:
+                await self.channel.send(reason)
+            except Exception:
+                ...
 
         self.cog.bot.loop.call_soon(self.cog.remove_player, self.guild.id)
 

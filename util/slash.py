@@ -3,7 +3,6 @@
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Optional, Union, Literal, get_origin
 
-from asyncio import sleep
 from inspect import signature
 from datetime import datetime
 from functools import wraps
@@ -23,7 +22,12 @@ discord.CommandOption.description = property(
     lambda self: self._description
     if self._description else "No description provided"
 )
-ds = lambda self, value: setattr(self, "_description", value)
+
+
+def ds(self, value):
+    return setattr(self, "_description", value)
+
+
 discord.CommandOption.description = discord.CommandOption.description.setter(ds)
 discord.ApplicationSubcommand.description = property(
     lambda self: "No description provided"
@@ -74,6 +78,7 @@ def make_command_instance(decorator, function: commands.Command):
     # だが、それだとコマンドフレームワーク内で実行した際に`discord.SlashOption`に設定した`default`が渡されない。
     # それを修正するようにする。
     original_function = function.callback
+
     @wraps(original_function)
     async def new_function(*args, **kwargs):
         for key in list(kwargs.keys()):
@@ -98,12 +103,14 @@ def make_command_monkey(decorator):
     @wraps(decorator)
     def normal_command(*args, _deco_rator_=decorator, **kwargs):
         decorator = _deco_rator_(*args, **kwargs)
+
         @wraps(decorator)
         def new_decorator(function):
             function = decorator(function)
             if check(function):
                 # カテゴリーを親コマンドとして設定したいので、ここでそのカテゴリーの親コマンドとする偽の関数を用意する。
                 category_name = get_category_name(function)
+
                 @discord.slash_command(
                     category_name := camel2snake(category_name),
                     "No description provided"
@@ -120,14 +127,17 @@ def make_command_monkey(decorator):
             return function
         return new_decorator
     return normal_command
+
+
 commands.command = make_command_monkey(commands.command)
 commands.group = make_command_monkey(commands.group)
 
 
 # 通常のグループコマンドのサブコマンドのデコレータを拡張する
-def make_group_command_monkey(decorator_, group = False):
+def make_group_command_monkey(decorator_, group=False):
     def group_command(*args, **kwargs):
         decorator = decorator_(*args, **kwargs)
+
         @wraps(decorator)
         def new_decorator(function):
             function: commands.Command = decorator(function)
@@ -160,12 +170,16 @@ def make_group_command_monkey(decorator_, group = False):
             return function
         return new_decorator
     return group_command
+
+
 commands.GroupMixin.command = make_group_command_monkey(commands.GroupMixin.command)
 commands.GroupMixin.group = make_group_command_monkey(commands.GroupMixin.group, True)
 
 
 # 上で行ったモンキーパッチを適用させるためにCogを拡張する。
 original = commands.Cog.__new__
+
+
 def new_new(cls, *args, **kwargs):
     for name, function in list(cls.__dict__.items()):
         if not (
@@ -184,9 +198,11 @@ def new_new(cls, *args, **kwargs):
             setattr(cls, name, fake)
             # 設定したカテゴリーの親コマンドに設定されている他のコマンドも設定する。
             for other_name, other in list(cls.__dict__.items()):
-                if (name != other_name and hasattr(other, "slash")
-                        and category == other.slash.parent_command
-                            .callback.__name__):
+                if (
+                    name != other_name and hasattr(other, "slash")
+                    and category == other.slash.parent_command
+                    .callback.__name__
+                ):
                     other.slash.parent_command = function.slash.parent_command
                     function.slash.parent_command.children[other.slash.name] = \
                         other.slash
@@ -199,6 +215,8 @@ def new_new(cls, *args, **kwargs):
             if not function.slash._self_argument:
                 function.slash.set_self_argument(self)
     return self
+
+
 commands.Cog.__new__ = new_new
 
 
@@ -209,6 +227,8 @@ commands.Cog.__new__ = new_new
 original_read_methods = discord.ClientCog._read_methods
 discord.Client._read_methods = lambda _: None
 original_add_cog = BotBase.add_cog
+
+
 def new_add_cog(self: BotBase, cog: commands.Cog, *args, **kwargs):
     # 追加されたコグの中身を取り出していく。
     for name, value in list(cog.__class__.__dict__.items()):
@@ -232,11 +252,15 @@ def new_add_cog(self: BotBase, cog: commands.Cog, *args, **kwargs):
     # 色々処理をした後に本来ならコグのインスタンス化時に実行される`discord.ClientCog._read_methods`を実行する。
     original_read_methods(cog)
     return original_add_cog(self, cog, *args, **kwargs)
+
+
 BotBase.add_cog = wraps(original_add_cog)(new_add_cog)
 
 
 # スラッシュに対応していないがコマンドフレームワークでは対応しているようなアノテーションをスラッシュに対応させるようにする。
 original_get_type = discord.CommandOption.get_type
+
+
 def new_get_type(self, typing: object):
     if typing in (
         discord.TextChannel, discord.VoiceChannel,
@@ -254,6 +278,8 @@ def new_get_type(self, typing: object):
     else:
         # 上記以外なら元々の関数を実行する。
         return original_get_type(self, typing)
+
+
 discord.CommandOption.get_type = new_get_type
 
 
@@ -267,6 +293,8 @@ discord.Client.on_full_ready = discord.Client.rollout_application_commands
 
 # `discord.SlashOption`で引数の説明等の詳細を設定していない状態でのデフォルト値が適用されないのを治すようにする。
 original_from_callback = discord.ApplicationSubcommand._from_callback
+
+
 def new_from_callback(
     self: discord.ApplicationSubcommand, callback: Callable
 ) -> discord.ApplicationSubcommand:
@@ -279,6 +307,8 @@ def new_from_callback(
             )
             self.options[parameter.name] = discord.CommandOption(parameter, self)
     return self
+
+
 discord.ApplicationSubcommand._from_callback = new_from_callback
 
 
@@ -406,7 +436,7 @@ class SlashManager(commands.Cog):
 
     @commands.command(
         description="コマンドを実行します。 | Run command",
-        extras={"parent":"RT"}
+        extras={"parent": "RT"}
     )
     async def run(self, ctx: Context, *, content):
         """!lang ja
@@ -451,39 +481,6 @@ class SlashManager(commands.Cog):
     @commands.Cog.listener()
     async def on_full_ready(self):
         ...
-
-    # ここから完全なテスト用コマンド
-    @discord.slash_command()
-    @commands.cooldown(1, 30)
-    async def normal_test(self, interaction):
-        await interaction.response.send_message("test")
-
-    @commands.command(
-        extras={
-            "headding": {"ja": "テスト見出し", "en": "..."},
-            "parent":"SlashTest"}
-    )
-    async def test(self, ctx, test: Union[str, int]):
-        await ctx.trigger_typing()
-        await sleep(3)
-        await ctx.reply("This is the test")
-
-    @commands.group(
-        extras={
-            "headding": {"ja": "テストグループ", "en": "..."},
-            "parent":"SlashTest"
-        }
-    )
-    async def test_group(self, ctx):
-        ...
-
-    @test_group.command()
-    async def wow(self, ctx, member: discord.Member = discord.SlashOption("member", "This is the test")):
-        await ctx.reply(f"This is the test. {member.name}")
-
-    @test_group.command()
-    async def ping(self, ctx):
-        await ctx.reply("pong")
 
 
 def setup(bot):

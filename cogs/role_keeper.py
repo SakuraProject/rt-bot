@@ -1,6 +1,6 @@
 # Free RT - Role Keeper
 
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List
 
 from discord.ext import commands, tasks
 import discord
@@ -207,5 +207,5 @@ class RoleKeeper(commands.Cog, DataManager):
         self.delete_ghost.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RoleKeeper(bot))
+async def setup(bot):
+    await bot.add_cog(RoleKeeper(bot))

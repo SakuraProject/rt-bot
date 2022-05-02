@@ -24,8 +24,7 @@ class OnFullReactionAddRemove(commands.Cog):
             )
             payload.message = await channel.fetch_message(payload.message_id)
             payload.member = (
-                payload.message.guild.get_member(
-                payload.user_id)
+                payload.message.guild.get_member(payload.user_id)
                 if payload.guild_id else None
             )
         except Exception:
@@ -35,6 +34,6 @@ class OnFullReactionAddRemove(commands.Cog):
             self.bot.dispatch("full_reaction_" + event, payload)
 
 
-def setup(bot):
+async def setup(bot):
     timeout = getattr(bot, "_util_ofr_timeout", 0.025)
-    bot.add_cog(OnFullReactionAddRemove(bot, timeout=timeout))
+    await bot.add_cog(OnFullReactionAddRemove(bot, timeout=timeout))

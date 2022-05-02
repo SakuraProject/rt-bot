@@ -19,4 +19,4 @@ jobs:
         pip install flake8
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
-      run: flake8 . --count  --max-line-length=999 --statistics
+      run: flake8 . --count --ignore=W291,W503,W504 --max-line-length=999 --statistics

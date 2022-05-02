@@ -53,7 +53,7 @@ class SixChannel(commands.Cog):
                 n = "".join(
                     (f"{key.replace('@', '＠')}, 作者："
                      + getattr(self.bot.get_user(data["author"]), "name", "???")
-                         .replace("@", "＠"))
+                     .replace("@", "＠"))
                     for key, data in list(self.data["thread"].items())
                 )
                 await ctx.reply(n)
@@ -157,5 +157,5 @@ class SixChannel(commands.Cog):
                 break
 
 
-def setup(bot):
-    bot.add_cog(SixChannel(bot))
+async def setup(bot):
+    await bot.add_cog(SixChannel(bot))

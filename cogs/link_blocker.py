@@ -258,10 +258,10 @@ class LinkBlocker(commands.Cog, DataManager):
                 "en": "You can't send the URL on the channel."
             }
             try:
-                await message.author.send(content)
-            except:
-                await message.channel.send(content)
+                await message.author.send(content, delete_after=3)
+            except Exception:
+                await message.channel.send(content, delete_after=3)
 
 
-def setup(bot):
-    bot.add_cog(LinkBlocker(bot))
+async def setup(bot):
+    await bot.add_cog(LinkBlocker(bot))

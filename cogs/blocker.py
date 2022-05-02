@@ -95,6 +95,7 @@ class DataManager(DatabaseManager):
         self.cache[guild_id][mode].remove(role)
         await self._update(cursor, guild_id, mode, [])
 
+
 Role = Union[discord.Role, discord.Object, Literal[0]]
 
 
@@ -321,5 +322,5 @@ class Blocker(commands.Cog, DataManager):
                     break
 
 
-def setup(bot):
-    bot.add_cog(Blocker(bot))
+async def setup(bot):
+    await bot.add_cog(Blocker(bot))

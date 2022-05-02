@@ -70,7 +70,7 @@ class Reprypt(commands.Cog):
 
         !lang en
         --------
-        
+
         Encrypts the specified text.
 
         Parameters
@@ -229,5 +229,5 @@ class Reprypt(commands.Cog):
         return sanic.response.json(data, headers=headers)
 
 
-def setup(bot):
-    bot.add_cog(Reprypt(bot))
+async def setup(bot):
+    await bot.add_cog(Reprypt(bot))

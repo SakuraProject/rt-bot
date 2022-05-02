@@ -15,6 +15,8 @@ from .cache import Cache
 def reply(description: str, color: str = "normal", **kwargs) -> dict:
     "埋め込み返信用のkwargsを作ります。"
     return {"title": "AutoMod", "description": description, "color": color, **kwargs}
+
+
 OK = "Ok"
 
 
@@ -39,6 +41,7 @@ class AutoMod(commands.Cog, DataManager):
         return self.bot.print("[AutoMod]", *args, **kwargs)
 
     Sendable = Union[commands.Context, discord.TextChannel]
+
     async def setting(
         self, function: Callable[..., Coroutine], channel: Sendable, *args, **kwargs
     ) -> discord.Message:
@@ -125,7 +128,7 @@ class AutoMod(commands.Cog, DataManager):
             await self.prepare_cache_guild(ctx.guild)
         else:
             if ctx.message.content.endswith(("automod", "amd", "自動モデレーション")):
-                await self.reply(ctx, OK, add_or_remove = await self.toggle_automod(ctx.guild.id))
+                await self.reply(ctx, OK, add_or_remove=await self.toggle_automod(ctx.guild.id))
             else:
                 await self.reply(ctx, "使用方法が違います。")
 
@@ -528,7 +531,7 @@ class AutoMod(commands.Cog, DataManager):
         if mode == "list":
             await self.reply(ctx, "\n".join(
                 f"・{word}" for word in self.caches[ctx.guild.id][0]
-                    .get("invite_deleter", ())
+                .get("invite_deleter", ())
             ))
         else:
             assert obj is not None, "使用方法が違います。"
@@ -634,5 +637,5 @@ class AutoMod(commands.Cog, DataManager):
             await trial_invite(self.caches[invite.guild.id][0], invite)
 
 
-def setup(bot):
-    bot.add_cog(AutoMod(bot))
+async def setup(bot):
+    await bot.add_cog(AutoMod(bot))

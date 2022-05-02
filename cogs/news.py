@@ -153,5 +153,5 @@ class News(commands.Cog, DataManager):
             await ctx.reply("Ok")
 
 
-def setup(bot):
-    bot.add_cog(News(bot))
+async def setup(bot):
+    await bot.add_cog(News(bot))

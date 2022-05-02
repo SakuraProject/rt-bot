@@ -53,7 +53,7 @@ async def log(
                 f"<t:{int(time())}>", embed=discord.Embed(
                     title="AutoMod",
                     description=f"{cache.member.mention}を{reason}のため{subject}しました。"
-                        + (f"\nですが権限がないので{subject}することができませんでした。" if error else ""),
+                                (f"\nですが権限がないので{subject}することができませんでした。" if error else ""),
                     color=cache.cog.COLORS["error" if error else "warn"]
                 )
             )
@@ -81,7 +81,7 @@ async def trial_message(
             )
         if (ban := get(self, data, "ban")) <= self.warn <= ban + 1:
             self.cog.print("[punishment.ban]", self)
-            await self.member.ban(reason=f"[AutoMod] スパムのため")
+            await self.member.ban(reason="[AutoMod] スパムのため")
             return await log(self, "スパム", "BAN")
         elif ban - 1 <= self.warn <= ban:
             await message.reply(
@@ -145,7 +145,7 @@ async def trial_new_member(self: "Cache", data: "GuildData") -> None:
     if self.before_join is not None and "bolt" in data:
         if time() - self.before_join <= data["bolt"]:
             self.cog.print("[bolt.ban]", self.member.name)
-            await self.member.ban(reason=f"[AutoMod] 即抜けのため")
+            await self.member.ban(reason="[AutoMod] 即抜けのため")
             await log(self, "即抜け", "BAN")
     self.before_join = time()
 
@@ -170,7 +170,7 @@ async def trial_invite(data: "GuildData", invite: discord.Invite) -> None:
             for id_ in data["invites"]
         ):
             # もし例外対象じゃないのなら招待リンクを削除する。
-            await invite.delete(reason=f"[AutoMod] 招待リンク作成不可なため")
+            await invite.delete(reason="[AutoMod] 招待リンク作成不可なため")
             await member.send(
                 f"{member.guild.name}の{invite.channel.name}では招待リンクを作ることができません。"
             )

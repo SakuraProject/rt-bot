@@ -87,11 +87,11 @@ class RTA(commands.Cog):
         """!lang ja
         -------
         即抜けRTA通知用のコマンドです。
-        
+
         Aliases
         -------
         RTA, あーるてぃーえー, 即抜け, rta_notification, rta_notice
-        
+
         !lang en
         --------
         This is the leaving RTA notification command.
@@ -121,7 +121,7 @@ class RTA(commands.Cog):
         !lang en
         --------
         Set channel which recording the leaving RTA.
-        
+
         Parameters
         ----------
         channel : channel name, mention, or id
@@ -151,7 +151,7 @@ class RTA(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
         if f"{member.guild.id}-{member.id}" in self.sended:
-            return # もし既にRTAメッセージを送信しているならやめる。
+            return  # もし既にRTAメッセージを送信しているならやめる。
 
         joined_after = datetime.now(timezone.utc) - member.joined_at
         if joined_after.days == 0 and joined_after.seconds < 60:
@@ -175,5 +175,5 @@ class RTA(commands.Cog):
         self.sended_remover.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RTA(bot))
+async def setup(bot):
+    await bot.add_cog(RTA(bot))

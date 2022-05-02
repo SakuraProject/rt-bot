@@ -18,5 +18,5 @@ class First(commands.Cog):
             await ctx.reply("現在起動中のため実行できません。\nすみませんが、もうしばらくお待ちください。")
 
 
-def setup(bot):
-    bot.add_cog(First(bot))
+async def setup(bot):
+    await bot.add_cog(First(bot))

@@ -21,14 +21,10 @@ class Bulk(commands.Cog):
         embed.add_field(
             name={"ja": f"{t}に失敗したメンバー一覧",
                   "en": f"List of members who failed {t}"},
-            value=("\n".join(
-                f"{member.mention}\n　{e}"
-                for member, e in failed_members)
-                if failed_members else {
-                    "ja": f"{t}に失敗したメンバーはいません。",
-                    "en": f"No member has failed {t}."
-                })
-        )
+            value=("\n".join(f"{member.mention}\n　{e}" for member, e in failed_members)
+                   if failed_members else {
+                       "ja": f"{t}に失敗したメンバーはいません。",
+                       "en": f"No member has failed {t}."}))
         return embed
 
     @commands.group(
@@ -47,7 +43,7 @@ class Bulk(commands.Cog):
         """!lang ja
         --------
         一括でメンバー全員へ役職の付与やメッセージの送信ができます。
-        
+
         !lang en
         --------
         It can send a message and add a role for some members.
@@ -68,7 +64,7 @@ class Bulk(commands.Cog):
         """!lang ja
         --------
         指定されたメッセージを実行したサーバーにいる指定したメンバーに送信します。
-        
+
         Parameters
         ----------
         target : everyoneまたは役職の名前かメンション
@@ -88,18 +84,18 @@ class Bulk(commands.Cog):
         * スターフォックス64
         * パノラマコットン
         ```
-        
+
         !lang en
         --------
         Sends the specified message to specific members who is on this server.
-        
+
         Parameters
         ----------
         target : everyone or the role's name(mention)
             The target to send the message.
             `everyone` sends to all the members in the server.
             A role's name(mention) sends to only members who has the role.
-        
+
         Examples
         --------
         ```
@@ -221,7 +217,7 @@ class Bulk(commands.Cog):
         !lang en
         --------
         Adds or Removes the specified role to specific members who is on this server.
-        
+
         Parameters
         ----------
         mode : add or remove
@@ -265,5 +261,5 @@ class Bulk(commands.Cog):
         await ctx.reply(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Bulk(bot))
+async def setup(bot):
+    await bot.add_cog(Bulk(bot))

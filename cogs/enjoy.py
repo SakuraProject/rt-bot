@@ -190,7 +190,7 @@ class Enjoy(commands.Cog):
         base_image.paste(
             Image.open(path).resize(self.GAME_PACKAGE_SIZES[mode][0]),
             Image.open(f"{self.GAME_BASE_PATH}{mode}_mask.png")
-                .convert(self.GAME_PACKAGE_SIZES[mode][1])
+            .convert(self.GAME_PACKAGE_SIZES[mode][1])
         )
         base_image.save(output_path)
 
@@ -261,5 +261,5 @@ class Enjoy(commands.Cog):
             await remove(path)
 
 
-def setup(bot):
-    bot.add_cog(Enjoy(bot))
+async def setup(bot):
+    await bot.add_cog(Enjoy(bot))

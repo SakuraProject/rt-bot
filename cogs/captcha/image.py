@@ -193,13 +193,12 @@ class ImageCaptcha(ImageGenerator):
                 color=self.cog.bot.Colors.normal
             ), view=SelectView(
                 self, (
-                    self.cog.queue[interaction.guild_id] \
-                        [interaction.user.id][2].characters
+                    self.cog.queue[interaction.guild_id][interaction.user.id][2].characters
                     if (
                         self.cog.queued(interaction.guild_id, interaction.user.id)
                         and hasattr(
-                            self.cog.queue[interaction.guild_id] \
-                                [interaction.user.id][2], "characters"
+                            self.cog.queue[interaction.guild_id][interaction.user.id][2],
+                            "characters"
                         )
                     )
                     else await self.update_image(

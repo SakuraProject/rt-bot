@@ -76,8 +76,10 @@ class RTLife(commands.Cog):
     # @tasks.loop(seconds=10)
     @tasks.loop(minutes=10)
     async def update_status(self):
-        try: data = await self.bot.rtws.request("get_backend_status", None)
-        except: data = ((0, 0), (4, 30))
+        try:
+            data = await self.bot.rtws.request("get_backend_status", None)
+        except Exception:
+            data = ((0, 0), (4, 30))
         # バックエンドとのレイテンシを調べる。
         if self.bot.backend:
             count = time()
@@ -103,5 +105,5 @@ class RTLife(commands.Cog):
         self.update_status.cancel()
 
 
-def setup(bot):
-    bot.add_cog(RTLife(bot))
+async def setup(bot):
+    await bot.add_cog(RTLife(bot))

@@ -90,7 +90,6 @@ class Person(commands.Cog):
             f"メッセージ数：{'5000件以上' if count == 5000 else f'{count}件'}"
         )
 
-
     @commands.command(
         extras={
             "headding": {
@@ -100,7 +99,7 @@ class Person(commands.Cog):
         }, aliases=["ar", "自動反応", "おーとりあくしょん"]
     )
     @commands.cooldown(1, 10, commands.BucketType.guild)
-    async def autoreaction(self, ctx, message_content, *, emojis, message = None):
+    async def autoreaction(self, ctx, message_content, *, emojis, message=None):
         """!lang ja
         --------
         自動で指定されたメッセージに指定された絵文字のリアクションを付与します。
@@ -154,7 +153,7 @@ class Person(commands.Cog):
                     await ctx.trigger_typing()
 
                 errors = ""
-                for characters in findall("<a?:.+:\d+>|.", emojis):
+                for characters in findall(r"<a?:.+:\d+>|.", emojis):
                     for emoji in characters.split():
                         if emoji:
                             try:
@@ -167,7 +166,7 @@ class Person(commands.Cog):
             else:
                 await ctx.reply(
                     {"ja": "そのメッセージが見つかりませんでした。",
-                    "en": "That message is not found."}
+                     "en": "That message is not found."}
                 )
 
     @commands.command(
@@ -179,7 +178,7 @@ class Person(commands.Cog):
         aliases=["ui", "search_user", "ゆーざーいんふぉ！", "<-これかわいい！"]
     )
     @commands.cooldown(1, 4, commands.BucketType.user)
-    async def userinfo(self, ctx, *, user_name_id = None):
+    async def userinfo(self, ctx, *, user_name_id=None):
         """!lang ja
         --------
         指定されたユーザーの名前またはユーザーIDからユーザー情報を取得します。
@@ -245,7 +244,7 @@ class Person(commands.Cog):
         # ユーザー情報のEmbedを作る。
         embeds = []
         bot = (f" **`{'✅' if user.public_flags.verified_bot else ''}BOT`**"
-                if user.bot else "")
+               if user.bot else "")
         embed = discord.Embed(
             title=f"{user}{bot}",
             description="".join(
@@ -261,17 +260,16 @@ class Person(commands.Cog):
                 "ja": "Discord登録日時",
                 "en": "Discord registration date and time"
             },
-            value=(user.created_at + timedelta(hours=9)
-            ).strftime('%Y-%m-%d %H:%M:%S')
+            value=(user.created_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
         )
         embed.add_field(
             name={
                 "ja": "アバターURL",
                 "en": "Avatar URL"
-            },
-            value=embed.thumbnail.url.replace("?size=1024", "") \
-                if embed.thumbnail.url else "ありません。",
-            inline=False
+            }, value=(
+                embed.thumbnail.url.replace("?size=1024", "")
+                if embed.thumbnail.url else "ありません。"
+            ), inline=False
         )
         embeds.append(embed)
 
@@ -281,13 +279,11 @@ class Person(commands.Cog):
                 title={
                     "ja": "このサーバーでの情報",
                     "en": "Information in this server"
-                },
-                description=(
-                    "@everyone, "+ ", ".join(
-                    role.mention for role in member.roles
-                    if role.name != "@everyone")
-                ),
-                color=member.color
+                }, description=(
+                    "@everyone, " + ", ".join(
+                        role.mention for role in member.roles
+                        if role.name != "@everyone")
+                ), color=member.color
             )
             embed.add_field(
                 name={"ja": "表示名",
@@ -297,8 +293,7 @@ class Person(commands.Cog):
             embed.add_field(
                 name={"ja": "参加日時",
                       "en": "Member joined at"},
-                value=(member.joined_at + timedelta(hours=9)
-                ).strftime('%Y-%m-%d %H:%M:%S')
+                value=(member.joined_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
             )
             if member.voice:
                 embed.add_field(
@@ -521,5 +516,5 @@ class Person(commands.Cog):
             await self.yahoo_(await self.bot.get_context(message), word=message.content)
 
 
-def setup(bot):
-    bot.add_cog(Person(bot))
+async def setup(bot):
+    await bot.add_cog(Person(bot))

@@ -66,7 +66,7 @@ class NoIconNotice(commands.Cog, DataManager):
     })
     @commands.has_guild_permissions(administrator=True)
     @commands.cooldown(1, 10, commands.BucketType.guild)
-    async def noinotice(self, ctx, *, text = ""):
+    async def noinotice(self, ctx, *, text=""):
         """!lang ja
         -------
         アイコンを設定していない人がサーバーに参加した際に、指定したメッセージをその人のDMに送信します。
@@ -109,5 +109,5 @@ class NoIconNotice(commands.Cog, DataManager):
                 await member.send(f"**Notice from {member.guild.name}：**\n{text}")
 
 
-def setup(bot):
-    bot.add_cog(NoIconNotice(bot))
+async def setup(bot):
+    await bot.add_cog(NoIconNotice(bot))

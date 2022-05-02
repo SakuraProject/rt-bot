@@ -1,7 +1,7 @@
 # What's new
-util統合による更新ログみたいなものです。
+更新ログみたいなものです。
 
-## 機能移動
+## util統合での機能移動
 utilへの統合により以下の関数の名前が変更になりました。
 
 ### rtutil
@@ -34,6 +34,13 @@ utilへの統合により以下の関数の名前が変更になりました。
 * rtlib.mysql_manager -> util.mysql_manager
 * rtlib.Table (rtlib.data_manager.Table) -> util.Table (util.lib_data_manager.Table)
 
-## 機能追加
+## util統合での機能追加
 utilへの統合でいくつかの機能が追加されました。
 * util.has_all_roles
+
+# d.py移行
+d.pyの移行によりいくつかの機能は仕様変更しました。
+* _dpy_monky.setupの作成、olds.lib_setupは動かないように
+* bot.add_cogがデフォルトでオーバーライドするように
+* スラッシュ関連のモンキーパッチはさようなら
+* music関連機能はさようなら(なんでここに書いたかは知らん)

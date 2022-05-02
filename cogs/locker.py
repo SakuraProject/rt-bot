@@ -174,5 +174,5 @@ class Locker(commands.Cog, DataManager):
                 await self.delete(channel.id)
 
 
-def setup(bot):
-    bot.add_cog(Locker(bot))
+async def setup(bot):
+    await bot.add_cog(Locker(bot))

@@ -6,7 +6,7 @@ from discord.ext import commands
 import discord
 
 from util.mysql_manager import DatabaseManager
-from util import RT, settings
+from util import RT
 from asyncio import sleep
 
 
@@ -149,7 +149,7 @@ class Welcome(commands.Cog, DataManager):
                 except KeyError:
                     await ctx.reply(
                         {"ja": "まだ設定されていません。",
-                        "en": "Welcome has not set yet."}
+                         "en": "Welcome has not set yet."}
                     )
                 else:
                     await ctx.reply("Ok")
@@ -165,7 +165,8 @@ class Welcome(commands.Cog, DataManager):
     async def on_member_join_remove(self, mode: str, member: discord.Member):
         if self.bot.is_ready():
             if (row := await self.read(member.guild.id, mode)):
-                row[2] = (row[2]
+                row[2] = (
+                    row[2]
                     .replace("$ment$", member.mention)
                     .replace("$name$", member.name)
                     .replace("$count$", str(len(member.guild.members))))
@@ -183,5 +184,5 @@ class Welcome(commands.Cog, DataManager):
         await self.on_member_join_remove("remove", member)
 
 
-def setup(bot):
-    bot.add_cog(Welcome(bot))
+async def setup(bot):
+    await bot.add_cog(Welcome(bot))

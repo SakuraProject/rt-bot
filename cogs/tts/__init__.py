@@ -16,7 +16,7 @@ from util.slash import UnionContext
 from util import RT, Table
 from util import TimeoutView
 
-from .agents import OPENJTALK, AGENTS
+from .agents import AGENTS
 from .voice import OUTPUT_DIRECTORY
 from .manager import Manager
 
@@ -38,6 +38,8 @@ class TTSGuildData(Table):
 
 
 DecoFuncT = TypeVar("DecoFuncT")
+
+
 def check(func: DecoFuncT) -> DecoFuncT:
     "読み上げの設定を変更可能かどうかチェックするデコレータ"
     @wraps(func)
@@ -166,8 +168,10 @@ class TTSCog(commands.Cog, name="TTS"):
         if ctx.guild.id in self.now:
             self.clean(self.now[ctx.guild.id])
         else:
-            try: await ctx.guild.voice_client.disconnect()
-            except Exception: ...
+            try:
+                await ctx.guild.voice_client.disconnect()
+            except Exception:
+                ...
         await ctx.reply("Bye!")
 
     @tts.command(aliases=("v", "声", "agent"))
@@ -427,8 +431,8 @@ class TTSCog(commands.Cog, name="TTS"):
             "ja": "これ以上設定できません。", "en": "No more settings can be made."
         }
         self.user[ctx.author.id].routines.append(RoutineData(
-            keys=aliases.split(","), path=ctx.message.attachments[0].url
-                if voice == "up" else voice
+            keys=aliases.split(","),
+            path=ctx.message.attachments[0].url if voice == "up" else voice
         ))
         await ctx.reply("Ok")
 
@@ -539,5 +543,5 @@ class TTSCog(commands.Cog, name="TTS"):
             self.bot.dispatch("voice_leave", member, before, after)
 
 
-def setup(bot):
-    bot.add_cog(TTSCog(bot))
+async def setup(bot):
+    await bot.add_cog(TTSCog(bot))

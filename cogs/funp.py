@@ -54,8 +54,8 @@ class DataManager(DatabaseManager):
         else:
             raise KeyError("そのFunpが見つかりませんでした。")
 
-    async def get_list(self, cursor, user_id:int, mode:str) -> list:
-        if not await cursor.exists(self.DB, {"UserID":user_id, "Mode":mode}):
+    async def get_list(self, cursor, user_id: int, mode: str) -> list:
+        if not await cursor.exists(self.DB, {"UserID": user_id, "Mode": mode}):
             raise KeyError("Funpがありません。")
         await cursor.cursor.execute(
             """SELECT * FROM Funp
@@ -65,7 +65,7 @@ class DataManager(DatabaseManager):
         return [row for row in await cursor.cursor.fetchall()
                 if row is not None]
 
-    
+
 async def callback(view, interaction):
     view = easy.View("FunpTwo")
     view.add_item(
@@ -114,7 +114,7 @@ class Funp(commands.Cog, DataManager):
         )
         await self.init_table()
 
-    MODE_OPTION = discord.SlashOption(
+    """MODE_OPTION = discord.SlashOption(
         "category", "表示するみんなの画像のカテゴリーです。",
         choices={
             "普通": "normal",
@@ -124,7 +124,7 @@ class Funp(commands.Cog, DataManager):
             "CG (2.5次元, nsfw)": "cg",
             "三次元 (nsfw)": "3d"
         }
-    )
+    )"""
 
     @commands.group(
         slash_command=True, extras={
@@ -173,7 +173,7 @@ class Funp(commands.Cog, DataManager):
         aliases=["see", "sw", "しょう", "見る"],
         description="Funpをランダムで取り出して表示します。"
     )
-    async def show(self, ctx, mode: str = MODE_OPTION):
+    async def show(self, ctx, mode: str):
         """!lang ja
         --------
         Funpを表示します。  
@@ -223,13 +223,13 @@ class Funp(commands.Cog, DataManager):
                  "en": "The category is not found."}
             )
 
-    NAME_OPTION = discord.SlashOption("name", "画像の名前です。")
+    """NAME_OPTION = discord.SlashOption("name", "画像の名前です。")"""
 
     @funp.command(
         aliases=["new", "ad", "あどど", "追加"],
         description="Funpを追加します。※スラッシュコマンドでは使えません。"
     )
-    async def add(self, ctx, mode: str = MODE_OPTION, name: str = NAME_OPTION):
+    async def add(self, ctx, mode: str, name: str):
         """!lang ja
         --------
         Funpに画像を追加します。  
@@ -252,10 +252,8 @@ class Funp(commands.Cog, DataManager):
         もしNSFWカテゴリーに載せて放置した場合はその画像を見つけた人があなたを通報します。  
         -> RTを使用できなくなるなどの何かしらのペナルティが課せられる可能性があります。"""
         mode = self.get_mode(mode)
-        if ctx.message.attachments:
-            if ctx.message.attachments[0].filename.lower().endswith(
-                    ("png", "jpg", "jpeg", "gif")
-                ):
+        if at := ctx.message.attachments:
+            if at[0].filename.lower().endswith(("png", "jpg", "jpeg", "gif")):
                 await self.write(
                     ctx.author.id, name,
                     ctx.message.attachments[0].url, mode
@@ -277,11 +275,8 @@ class Funp(commands.Cog, DataManager):
         description="Funpを削除します。"
     )
     async def remove(
-        self, ctx, mode: str = MODE_OPTION, name: str = NAME_OPTION,
-        user_id: int = discord.SlashOption(
-            "id", "対象のユーザーIDです。(管理者のみ)", required=False,
-            default=None
-        )
+        self, ctx, mode: str, name: str,
+        user_id: int = None
     ):
         """!lang ja
         --------
@@ -318,16 +313,13 @@ class Funp(commands.Cog, DataManager):
     )
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _list(
-        self, ctx, mode: str = MODE_OPTION,
-        user_id: int = discord.SlashOption(
-            "id", "対象のユーザーIDです。(管理者のみ)", required=False,
-            default=None
-        )
+        self, ctx, mode: str,
+        user_id: int = None
     ):
         """!lang ja
         --------
         自分の登録したFunpのリストをカテゴリ別に見ます。
-        
+
         Parameters
         ----------
         mode : カテゴリー
@@ -346,30 +338,20 @@ class Funp(commands.Cog, DataManager):
             li = await self.get_list(user_id)
         except KeyError:
             return await ctx.reply(
-                {"ja":"まだFunpはありません。",
-                 "en":"There is no Funp."}
+                {"ja": "まだFunpはありません。",
+                 "en": "There is no Funp."}
             )
         else:
-            embed = discord.Embed(
+            await ctx.reply(embed=discord.Embed(
                 title="Funp一覧",
                 desdcription="\n".join([f"[{m[1]}]({m[2]})" for m in li])
-            )
+            ))
 
     @funp.command(
         aliases=["nb"], description="NekoBot APIを使用してNSFWな画像を表示します。"
     )
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def nekobot(
-            self, ctx, type_: str = discord.SlashOption(
-                "type", "NSFWの種類です。", choices={
-                    "hentai": "hentai",
-                    "nakadashi": "nakadashi",
-                    "paizuri": "paizuri",
-                    "tentacle": "tentacle",
-                    "boobs": "boobs"
-                }
-            )
-        ):
+    async def nekobot(self, ctx, type_):
         """!lang ja
         --------
         NekoBot APIを利用したNSFW画像を表示するコマンドです。  
@@ -399,5 +381,5 @@ class Funp(commands.Cog, DataManager):
             )
 
 
-def setup(bot):
-    bot.add_cog(Funp(bot))
+async def setup(bot):
+    await bot.add_cog(Funp(bot))

@@ -483,5 +483,5 @@ class AFK(commands.Cog, DataManager):
         self.process_afk_plus.cancel()
 
 
-def setup(bot):
-    bot.add_cog(AFK(bot))
+async def setup(bot):
+    await bot.add_cog(AFK(bot))

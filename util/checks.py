@@ -1,8 +1,5 @@
 # Free RT Utils - Checks
 
-from typing import Union
-
-from discord.ext import commands
 import discord
 
 
@@ -10,7 +7,7 @@ def isintable(x: str) -> bool:
     "渡された文字列が整数に変換可能かを調べます。"
     try:
         int(x)
-    except:
+    except ValueError:
         return False
     else:
         return True

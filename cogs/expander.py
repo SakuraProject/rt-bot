@@ -65,7 +65,7 @@ class DataManager(DatabaseManager):
 
 class Expander(commands.Cog, DataManager):
 
-    PATTERN =  (
+    PATTERN = (
         "https://(ptb.|canary.)?discord(app)?.com/channels/"
         "(?P<guild>[0-9]{18})/(?P<channel>[0-9]{18})/(?P<message>[0-9]{18})"
     )
@@ -199,5 +199,5 @@ class Expander(commands.Cog, DataManager):
             ...
 
 
-def setup(bot):
-    bot.add_cog(Expander(bot))
+async def setup(bot):
+    await bot.add_cog(Expander(bot))

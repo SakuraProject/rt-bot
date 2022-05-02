@@ -239,5 +239,5 @@ class VoiceRole(commands.Cog, DataManager):
         await self.on_member("leave", member, before)
 
 
-def setup(bot):
-    bot.add_cog(VoiceRole(bot))
+async def setup(bot):
+    await bot.add_cog(VoiceRole(bot))

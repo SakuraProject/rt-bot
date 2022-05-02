@@ -20,7 +20,7 @@ class DatabaseManager:
             coro: Callable[..., Coroutine] = getattr(cls, key)
             if iscoroutinefunction(coro):  # コルーチン関数(async def)であれば
                 if ("cursor" in coro.__annotations__ and 
-                    not signature(coro).parameters.get("cursor", _Dummy).default == _Dummy.default):
+                        not signature(coro).parameters.get("cursor", _Dummy).default == _Dummy.default):
                     # cursor引数があれば、自動でデコレータを付ける
                     setattr(cls, coro.__name__, cls.wrap(coro))
 

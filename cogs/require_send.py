@@ -320,7 +320,7 @@ class RequireSend(commands.Cog, DataManager):
             except AssertionError:
                 await ctx.reply(
                     {"ja": "これ以上追加できません。",
-                    "en": "No more can be added."}
+                     "en": "No more can be added."}
                 )
             else:
                 await ctx.reply("Ok")
@@ -412,5 +412,5 @@ class RequireSend(commands.Cog, DataManager):
             await self.process_check(message)
 
 
-def setup(bot):
-    bot.add_cog(RequireSend(bot))
+async def setup(bot):
+    await bot.add_cog(RequireSend(bot))

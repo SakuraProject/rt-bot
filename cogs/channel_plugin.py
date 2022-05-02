@@ -51,6 +51,8 @@ HELPS = {
         )
     }
 }
+
+
 class RemoveButton(discord.ui.View):
     def __init__(self, user_id: int):
         self.user_id = user_id
@@ -114,18 +116,17 @@ class ChannelPluginGeneral(commands.Cog):
                     for url in findall(self.URL_PATTERN, content):
                         content = content.replace(url, f"||{url}||", 1)
                     # もしスポイラーワードが設定されているならそれもスポイラーにする。
-                    view = None
                     for word in cmd.split()[1:]:
                         content = content.replace(word, f"||{word}||")
                     # Embedに画像が設定されているなら外してスポイラーを付けた画像URLをフィールドに入れて追加する。
                     e = False
                     for index in range(len(message.embeds)):
-                        if message.embeds[index].image.url is not message.embeds[index].Empty:
+                        if message.embeds[index].image.url is not None:
                             message.embeds[index].add_field(
                                 name="この埋め込みに設定されている画像",
                                 value=f"||{message.embeds[index].image.url}||"
                             )
-                            message.embeds[index].set_image(url=message.embeds[index].Empty)
+                            message.embeds[index].set_image(url=None)
                             e = True
 
                     # 送信し直す。
@@ -177,5 +178,5 @@ class ChannelPluginGeneral(commands.Cog):
                                 break
 
 
-def setup(bot):
-    bot.add_cog(ChannelPluginGeneral(bot))
+async def setup(bot):
+    await bot.add_cog(ChannelPluginGeneral(bot))

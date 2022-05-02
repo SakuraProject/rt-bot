@@ -37,7 +37,7 @@ class Embed(commands.Cog):
     @embed.command(aliases=["u", "リンク", "link"])
     async def url(self, ctx: commands.Context, color: Union[discord.Color, str], *, content):
         try:
-            e = embed(
+            e = create_embed(
                 f"# {content}", color=ctx.author.color if color == "null" else color
             )
         except TypeError:
@@ -75,7 +75,7 @@ class Embed(commands.Cog):
             kwargs = {
                 "username": ctx.author.display_name,
                 "avatar_url": getattr(ctx.author.avatar, "url", ""),
-                "embed": embed(
+                "embed": create_embed(
                     "# " + content,
                     color=ctx.author.color if color == "null" else color
                 )
@@ -110,5 +110,5 @@ class Embed(commands.Cog):
             await send(**kwargs)
 
 
-def setup(bot):
-    bot.add_cog(Embed(bot))
+async def setup(bot):
+    await bot.add_cog(Embed(bot))

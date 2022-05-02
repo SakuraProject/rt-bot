@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Optional
 
-from datetime import timedelta
 from time import time
 
 from discord.ext import commands, tasks
@@ -257,13 +256,15 @@ class DelayRole(commands.Cog, DataManager):
                         if not member.bot and member.get_role(role_id) is None \
                                 and now - member.joined_at.timestamp() > delay:
                             # もしメンバーが参加後しばらく経過していてロール付与対象の場合はロールを付与する。
-                            try: await member.add_roles(role)
-                            except Exception: ...
+                            try: 
+                                await member.add_roles(role)
+                            except Exception:
+                                ...
                     guild = None
 
     def cog_unload(self):
         self.check_queue_deadline.cancel()
 
 
-def setup(bot):
-    bot.add_cog(DelayRole(bot))
+async def setup(bot):
+    await bot.add_cog(DelayRole(bot))

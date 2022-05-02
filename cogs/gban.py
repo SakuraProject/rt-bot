@@ -259,5 +259,5 @@ class GlobalBan(commands.Cog, DataManager):
         await ctx.reply("削除しました。")
 
 
-def setup(bot):
-    bot.add_cog(GlobalBan(bot))
+async def setup(bot):
+    await bot.add_cog(GlobalBan(bot))

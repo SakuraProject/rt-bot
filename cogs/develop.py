@@ -6,14 +6,14 @@ from util import RT
 
 
 class Develop(commands.Cog):
-    
+
     def __init__(self, bot: RT):
         self.bot = bot
-    
+
     @commands.group(
         extras={
-            "headding":{"ja":"管理者用のコマンドです。", "en":"Only for developers command."},
-            "parent":"Admin"
+            "headding": {"ja": "管理者用のコマンドです。", "en": "Only for developers command."},
+            "parent": "Admin"
         }
     )
     @commands.is_owner()
@@ -21,15 +21,15 @@ class Develop(commands.Cog):
         """!lang ja
         --------
         管理者専用のコマンドです。sub_commands: reload_help, command_log
-        
+
         !lang en
         --------
         Command for developers only. sub_commands: reload_help, command_log"""
         if ctx.invoked_subcommand is None:
             return await ctx.send("使用方法が違います。")
-    
+
     @develop.command()
-    async def reload_help(self, ctx, command_name = None):
+    async def reload_help(self, ctx, command_name=None):
         if command_name is None:
             for c in self.bot.commands:
                 await self.bot.cogs["DocHelp"].on_command_add(c)
@@ -41,8 +41,8 @@ class Develop(commands.Cog):
 
     @develop.command(
         extras={
-            "headding":{"ja":"直近1分間のコマンド実行ログを見ます。", "en":"View commands logs."},
-            "parent":"Admin"
+            "headding": {"ja": "直近1分間のコマンド実行ログを見ます。", "en": "View commands logs."},
+            "parent": "Admin"
         }
     )
     @commands.is_owner()
@@ -50,25 +50,25 @@ class Develop(commands.Cog):
         """!lang ja
         --------
         直近1分間のコマンド実行ログを見ることができます。また、実行ログのループ操作もできます。
-        
+
         Parameters
         ----------
         mode: startやstop、restartなど
             logging_loop.○○の○○に入れられる文字列を入れて下さい。
-        
+
         Warnings
         --------
         もちろん実行は管理者専用です。
-        
+
         !lang en
         --------
         View command logs. Also it can control loop of logs.
-        
+
         Parameters
         ----------
         mode: start/stop, or restart
             Put the string which can be put in logging_loop.●●.
-        
+
         Warnings
         --------
         Of cource it can only be used by admin.
@@ -92,5 +92,5 @@ class Develop(commands.Cog):
         await ctx.reply("Ok")
 
 
-def setup(bot):
-    bot.add_cog(Develop(bot))
+async def setup(bot):
+    await bot.add_cog(Develop(bot))

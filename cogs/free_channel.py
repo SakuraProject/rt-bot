@@ -5,7 +5,7 @@ from typing import Literal
 from discord.ext import commands
 import discord
 
-from util import RT, settings
+from util import RT
 
 from asyncio import sleep
 
@@ -113,8 +113,8 @@ class FreeChannel(commands.Cog):
         if (ctx.channel.topic and "RTフリーチャンネル" in ctx.channel.topic
                 and "作成者" not in ctx.channel.topic):
             await ctx.send(
-                {"ja": f"既にフリーチャンネル作成用チャンネルとなっています。",
-                 "en": f"It is already a channel for creating free channels."},
+                {"ja": "既にフリーチャンネル作成用チャンネルとなっています。",
+                 "en": "It is already a channel for creating free channels."},
                 delete_after=5, target=ctx.author.id
             )
             return
@@ -174,7 +174,7 @@ The name of the created voice channel will include the ID of the person who crea
         """!lang ja
         --------
         実行したチャンネルがフリーチャンネル作成用チャンネルの場合、その設定を解除します。
-        
+
         !lang en
         --------
         Remove settings of freechannel registration channel if the channel was it.
@@ -206,7 +206,7 @@ The name of the created voice channel will include the ID of the person who crea
                     await channel.delete()
                     await ctx.reply(
                         {"ja": "チャンネルを削除しました。",
-                        "en": "..."}
+                         "en": "..."}
                     )
                     break
             else:
@@ -277,7 +277,7 @@ The name of the created voice channel will include the ID of the person who crea
                     await message.channel.send(
                         {"ja": f"{message.author.mention}, あなたはチャンネルをこれ以上作れません。",
                          "en": f"{message.author.mention}, You can't make channels any more."},
-                         delete_after=5, target=message.author.id
+                        delete_after=5, target=message.author.id
                     )
                     return 
 
@@ -300,5 +300,5 @@ The name of the created voice channel will include the ID of the person who crea
                 )
 
 
-def setup(bot):
-    bot.add_cog(FreeChannel(bot))
+async def setup(bot):
+    await bot.add_cog(FreeChannel(bot))

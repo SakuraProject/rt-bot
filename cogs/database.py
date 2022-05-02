@@ -15,12 +15,12 @@ class DatabaseManager(commands.Cog):
 
     @commands.command(
         description="渡された命令文でデータベースを操作します。",
-        extras={"parent":"Admin"}, aliases=["db", "mysql", "execute", "実行"]
+        extras={"parent": "Admin"}, aliases=["db", "mysql", "execute", "実行"]
     )
     @commands.is_owner()
     async def sql(
-        self, ctx, show: bool = discord.SlashOption("show", "実行結果を表示するかどうかです。"),
-        *, cmd: str = discord.SlashOption("sql", "SQLの命令文です。")
+        self, ctx, show: bool,
+        *, cmd
     ):
         """!lang ja
         --------
@@ -49,7 +49,7 @@ class DatabaseManager(commands.Cog):
                 if show:
                     result = "\n".join(
                         map(lambda x: "\t".join(map(str, x)),
-                        await cursor.fetchall())
+                            await cursor.fetchall())
                     )
             if result is None:
                 await ctx.reply("Ok")
@@ -65,5 +65,5 @@ class DatabaseManager(commands.Cog):
                     await ctx.reply(f"Ok\n```\n{result}\n```")
 
 
-def setup(bot):
-    bot.add_cog(DatabaseManager(bot))
+async def setup(bot):
+    await bot.add_cog(DatabaseManager(bot))

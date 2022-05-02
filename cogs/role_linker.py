@@ -14,7 +14,7 @@ from util import RT, Table
 
 class RoleLinkerData(Table):
     __allocation__ = "GuildID"
-    data: dict[str, tuple[int, bool]] # OriginalRoleID: (RoleID, Reverse)
+    data: dict[str, tuple[int, bool]]  # OriginalRoleID: (RoleID, Reverse)
 
 
 class DataManager:
@@ -53,7 +53,7 @@ class DataManager:
     def get_all(self, guild_id: int) -> list[tuple[int, int, int, bool]]:
         "全てのロールリンクのデータを取得します。"
         self._prepare(guild_id)
-        return [(guild_id, int(orid))+tuple(row) for orid, row in self.data[guild_id].data.items()]
+        return [(guild_id, int(orid)) + tuple(row) for orid, row in self.data[guild_id].data.items()]
 
 
 class RoleLinker(commands.Cog, DataManager):
@@ -254,5 +254,5 @@ class RoleLinker(commands.Cog, DataManager):
                         await self.role_update("add", role, after)
 
 
-def setup(bot):
-    bot.add_cog(RoleLinker(bot))
+async def setup(bot):
+    await bot.add_cog(RoleLinker(bot))

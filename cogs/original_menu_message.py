@@ -6,8 +6,6 @@ from discord.ext import commands
 import discord
 
 from util.mysql_manager import DatabaseManager
-from util import RT
-from util.ext import componesy
 from time import time
 
 
@@ -55,7 +53,7 @@ class DataManager(DatabaseManager):
 
     async def read(
         self, cursor, guild_id: int, channel_id: int,
-        message_id: int) -> tuple:
+            message_id: int) -> tuple:
         target = {
             "GuildID": guild_id, "ChannelID": channel_id,
             "MessageID": message_id
@@ -263,5 +261,5 @@ class OriginalMenuMessage(commands.Cog, DataManager):
         )
 
 
-def setup(bot):
-    bot.add_cog(OriginalMenuMessage(bot))
+async def setup(bot):
+    await bot.add_cog(OriginalMenuMessage(bot))

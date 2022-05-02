@@ -1,24 +1,24 @@
-# util
+git+https://github.com/Rapptz/discord.py
+jishaku
+aiomysql
 aiofiles
 ujson
-nextcord[voice,speed]
-aiomysql
-pytz
 websockets
-## OAuth
-reprypt
-# RT main
-onami
 pillow
-emoji
-youtube_dl
-niconico.py
+gTTS
+opencv-contrib-python
 bs4
+youtube_dl
 pyopenjtalk
 psutil
-captcha
+pyqrcode
+pypng
+pytz
+emoji
 deep-translator
-topggpy
-tweepy
+captcha
 speedtest-cli
-gTTS
+tweepy
+topggpy
+reprypt
+niconico.py
