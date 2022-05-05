@@ -131,7 +131,7 @@ class Debug(commands.Cog):
     @debug.command()
     @require_admin
     async def monitor(self, ctx):
-        await ctx.trigger_typing()
+        await ctx.typing()
         await ctx.reply(
             embed=await self.make_monitor_embed()
         )

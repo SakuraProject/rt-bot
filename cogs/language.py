@@ -281,7 +281,7 @@ class Language(commands.Cog):
             code = "invalid language code is inserted. 無効な言語コードです。"
             return await ctx.reply(code)
 
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         # データベースに変更内容を書き込む。
         ugid = ctx.author.id if mode == "user" else ctx.guild.id

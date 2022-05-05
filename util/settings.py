@@ -63,7 +63,7 @@ class Context:
         self.replied = Event()
         self.replied_content: Optional[str] = None
 
-    async def trigger_typing(self):
+    async def typing(self):
         ...
 
     async def send(

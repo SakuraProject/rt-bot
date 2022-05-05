@@ -249,7 +249,7 @@ class AFK(commands.Cog, DataManager):
         Aliases
         -------
         s"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await (await self.get(ctx.author)).set_afk(reason)
         await ctx.reply("Ok")
 

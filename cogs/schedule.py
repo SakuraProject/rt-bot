@@ -130,7 +130,7 @@ class schedule(commands.Cog, DataManager):
         Aliases
         -------
         s"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.set_schedule(ctx.author.id, start, end, day, notice, title)
         await ctx.reply("Ok")
 

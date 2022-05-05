@@ -202,7 +202,7 @@ class ServerTool(commands.Cog):
         Aliases
         -------
         timem, tm, たいむましん, タイムマシン, バックトゥザフューチャー"""
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         if 0 < day:
             try:
@@ -392,7 +392,7 @@ class ServerTool(commands.Cog):
         Aliases
         -------
         sm"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await ctx.channel.edit(slowmode_delay=t)
         await ctx.reply("Ok")
 
@@ -424,7 +424,7 @@ class ServerTool(commands.Cog):
         This command is for those iOS users who cannot set NSFW on iOS. 
         It sets the channel to nsfw if it is not set to nsfw when executed, and unset nsfw if it is set to nsfw."""
         if hasattr(ctx.channel, "topic"):
-            await ctx.trigger_typing()
+            await ctx.typing()
             await ctx.channel.edit(nsfw=not ctx.channel.nsfw)
             await ctx.reply("Ok")
         else:
@@ -539,7 +539,7 @@ class ServerTool(commands.Cog):
         To do this, first put a 🗑️ reaction at the bottom of the messages you want to delete.  
         Then put the same 🗑️ reaction at the top of the message you want to delete.  
         This is the only way to do it. [Example Video](https://youtu.be/cGnnUbVceR8)"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await ctx.message.delete()
         await ctx.channel.purge(
             limit=200 if count > 200 else count,

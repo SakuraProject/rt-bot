@@ -177,7 +177,7 @@ class RoleKeeper(commands.Cog, DataManager):
         -------
         rk"""
         if not ctx.invoked_subcommand:
-            await ctx.trigger_typing()
+            await ctx.typing()
             onoff = await self.toggle(ctx.guild.id)
             await ctx.reply(
                 {"ja": f"ロールキーパーを{'ON' if onoff else 'OFF'}にしました。",

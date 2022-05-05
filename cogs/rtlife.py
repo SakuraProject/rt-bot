@@ -8,7 +8,7 @@ from time import time
 
 from discord.ext import commands, tasks
 
-from onami.functools import executor_function
+from jishaku.functools import executor_function
 from psutil import virtual_memory, cpu_percent
 from aiofiles import open as aioopen
 from ujson import load, dumps

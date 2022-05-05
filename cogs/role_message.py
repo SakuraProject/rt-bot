@@ -283,7 +283,7 @@ class RoleMessage(commands.Cog, DataManager):
         Aliases
         -------
         a"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.write(ctx.guild.id, role.id, ctx.channel.id, mode, content)
         await ctx.reply("Ok")
 
@@ -320,7 +320,7 @@ class RoleMessage(commands.Cog, DataManager):
         Aliases
         -------
         rm"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.delete(ctx.guild.id, role.id, mode)
         await ctx.reply("Ok")
 

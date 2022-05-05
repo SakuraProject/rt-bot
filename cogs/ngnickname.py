@@ -130,7 +130,7 @@ class NGNickName(commands.Cog):
         --------
         `rf!ngnick add tasuren`.  
         This is banned because tasuren is the real owner of the server."""
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:

@@ -313,7 +313,7 @@ class RequireSend(commands.Cog, DataManager):
         Aliases
         -------
         a"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         if timeout <= MAX_TIMEOUT:
             try:
                 await self.write(ctx.guild.id, (channel or ctx.channel).id, 60 * timeout)
@@ -359,7 +359,7 @@ class RequireSend(commands.Cog, DataManager):
         Aliases
         -------
         rm"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         try:
             await self.delete(ctx.guild.id, (channel or ctx.channel).id)
         except AssertionError:

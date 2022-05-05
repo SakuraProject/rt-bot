@@ -94,7 +94,7 @@ class NoIconNotice(commands.Cog, DataManager):
         Aliases
         -------
         nin"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         assert len(text) < 1500, {
             "ja": "文章は1500文字以内である必要があります。",
             "en": "Text must be no more than 1500 characters."

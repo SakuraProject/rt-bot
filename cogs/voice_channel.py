@@ -221,7 +221,7 @@ class VCChannel(commands.Cog, DataManager):
         -----
         If you want to remove the configuration, set the `template` argument to `off`.  
         There is a fifteen-second cooldown for channel creation."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         if isinstance(template, bool) and not template:
             try:
                 await self.delete(channel.id, mode)

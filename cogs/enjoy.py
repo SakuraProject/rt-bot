@@ -63,7 +63,7 @@ class Enjoy(commands.Cog):
         Aliases
         -------
         mc"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         async with self.bot.session.get(
             f"https://api.mojang.com/users/profiles/minecraft/{user}"
         ) as r:
@@ -108,7 +108,7 @@ class Enjoy(commands.Cog):
         !lang en
         --------
         Ah, This command language is supported only japanese."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         data = await self.get_nhk()
         embeds = []
         for item in data["item"]:
@@ -160,7 +160,7 @@ class Enjoy(commands.Cog):
         !lang en
         --------
         Ah, This command language is supported only japanese."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         embeds = []
         async for data in self.jin():
             embed = discord.Embed(
@@ -248,7 +248,7 @@ class Enjoy(commands.Cog):
                 {"ja": f"そのファイルタイプは対応していません。\nサポートしている拡張子:{', '.join(self.GAME_SUPPORT_EXTS)}",
                  "en": f"Sorry, I don't know that file type.\nSupported file type:{', '.join(self.GAME_SUPPORT_EXTS)}"}
             )
-        await ctx.trigger_typing()
+        await ctx.typing()
         input_path = f"{self.GAME_BASE_PATH}input_{ctx.author.id}.{at.filename[at.filename.rfind('.'):]}"
         await at.save(input_path)
         await self.make_game_package(

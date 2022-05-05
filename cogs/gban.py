@@ -139,7 +139,7 @@ class GlobalBan(commands.Cog, DataManager):
         !lang en
         --------
         Gban Enable/Disable Switch Command."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.onoff_guild(ctx.guild.id, not await self.get_onoff(ctx.guild.id))
         await ctx.reply("Ok")
 
@@ -171,7 +171,7 @@ class GlobalBan(commands.Cog, DataManager):
         Aliases
         -------
         c"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         data = await self.get(user.id)
         await ctx.reply(embed=discord.Embed(
             title={
@@ -191,7 +191,7 @@ class GlobalBan(commands.Cog, DataManager):
         !lang en
         --------
         Show you gban list."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         embeds = []
 
         for i, row in enumerate(await self.getall()):
@@ -218,7 +218,7 @@ class GlobalBan(commands.Cog, DataManager):
     @gban.command("add")
     @commands.is_owner()
     async def add_user_(self, ctx, user_id: int, *, reason):
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.add_user(user_id, reason)
 
         for guild in self.bot.guilds:
@@ -241,7 +241,7 @@ class GlobalBan(commands.Cog, DataManager):
     @gban.command("remove")
     @commands.is_owner()
     async def remove_user_(self, ctx, user_id: int):
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.remove_user(user_id)
 
         for guild in self.bot.guilds:

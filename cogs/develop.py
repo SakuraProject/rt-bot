@@ -87,7 +87,7 @@ class Develop(commands.Cog):
                 "parent": "Admin"})
     async def reload_language(self, ctx):
         """言語データを再読込します。"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.bot.cogs["Language"].update_language()
         await ctx.reply("Ok")
 

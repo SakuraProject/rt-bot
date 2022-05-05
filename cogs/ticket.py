@@ -243,7 +243,7 @@ class Ticket(commands.Cog, DataManager):
     @commands.has_permissions(manage_channels=True)
     async def tfm(self, ctx: commands.Context, *, content: Union[bool, str]):
         # チケットメッセージ設定用コマンドです。
-        await ctx.trigger_typing()
+        await ctx.typing()
         if isinstance(content, bool) and not content:
             try:
                 await self.delete_message(ctx.guild.id)

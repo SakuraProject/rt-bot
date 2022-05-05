@@ -355,7 +355,7 @@ class TwitterNotification(commands.Cog, DataManager, AsyncStream):
         Aliases
         -------
         s"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         try:
             if username in self.user_cache:
                 del self.user_cache[username]

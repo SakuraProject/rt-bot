@@ -161,7 +161,7 @@ class VoiceRole(commands.Cog, DataManager):
         Aliases
         -------
         vr"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         try:
             mode = await self.write(ctx.guild.id, channel.id, role.id)
         except OverflowError:
@@ -171,7 +171,7 @@ class VoiceRole(commands.Cog, DataManager):
 
     @commands.command()
     async def vrall(self, ctx, *, role: discord.Role):
-        await ctx.trigger_typing()
+        await ctx.typing()
         for channel in ctx.guild.voice_channels:
             try:
                 await self.write(ctx.guild.id, channel.id, role.id)
