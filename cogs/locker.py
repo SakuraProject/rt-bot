@@ -113,7 +113,7 @@ class Locker(commands.Cog, DataManager):
             The number of minutes after which RT will automatically unlock.
             The default is 0, which means no automatic unlocking.
             For example, a value of 5 will keep it locked for five minutes."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         time_ = time() + auto_unload * 60 if auto_unload else 0
         if time_ and not await self.exists(ctx.channel.id):
             await self.save(ctx.channel.id, time_)
@@ -146,7 +146,7 @@ class Locker(commands.Cog, DataManager):
         See Also
         --------
         lock : Lock channel."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         if await self.exists(ctx.channel.id):
             await self.delete(ctx.channel.id)
         await ctx.reply(

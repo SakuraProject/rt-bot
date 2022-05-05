@@ -123,7 +123,7 @@ def websocket(
 
     @commands.command()
     async def start(self, ctx: commands.Context):
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.ws_test.connect()
         data = await self.ping.wait()
         await ctx.reply(f"From backend : {data}")

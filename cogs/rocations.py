@@ -43,7 +43,7 @@ def check(function: CheckFT) -> CheckFT:
     @wraps(function)
     @commands.has_guild_permissions(administrator=True)
     async def new(self: Rocations, ctx: UnionContext, *args, **kwargs):
-        await ctx.trigger_typing()
+        await ctx.typing()
         try:
             return await function(self, ctx, *args, **kwargs)
         except Exception as e:
@@ -189,7 +189,7 @@ class Rocations(commands.Cog):
         Aliases
         -------
         add, reg"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         self._assert_description(description)
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
@@ -233,7 +233,7 @@ class Rocations(commands.Cog):
         Aliases
         -------
         del, rm, remove"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 if await self._exists(cursor, ctx.guild.id):
@@ -378,7 +378,7 @@ class Rocations(commands.Cog):
         Increases the display rank on the server board.  
         You can run this command once every 3 hours 55 minutes 06 seconds.  
         You can also run this command with `/raise` or `rf!raise`."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 await cursor.execute(
@@ -409,7 +409,7 @@ class Rocations(commands.Cog):
     @discord.slash_command("raise", description="Rocationsでのサーバー表示順位を上げます。")
     async def raise_slash(self, interaction: discord.Interaction):
         ctx = Context(self.bot, interaction, self.raise_alias, "rf!raise")
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.raise_(ctx)
 
 

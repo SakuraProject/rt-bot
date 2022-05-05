@@ -198,7 +198,7 @@ class DelayRole(commands.Cog, DataManager):
         Aliases
         -------
         s"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.write(ctx.guild.id, role.id, delay)
         await ctx.reply("Ok")
 
@@ -230,7 +230,7 @@ class DelayRole(commands.Cog, DataManager):
         Aliases
         -------
         del, d"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.write(ctx.guild.id, role.id, None)
         await ctx.reply("Ok")
 

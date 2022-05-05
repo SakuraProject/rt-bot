@@ -114,7 +114,7 @@ class UrlChecker(commands.Cog, DataManager):
             )
         if not force:
             self.runnings.append(ctx.author.id)
-            await ctx.trigger_typing()
+            await ctx.typing()
         try:
             data = await securl.check(self.bot.session, url)
         except ValueError:
@@ -180,7 +180,7 @@ class UrlChecker(commands.Cog, DataManager):
         !lang en
         --------
         ..."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await ctx.reply(
             f"{'on' if await self.onoff(ctx.guild.id) else 'off'}にしました。"
         )
@@ -222,7 +222,7 @@ class UrlChecker(commands.Cog, DataManager):
             ]
             if len(urls) < 4:
                 ctx = await self.bot.get_context(reaction.message)
-                await ctx.trigger_typing()
+                await ctx.typing()
                 for url in urls:
                     self.bot.loop.create_task(
                         self.securl(ctx, url=url, force=True, author=user)

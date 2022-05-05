@@ -124,7 +124,7 @@ class Translator(commands.Cog):
         See Also
         --------
         translate(channel plugin) : Only for translate channel."""
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         if lang == "auto":
             # もし自動で翻訳先を判別するなら英文字が多いなら日本語にしてそれ以外は英語にする。

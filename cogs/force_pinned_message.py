@@ -226,7 +226,7 @@ class ForcePinnedMessage(commands.Cog, DataManager):
         If it doesn't come down after a while, please try sending a message.  
         Please note that this is to prevent RTs from sending too many messages, which would limit the API."""
         if hasattr(ctx.channel, "topic"):
-            await ctx.trigger_typing()
+            await ctx.typing()
 
             if content.startswith("# "):
                 # もし埋め込みならjsonにする。

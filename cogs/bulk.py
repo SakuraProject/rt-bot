@@ -107,7 +107,7 @@ class Bulk(commands.Cog):
         * Super smash bros Special
         ```
         """
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         failed_members = []
         sent_count = 0
@@ -182,7 +182,7 @@ class Bulk(commands.Cog):
             If "add" is selected, all privileges will be granted, and if "remove" is selected, all privileges will be revoked.
         role : Name or Mention of the role
             The target role."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await role.edit(
             permissions=getattr(
                 discord.Permissions, "all" if mode == "add" else "none"
@@ -229,7 +229,7 @@ class Bulk(commands.Cog):
         role : Role's name or mention
             A role witch adds or removes.
         """
-        await ctx.trigger_typing()
+        await ctx.typing()
 
         failed_members = []
 

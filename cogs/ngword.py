@@ -123,7 +123,7 @@ class NgWord(commands.Cog, DataManager):
         Notes
         -----
         If you have created a log channel for the log output function of the channel plugin, the log will be output there."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         for word in words.splitlines():
             self.add(ctx.guild.id, word)
         await ctx.reply("Ok")
@@ -157,7 +157,7 @@ class NgWord(commands.Cog, DataManager):
         Examples
         --------
         `rf!ngword remove Badngword"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         for word in words.splitlines():
             self.remove(ctx.guild.id, word)
         await ctx.reply("Ok")

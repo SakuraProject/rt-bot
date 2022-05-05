@@ -150,7 +150,7 @@ class Person(commands.Cog):
             )
             if message:
                 if not message:
-                    await ctx.trigger_typing()
+                    await ctx.typing()
 
                 errors = ""
                 for characters in findall(r"<a?:.+:\d+>|.", emojis):
@@ -220,7 +220,7 @@ class Person(commands.Cog):
         Examples
         --------
         `rf!userinfo tasuren`"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         # もしuser_name_idが指定されなかった場合は実行者のIDにする。
         user, member = None, None
         if user_name_id is None:
@@ -383,7 +383,7 @@ class Person(commands.Cog):
         !lang en
         --------
         ..."""
-        await ctx.trigger_typing()
+        await ctx.typing()
         if (embed := await self.search(word)):
             await ctx.reply(embed=embed)
         else:

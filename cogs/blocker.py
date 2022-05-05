@@ -166,7 +166,7 @@ class Blocker(commands.Cog, DataManager):
         Aliases
         -------
         t"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         await self.write(ctx.guild.id, mode)
         await ctx.reply("Ok")
 

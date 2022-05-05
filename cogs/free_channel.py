@@ -197,7 +197,7 @@ The name of the created voice channel will include the ID of the person who crea
     @commands.check(freechannel)
     @commands.cooldown(1, 15, commands.BucketType.user)
     async def remove(self, ctx, name=None):
-        await ctx.trigger_typing()
+        await ctx.typing()
         if name is None:
             await ctx.channel.delete()
         else:
@@ -219,7 +219,7 @@ The name of the created voice channel will include the ID of the person who crea
     @commands.check(freechannel)
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def rename(self, ctx, name: str, *, after: str = None):
-        await ctx.trigger_typing()
+        await ctx.typing()
         if after is None:
             await ctx.channel.edit(name=name)
         else:
@@ -255,7 +255,7 @@ The name of the created voice channel will include the ID of the person who crea
             if message.author.bot or not message.content.startswith(("text", "voice")):
                 return
             else:
-                await message.channel.trigger_typing()
+                await message.channel.typing()
 
             # 作成に必要な情報を変数に入れる。max_channelは最大チャンネル数。
             max_channel = int(topic[22:topic.find("\nこ")])

@@ -194,7 +194,7 @@ class OriginalCommand(commands.Cog, DataManager):
         --------
         `rf!command set Welcome! off Welcome to RT Server!!`
         `rf!command set Yes on Yes (free ride)`"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         if len(self.data.get(ctx.guild.id, ())) == 50:
             await ctx.reply(
                 {"ja": "五十個より多くは登録できません。",
@@ -234,7 +234,7 @@ class OriginalCommand(commands.Cog, DataManager):
         Aliases
         -------
         del, rm"""
-        await ctx.trigger_typing()
+        await ctx.typing()
         try:
             await self.delete(ctx.guild.id, command)
         except KeyError:
