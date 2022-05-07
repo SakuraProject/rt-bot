@@ -403,7 +403,7 @@ class NewVoiceClient(VoiceClient):
                 pass
             elif not len(packet.decrypted) < 10:
                 self.decoder[ssrc].recv_packet(packet)
-                self.is_recording[ssrc] = True
+                self.is_recording[packet.ssrc] = True
                 self.is_talking[packet.ssrc] = True
                 self.is_talking1[packet.ssrc] = True
 
