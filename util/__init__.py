@@ -1,5 +1,7 @@
 # Free RT Utilities
 
+import discord
+
 from .bot import RT
 from .cacher import Cache, Cacher, CacherPool
 from .checks import isintable, has_any_roles, has_all_roles
@@ -11,7 +13,6 @@ from .converters import (
     RolesConverter
 )
 from .data_manager import DatabaseManager
-from .dpy_monkey import setup
 from .lib_data_manager import Table
 from .minesweeper import MineSweeper
 from . import mysql_manager as mysql
@@ -22,13 +23,17 @@ from .views import TimeoutView
 from .webhooks import get_webhook, webhook_send
 
 from .ext import view as componesy
+from .record import RTCPacket, PacketQueue, BufferDecoder, Decoder
+
+if discord.__title__ == "nextcord":
+    from .olds import lib_setup as setup
+    from .slash import Context as SlashContext
+else:
+    from ._dpy_monky import _setup as setup
 
 
 __all__ = [
     "RT",
-    "Cache",
-    "Cacher",
-    "CacherPool",
     "isintable",
     "has_any_roles",
     "has_all_roles",
@@ -41,7 +46,6 @@ __all__ = [
     "debug",
     "dochelp",
     "docperser",
-    "setup",
     "Table",
     "markdowns",
     "MineSweeper",
@@ -49,6 +53,7 @@ __all__ = [
     "olds",
     "tasks_extend",
     "sendKwargs",
+    "setup",
     "EmbedPage",
     "rtws",
     "securl",
@@ -60,5 +65,9 @@ __all__ = [
     "webhook_send",
     "websocket",
     "ext",
-    "componesy"
+    "componesy",
+    "RTCPacket",
+    "PacketQueue",
+    "BufferDecoder",
+    "Decoder"
 ]
