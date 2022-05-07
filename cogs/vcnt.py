@@ -367,10 +367,11 @@ class NewVoiceClient(VoiceClient):
                 pfm = subprocess.run(argsfm, stdout=subprocess.PIPE, text=True, encoding="utf-8")
                 #print(pfm.stdout)
                 args = [julius, "-C", main, "-C", am_dnn, "-dnnconf", julius_dnn, "-input", "rawfile", "-cutsilence"]
-                p = subprocess.run(args, stdout=subprocess.PIPE, input=input_audio_file,text=True, encoding="utf-8")
+                p = await asyncio.create_subprocess_exec(*args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,stdin=asyncio.subprocess.PIPE)
+                stdout, stderr = await p.communicate(input=input_audio_file.encode())
                 #print(p.stdout)
                 try:
-                    output = p.stdout.split("### read waveform input")[1].split("\n\n")
+                    output = stdout.decode().split("### read waveform input")[1].split("\n\n")
                 except IndexError:
                     output = list()
                 for i in output:
