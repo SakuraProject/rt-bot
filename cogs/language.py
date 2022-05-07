@@ -41,7 +41,6 @@ class Language(commands.Cog):
         self.bot.cogs["OnSend"].add_event(self._new_send, "on_edit")
 
         self.pool = self.bot.mysql.pool
-        self.bot.loop.create_task(self.on_ready())
 
         with open("data/replies.json", encoding="utf-8") as f:
             self.replies = loads(f.read())
@@ -201,7 +200,7 @@ class Language(commands.Cog):
         ) as r:
             self.bot.print("[LanguageUpdate]", await r.text())
 
-    async def on_ready(self):
+    async def cog_load(self):
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 await cursor.execute(

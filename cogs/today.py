@@ -54,9 +54,8 @@ class Today(commands.Cog, DataManager):
     def __init__(self, bot):
         self.bot = bot
         self.yet = True
-        self.bot.loop.create_task(self.init_database())
 
-    async def init_database(self):
+    async def cog_load(self):
         await self.bot.wait_until_ready()
         super(commands.Cog, self).__init__(self.bot.mysql)
         await self.init_table()

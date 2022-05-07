@@ -83,9 +83,7 @@ class Tenki(commands.Cog, DataManager):
         if count != 24:
             add_item(options, true_count + 1)
 
-        self.bot.loop.create_task(self.on_ready())
-
-    async def on_ready(self):
+    async def cog_load(self):
         await self.bot.wait_until_ready()
         super(commands.Cog, self).__init__(
             self.bot.mysql

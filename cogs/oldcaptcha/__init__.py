@@ -190,7 +190,6 @@ class OldCaptcha(commands.Cog, DataManager, TimeoutDataManager):
         )
         self.queue_killer.start()
         self.cache: Dict[str, float] = {}
-        self.bot.loop.create_task(self.init_database())
         super(DataManager, self).__init__(self)
 
     async def get_timeout(self, guild_id: int) -> int:
@@ -251,7 +250,7 @@ class OldCaptcha(commands.Cog, DataManager, TimeoutDataManager):
         else:
             await ctx.reply("Ok")
 
-    async def init_database(self):
+    async def cog_load(self):
         super(commands.Cog, self).__init__(
             self.bot.mysql
         )

@@ -49,9 +49,8 @@ class DataManager(DatabaseManager):
 class News(commands.Cog, DataManager):
     def __init__(self, bot):
         self.bot, self.rt = bot, bot.data
-        self.bot.loop.create_task(self._on_ready())
 
-    async def _on_ready(self):
+    async def cog_load(self):
         super(commands.Cog, self).__init__(self.bot.mysql)
         await self.init_table()
 

@@ -22,7 +22,6 @@ class DataManager:
     def __init__(self, cog: "VCChannel"):
         self.cog = cog
         self.pool: "Pool" = self.cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self.init_table())
 
     async def init_table(self) -> None:
         "テーブルを準備します。インスタンス化した際に自動で実行されます。"
@@ -139,6 +138,9 @@ class VCChannel(commands.Cog, DataManager):
         self.cache: Dict[str, float] = {}
         self.cache_delete.start()
         super(commands.Cog, self).__init__(self)
+
+    async def cog_load(self):
+        await self.init_table()
 
     @tasks.loop(seconds=30)
     async def cache_delete(self):

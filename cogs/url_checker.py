@@ -22,7 +22,6 @@ class DataManager(DatabaseManager):
     def __init__(self, cog: "UrlChecker"):
         self.cog = cog
         self.pool: "Pool" = cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self, cursor: "Cursor" = None):
         # テーブルを作成する。
@@ -61,6 +60,9 @@ class UrlChecker(commands.Cog, DataManager):
         self.channel_runnings = []
         self.cache: List[int] = []
         super(commands.Cog, self).__init__(self)
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @commands.command(
         aliases=["check", "URLチェック", "uc", "ss"], extras={

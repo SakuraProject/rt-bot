@@ -23,7 +23,6 @@ class DataManager(DatabaseManager):
     def __init__(self, bot: RT):
         self.pool: Pool = bot.mysql.pool
         self.bot = bot
-        self.bot.loop.create_task(self._prepare_table())
 
     async def _get(self, guild_id: int, cursor):
         await cursor.execute(
@@ -67,6 +66,9 @@ class RTA(commands.Cog):
         self.db, self.bot = DataManager(bot), bot
         self.sended_remover.start()
         self.sended: dict[str, float] = {}
+
+    async def cog_load(self):
+        await self.db._prepare_table()
 
     @commands.group(
         aliases=[

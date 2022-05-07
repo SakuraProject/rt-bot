@@ -13,9 +13,8 @@ class NGNickName(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.pool: Pool = self.bot.mysql.pool
-        self.bot.loop.create_task(self.init_database())
 
-    async def init_database(self):
+    async def cog_load(self):
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 await cursor.execute(

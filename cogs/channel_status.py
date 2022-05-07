@@ -47,9 +47,8 @@ class DataManager(DatabaseManager):
 class ChannelStatus(commands.Cog, DataManager):
     def __init__(self, bot: RT):
         self.bot = bot
-        self.bot.loop.create_task(self.on_ready())
 
-    async def on_ready(self):
+    async def cog_load(self):
         super(commands.Cog, self).__init__(
             self.bot.mysql
         )

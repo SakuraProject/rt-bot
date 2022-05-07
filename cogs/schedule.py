@@ -15,7 +15,6 @@ class DataManager:
     def __init__(self, cog: "schedule"):
         self.cog = cog
         self.pool: "Pool" = cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self):
         # テーブルの準備をする。このクラスのインスタンス化時に自動で実行される。
@@ -47,6 +46,9 @@ class schedule(commands.Cog, DataManager):
         self.ready = Event()
         self.pool: "Pool" = self.bot.mysql.pool
         self.process_notice.start()
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @commands.group(
         aliases=["予定", "sch"], extras={

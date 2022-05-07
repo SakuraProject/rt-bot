@@ -51,13 +51,12 @@ It's in the personal category with the `translate` command.""")
 class Translator(commands.Cog):
     def __init__(self, bot: RT):
         self.bot = bot
-        self.bot.loop.create_task(self.on_command_added())
 
     @executor_function
     def translate(self, text: str, target: str) -> str:
         return deep_translator.GoogleTranslator(target=target).translate(text)
 
-    async def on_command_added(self):
+    async def cog_load(self):
         # ヘルプにチャンネルプラグイン版翻訳を追加するだけ。
         await sleep(1.5)
         for lang in CHP_HELP:

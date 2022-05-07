@@ -143,6 +143,9 @@ class TwitterNotification(commands.Cog, DataManager, AsyncStream):
 
             self.connected = False
             self.cache: dict[str, str] = {}
+
+    async def cog_load(self):
+        if "twitter" in self.bot.secret:
             self.main_task = self.bot.loop.create_task(self.start_stream())
 
     def filter(self, *args, **kwargs):
