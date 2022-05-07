@@ -517,10 +517,10 @@ class vcnt(commands.Cog):
     async def on_voice_leave(self, member: discord.Member, _, __):
         if member.id == self.bot.user.id and member.guild.id in self._closing \
                 and not self._closing[member.guild.id]:
-            await self.ctxs[ctx.guild.id].send("ｷｬｯ、誰かにVCから蹴られたかバグが発生しました。")
-            voice = get(self.bot.voice_clients, guild=ctx.guild)
+            await self.ctxs[member.guild.id].send("ｷｬｯ、誰かにVCから蹴られたかバグが発生しました。")
+            voice = get(self.bot.voice_clients, guild=member.guild)
             voice.disco()
-            self._closing[ctx.guild.id] = True
+            self._closing[member.guild.id] = True
 
 def setup(bot):
     return bot.add_cog(vcnt(bot))
