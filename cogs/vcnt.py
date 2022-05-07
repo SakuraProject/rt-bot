@@ -48,7 +48,7 @@ def libopus_loader(name):
             if item[3]:
                 func.errcheck = item[3]
         except KeyError:
-            log.exception("Error assigning check function to %s", func)
+            ("Error assigning check function to %s", func)
 
     return lib
 
