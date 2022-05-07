@@ -48,7 +48,7 @@ def libopus_loader(name):
             if item[3]:
                 func.errcheck = item[3]
         except KeyError:
-            log.exception("Error assigning check function to %s", func)
+            print("Error assigning check function to %s", func)
 
     return lib
 
@@ -101,7 +101,7 @@ class NewVoiceWebSocket(DiscordVoiceWebSocket):
         elif op == self.HEARTBEAT_ACK:
             self._keep_alive.ack()
         elif op == self.RESUMED:
-            await cli.record_stop_by_ssrc(data['ssrc'])
+            pass
         elif op == self.SESSION_DESCRIPTION:
             self.cli.mode = data["mode"]
             self.cli.secret_key = data["secret_key"]
