@@ -338,7 +338,7 @@ class NewVoiceClient(VoiceClient):
         self.is_talking1 = dict()
         self.conected = True
 
-    def disco():
+    def disco(self):
         for task in self.record_task:
             task.cancel()
         self.conected = False
