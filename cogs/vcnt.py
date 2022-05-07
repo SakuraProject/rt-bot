@@ -258,21 +258,24 @@ class BufferDecoder:
         wav.setframerate(Decoder.SAMPLING_RATE)
         decoder = Decoder()
         for packet in self.queue.queues[ssrc]:
-            if packet is None:
-                # パケット破損の場合
-                continue
-            else:
-                decoded_data = decoder.decode(packet.decrypted)
-            if packet.ssrc not in self.user_timestamps:
-                self.user_timestamps.update({packet.ssrc: packet.timestamp})
-                # Add silence when they were not being recorded.
-                silence = 0
-            else:
-                silence = packet.timestamp - self.user_timestamps[packet.ssrc] - 960
-                self.user_timestamps[packet.ssrc] = packet.timestamp
-            decoded_data = struct.pack("<h", 0) * silence * decoder.CHANNELS + decoded_data
-            wav.writeframes(decoded_data)
-            del decoded_data
+            try:
+                if packet is None:
+                    # パケット破損の場合
+                    continue
+                else:
+                    decoded_data = decoder.decode(packet.decrypted)
+                if packet.ssrc not in self.user_timestamps:
+                    self.user_timestamps.update({packet.ssrc: packet.timestamp})
+                    # Add silence when they were not being recorded.
+                    silence = 0
+                else:
+                    silence = packet.timestamp - self.user_timestamps[packet.ssrc] - 960
+                    self.user_timestamps[packet.ssrc] = packet.timestamp
+                decoded_data = struct.pack("<h", 0) * silence * decoder.CHANNELS + decoded_data
+                wav.writeframes(decoded_data)
+                del decoded_data
+            except:
+                pass
         wav.close()
         #file.seek(0)
         self.queue.queues[ssrc] = list()
