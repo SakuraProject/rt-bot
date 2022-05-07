@@ -48,7 +48,7 @@ def libopus_loader(name):
             if item[3]:
                 func.errcheck = item[3]
         except KeyError:
-            ("Error assigning check function to %s", func)
+            print("Error assigning check function to %s", func)
 
     return lib
 
@@ -101,7 +101,7 @@ class NewVoiceWebSocket(DiscordVoiceWebSocket):
         elif op == self.HEARTBEAT_ACK:
             self._keep_alive.ack()
         elif op == self.RESUMED:
-            await cli.record_stop_by_ssrc(data['ssrc'])
+            pass
         elif op == self.SESSION_DESCRIPTION:
             self.cli.mode = data["mode"]
             self.cli.secret_key = data["secret_key"]
@@ -508,10 +508,10 @@ class vcnt(commands.Cog):
     async def on_voice_abandoned(self, voice_client: discord.VoiceClient):
         # 放置された場合は切断する。
         if voice_client.guild.id in self.now:
-            await self.ctxs[ctx.guild.id].send("一人ぼっちになったので切断しました。")
+            await self.ctxs[voice_client.guild.id].send("一人ぼっちになったので切断しました。")
             voice_client.disco()
             await voice_client.disconnect()
-            self._closing[ctx.guild.id] = True
+            self._closing[voice_client.guild.id] = True
 
     @commands.Cog.listener()
     async def on_voice_leave(self, member: discord.Member, _, __):
