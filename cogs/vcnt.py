@@ -48,7 +48,7 @@ def libopus_loader(name):
             if item[3]:
                 func.errcheck = item[3]
         except KeyError:
-            print("Error assigning check function to %s", func)
+            log.exception("Error assigning check function to %s", func)
 
     return lib
 
@@ -101,7 +101,7 @@ class NewVoiceWebSocket(DiscordVoiceWebSocket):
         elif op == self.HEARTBEAT_ACK:
             self._keep_alive.ack()
         elif op == self.RESUMED:
-            pass
+            await cli.record_stop_by_ssrc(data['ssrc'])
         elif op == self.SESSION_DESCRIPTION:
             self.cli.mode = data["mode"]
             self.cli.secret_key = data["secret_key"]
@@ -336,6 +336,20 @@ class NewVoiceClient(VoiceClient):
         self.is_recording = dict()
         self.is_talking = dict()
         self.is_talking1 = dict()
+        self.conected = True
+
+    def disco():
+        for task in self.record_task:
+            task.cancel()
+        self.conected = False
+        self.record_task = dict()
+        self.decoder = dict()
+        self.record_task_ssrc = dict()
+        self.loops = dict()
+        self.is_recording = dict()
+        self.is_talking = dict()
+        self.is_talking1 = dict()
+
     async def recv_voice_packet(self, ssrc):
         asyncio.ensure_future(self.check_talk(ssrc))
         self.is_talking1[ssrc] = False
@@ -402,6 +416,8 @@ class NewVoiceClient(VoiceClient):
             except KeyError:
                 self.is_talking[ssrc] = False
             await asyncio.sleep(3)
+            if not self.conected:
+                break
 
     async def connect_websocket(self) -> NewVoiceWebSocket:
         ws = await NewVoiceWebSocket.from_client(self)
@@ -467,8 +483,9 @@ class NewVoiceClient(VoiceClient):
 class vcnt(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command(name="voicecnt")
+        self._closing = dict()
+        self.ctxs = dict()
+    @commands.group(name="voicecnt")
     async def voicecnt(self, ctx):
         channel = ctx.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -478,8 +495,32 @@ class vcnt(commands.Cog):
             voice = await channel.connect(cls=NewVoiceClient)
         voice.ctx = ctx
         voice.bot = self.bot
+        self._closing[ctx.guild.id] = False
+        self.ctxs[ctx.guild.id] = ctx
+    @voicecnt.command()
+    async def disconnect(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        await voice.disconnect()
+        self._closing[ctx.guild.id] = True
+        await self.ctxs[ctx.guild.id].send("切断しました")
 
+    @commands.Cog.listener()
+    async def on_voice_abandoned(self, voice_client: discord.VoiceClient):
+        # 放置された場合は切断する。
+        if voice_client.guild.id in self.now:
+            await self.ctxs[ctx.guild.id].send("一人ぼっちになったので切断しました。")
+            voice_client.disco()
+            await voice_client.disconnect()
+            self._closing[ctx.guild.id] = True
 
+    @commands.Cog.listener()
+    async def on_voice_leave(self, member: discord.Member, _, __):
+        if member.id == self.bot.user.id and member.guild.id in self._closing \
+                and not self._closing[member.guild.id]:
+            await self.ctxs[ctx.guild.id].send("ｷｬｯ、誰かにVCから蹴られたかバグが発生しました。")
+            voice = get(self.bot.voice_clients, guild=ctx.guild)
+            voice.disco()
+            self._closing[ctx.guild.id] = True
 
 def setup(bot):
     return bot.add_cog(vcnt(bot))
