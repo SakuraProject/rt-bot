@@ -13,6 +13,7 @@ from .converters import (
     RolesConverter
 )
 from .data_manager import DatabaseManager
+from .dpy_monkey import setup
 from .lib_data_manager import Table
 from .minesweeper import MineSweeper
 from . import mysql_manager as mysql
@@ -25,11 +26,6 @@ from .webhooks import get_webhook, webhook_send
 from .ext import view as componesy
 from .record import RTCPacket, PacketQueue, BufferDecoder, Decoder
 
-if discord.__title__ == "nextcord":
-    from .olds import lib_setup as setup
-    from .slash import Context as SlashContext
-else:
-    from ._dpy_monky import _setup as setup
 
 
 __all__ = [
