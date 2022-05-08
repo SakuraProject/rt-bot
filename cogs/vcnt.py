@@ -1,5 +1,5 @@
 from discord.gateway import DiscordVoiceWebSocket
-from discord import VoiceClient
+from discord import VoiceClient, Embed, File, Message
 from discord.ext import commands
 import aiohttp
 import urllib.parse
@@ -25,7 +25,12 @@ import wave
 import array
 from util import RTCPacket, PacketQueue, BufferDecoder, Decoder
 import pyopenjtalk
-from discord.ext import Context
+from discord.ext.commands import Context
+from typing import Union, Optional, Sequence, Any
+from discord.sticker import GuildSticker, StickerItem
+from discord.mentions import AllowedMentions
+from discord.message import MessageReference, PartialMessage
+from discord.ui import View
 
 class TtsContext(Context):
     OPENJTALK = "open_jtalk"
@@ -35,6 +40,9 @@ class TtsContext(Context):
     OPENJTALK_VOICE_DIRECTORY = "cogs/tts/lib/OpenJTalk"
     "OpenJTalkで使う音声のデータがあるディレクトリです。"
     OPENJTALK_VOICE_NAME = "mei.htsvoice"
+    async def reply(self, content: Optional[str] = None, **kwargs: Any) -> Message:
+        await self.send(content, **kwargs)
+
     async def send(
         self,
         content: Optional[str] = None,
@@ -55,15 +63,18 @@ class TtsContext(Context):
         ephemeral: bool = False,
     ) -> Message:
         swav = str(self.guild.id)+'-vcnt.wav'
-        sc = content
+        sc = ""
+        if not content is None:
+            sc = content
         if not embed is None:
             sc = sc + embed.description
-        for e in embeds:
-            sc = sc + e.description
-        args = [self.OPENJTALK,"-x",OPENJTALK_DICTIONARY,"-m",OPENJTALK_VOICE_DIRECTORY+"/"+OPENJTALK_VOICE_NAME,'-r','1.0','-ow',swav]
-        p = subprocess.run(args,input=sc)
-        channel = ctx.message.author.voice.channel
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        if not embeds is None:
+            for e in embeds:
+                sc = sc + e.description
+        args = [self.OPENJTALK,"-x",self.OPENJTALK_DICTIONARY,"-m",self.OPENJTALK_VOICE_DIRECTORY+"/"+self.OPENJTALK_VOICE_NAME,'-r','1.0','-ow',swav]
+        p = subprocess.run(args,input=sc.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        channel = self.message.author.voice.channel
+        voice = get(self.bot.voice_clients, guild=self.guild)
         if voice and voice.is_connected():
             pass
         else:
