@@ -42,9 +42,8 @@ class DataManager(DatabaseManager):
 class AutoRole(commands.Cog, DataManager):
     def __init__(self, bot):
         self.bot = bot
-        self.bot.loop.create_task(self.prepare_database())
 
-    async def prepare_database(self):
+    async def cog_load(self):
         super(commands.Cog, self).__init__(self.bot.mysql)
         await self.init_table()
 

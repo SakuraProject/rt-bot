@@ -499,7 +499,7 @@ class TTSCog(commands.Cog, name="TTS"):
         self.bot.loop.create_task(manager.disconnect(reason)) \
             .add_done_callback(lambda _: self.now.pop(manager.guild.id))
 
-    def cog_unload(self):
+    async def cog_unload(self):
         self.auto_leave.cancel()
         for manager in list(self.now.values()):
             self.clean(manager, {
@@ -510,7 +510,7 @@ class TTSCog(commands.Cog, name="TTS"):
         # もしお片付けされていないファイルがあるのなら削除しておく。
         for file_name in listdir(OUTPUT_DIRECTORY):
             if file_name.endswith(".wav"):
-                self.bot.loop.create_task(remove(f"{OUTPUT_DIRECTORY}/{file_name}"))
+                await remove(f"{OUTPUT_DIRECTORY}/{file_name}")
 
     @commands.Cog.listener()
     async def on_voice_leave(self, member: discord.Member, _, __):

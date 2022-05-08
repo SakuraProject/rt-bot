@@ -22,7 +22,6 @@ class DataManager:
     def __init__(self, cog: "RoleKeeper"):
         self.cog = cog
         self.pool: "Pool" = self.cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self) -> None:
         # データベースにテーブルを作ります。
@@ -137,6 +136,9 @@ class RoleKeeper(commands.Cog, DataManager):
     def __init__(self, bot: "Backend"):
         self.bot = bot
         super(commands.Cog, self).__init__(self)
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @commands.group(
         aliases=["rk", "ロールキーパー"], extras={

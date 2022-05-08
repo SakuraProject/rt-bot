@@ -79,7 +79,6 @@ class IntervalDataManager(DatabaseManager):
     def __init__(self, cog: "ForcePinnedMessage"):
         self.cog = cog
         self.pool: Pool = self.cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self.prepare_table())
 
     async def prepare_table(self, cursor: Cursor = None) -> None:
         "テーブルを準備する。クラスのインスタンス化時に自動で実行されます。"
@@ -117,14 +116,14 @@ class ForcePinnedMessage(commands.Cog, DataManager):
         self.queue: Dict[int, Tuple[discord.Message, float]] = {}
         self.remove_queue: List[int] = []
         self.cache: Dict[int, List[int]] = defaultdict(list)
-        self.bot.loop.create_task(self.on_ready())
         self.interval = IntervalDataManager(self)
 
-    async def on_ready(self):
+    async def cog_load(self):
         await self.bot.wait_until_ready()
         super(commands.Cog, self).__init__(
             self.bot.mysql
         )
+        await self.interval.prepare_table()
         await self.init_table()
         self.worker.start()
 

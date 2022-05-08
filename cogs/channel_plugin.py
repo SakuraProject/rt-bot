@@ -82,9 +82,8 @@ class ChannelPluginGeneral(commands.Cog):
 
     def __init__(self, bot: RT):
         self.bot = bot
-        self.bot.loop.create_task(self.on_command_added())
 
-    async def on_command_added(self):
+    async def cog_load(self):
         await sleep(1.5)
         for command_name in HELPS:
             for lang in HELPS[command_name]:

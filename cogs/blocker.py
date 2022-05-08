@@ -29,9 +29,8 @@ class DataManager(DatabaseManager):
     def __init__(self, cog: "Blocker"):
         self.cog = cog
         self.pool: Pool = self.cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self.prepare_table())
 
-    async def prepare_table(self, cursor: Cursor = None) -> None:
+    async def cog_load(self, cursor: Cursor = None) -> None:
         """テーブルの準備をします。クラスのインスタンス化時に自動で実行されます。
         また、クラスにキャッシュを作成します。"""
         await cursor.execute(

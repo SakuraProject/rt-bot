@@ -19,9 +19,11 @@ class ThreadManager(commands.Cog, DataManager):
     def __init__(self, bot: "Backend"):
         self.bot = bot
         self.pool: "Pool" = self.bot.mysql.pool
-        self.bot.loop.create_task(self.on_help_reload())
         self.cache = []
         super(commands.Cog, self).__init__(self)
+
+    async def cog_load(self):
+        await self.on_help_reload()
 
     @commands.group(
         slash_command=True, description="スレッド管理用コマンドです。", extras={

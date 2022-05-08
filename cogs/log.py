@@ -66,9 +66,8 @@ class Log(commands.Cog):
         self.bot, self.data = bot, bot.data
         self.team_id = self.bot.owner_ids
         self.c = self.bot.colors["normal"]
-        self.bot.loop.create_task(self.on_command_added())
 
-    async def on_command_added(self):
+    async def cog_load(self):
         await sleep(1.5)
         for lang in CHP_HELP:
             self.bot.cogs["DocHelp"].add_help(

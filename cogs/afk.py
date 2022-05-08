@@ -24,7 +24,6 @@ class DataManager:
     def __init__(self, cog: "AFK"):
         self.cog = cog
         self.pool: "Pool" = cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self):
         # テーブルの準備をする。このクラスのインスタンス化時に自動で実行される。
@@ -173,6 +172,9 @@ class AFK(commands.Cog, DataManager):
         super(commands.Cog, self).__init__(self)
         self.ready = Event()
         self.process_afk_plus.start()
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @commands.group(
         aliases=["留守"], extras={

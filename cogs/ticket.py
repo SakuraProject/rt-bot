@@ -128,9 +128,8 @@ class Ticket(commands.Cog, DataManager):
         self.bot = bot
         self.cooldown: Dict[int, float] = {}
         self.cooldown_killer.start()
-        self.bot.loop.create_task(self.init_database())
 
-    async def init_database(self):
+    async def cog_load(self):
         # データベースの準備をする。
         super(commands.Cog, self).__init__(self.bot.mysql.pool)
         await self.prepare_table()

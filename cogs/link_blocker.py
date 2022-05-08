@@ -18,7 +18,6 @@ class DataManager:
     def __init__(self, cog: "LinkBlocker"):
         self.cog = cog
         self.pool: "Pool" = self.cog.bot.mysql.pool
-        self.cog.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self) -> None:
         async with self.pool.acquire() as conn:
@@ -91,6 +90,9 @@ class LinkBlocker(commands.Cog, DataManager):
         self.guilds: List[int] = []
         self.ignores: List[int] = []
         super(commands.Cog, self).__init__(self)
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @commands.group(
         aliases=["URLブロック", "lb"], extras={

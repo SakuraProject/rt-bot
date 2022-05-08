@@ -65,9 +65,6 @@ class Rocations(commands.Cog):
         self.bot = bot
         self.pool: Pool = self.bot.mysql.pool
 
-        self.bot.loop.create_task(
-            self._prepare_table(), name="Create Rocations table"
-        )
         self.bot.rtws.set_event(self.get_rocations)
 
     async def get_rocations(self, rows: list[Sequence[Any]]):
@@ -90,7 +87,7 @@ class Rocations(commands.Cog):
             }
         return data
 
-    async def _prepare_table(self):
+    async def cog_load(self):
         # テーブルの準備をする。
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cursor:

@@ -25,7 +25,6 @@ class DataManager:
         self.bot = bot
         self.ready = Event()
         self.pool: "Pool" = self.bot.mysql.pool
-        self.bot.loop.create_task(self._prepare_table())
 
     async def _prepare_table(self):
         # クラスのインスタンス化時に自動で実行される関数です。
@@ -224,6 +223,9 @@ class RequireSend(commands.Cog, DataManager):
         self.cache: Dict[int, List[int]] = {}
         super(commands.Cog, self).__init__(self.bot)
         self.process_queue.start()
+
+    async def cog_load(self):
+        await self._prepare_table()
 
     @tasks.loop(seconds=30)
     async def process_queue(self):

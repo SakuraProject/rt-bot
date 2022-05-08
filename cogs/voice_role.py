@@ -61,10 +61,9 @@ class DataManager(DatabaseManager):
 class VoiceRole(commands.Cog, DataManager):
     def __init__(self, bot: RT):
         self.bot = bot
-        self.bot.loop.create_task(self.init_database())
         self.queue = {}
 
-    async def init_database(self) -> None:
+    async def cog_load(self) -> None:
         super(commands.Cog, self).__init__(self.bot.mysql)
         await self.init_table()
         self.worker.start()
