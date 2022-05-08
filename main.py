@@ -24,6 +24,7 @@ with open("auth.json", "r") as f:
 intents = discord.Intents.default()  # intents指定
 intents.typing = False
 intents.members = True
+intents.message_content = True
 bot = RT(
     data["prefixes"][argv[-1]],
     help_command=None,
