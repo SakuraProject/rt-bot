@@ -24,6 +24,53 @@ import subprocess
 import wave
 import array
 from util import RTCPacket, PacketQueue, BufferDecoder, Decoder
+import pyopenjtalk
+from discord.ext import Context
+
+class TtsContext(Context):
+    OPENJTALK = "open_jtalk"
+    "なんのコマンドでOpenJTalkを実行するかです。"
+    OPENJTALK_DICTIONARY = "cogs/tts/lib/OpenJTalk/dic"
+    "OpenJTalkで使う辞書がある場所です。"
+    OPENJTALK_VOICE_DIRECTORY = "cogs/tts/lib/OpenJTalk"
+    "OpenJTalkで使う音声のデータがあるディレクトリです。"
+    OPENJTALK_VOICE_NAME = "mei.htsvoice"
+    async def send(
+        self,
+        content: Optional[str] = None,
+        *,
+        tts: bool = False,
+        embed: Optional[Embed] = None,
+        embeds: Optional[Sequence[Embed]] = None,
+        file: Optional[File] = None,
+        files: Optional[Sequence[File]] = None,
+        stickers: Optional[Sequence[Union[GuildSticker, StickerItem]]] = None,
+        delete_after: Optional[float] = None,
+        nonce: Optional[Union[str, int]] = None,
+        allowed_mentions: Optional[AllowedMentions] = None,
+        reference: Optional[Union[Message, MessageReference, PartialMessage]] = None,
+        mention_author: Optional[bool] = None,
+        view: Optional[View] = None,
+        suppress_embeds: bool = False,
+        ephemeral: bool = False,
+    ) -> Message:
+        swav = str(self.guild.id)+'-vcnt.wav'
+        sc = content
+        if not embed is None:
+            sc = sc + embed.description
+        for e in embeds:
+            sc = sc + e.description
+        args = [self.OPENJTALK,"-x",OPENJTALK_DICTIONARY,"-m",OPENJTALK_VOICE_DIRECTORY+"/"+OPENJTALK_VOICE_NAME,'-r','1.0','-ow',swav]
+        p = subprocess.run(args,input=sc)
+        channel = ctx.message.author.voice.channel
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        if voice and voice.is_connected():
+            pass
+        else:
+            voice = await channel.connect()
+        voice.play(discord.FFmpegPCMAudio(swav))
+        await asyncio.sleep(10)
+        os.remove(swav)
 
 class NewVoiceWebSocket(DiscordVoiceWebSocket):
     cli = None
@@ -134,7 +181,9 @@ class NewVoiceClient(VoiceClient):
                     msg.author = author
                     msg.content = cmd
                     #暫定的に読み取った文字をそのままコマンドとして実行
-                    await self.bot.process_commands(msg)
+                    tctx = await self.bot.get_context(msg,cls=TtsContext)
+                    if tctx.valid:
+                        await self.bot.invoke(tctx)
                 os.remove(input_audio_filefm)
                 os.remove(input_audio_file)
             recv = await self.loop.sock_recv(self.socket, 2 ** 16)
@@ -244,6 +293,7 @@ class vcnt(commands.Cog):
         voice.bot = self.bot
         self._closing[ctx.guild.id] = False
         self.ctxs[ctx.guild.id] = ctx
+
     @voicecnt.command()
     async def disconnect(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -254,7 +304,7 @@ class vcnt(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_abandoned(self, voice_client: discord.VoiceClient):
         # 放置された場合は切断する。
-        if voice_client.guild.id in self.now:
+        if voice_client.guild.id in self._closing and not self._closing[member.guild.id]:
             await self.ctxs[voice_client.guild.id].send("一人ぼっちになったので切断しました。")
             voice_client.disco()
             await voice_client.disconnect()
@@ -265,8 +315,6 @@ class vcnt(commands.Cog):
         if member.id == self.bot.user.id and member.guild.id in self._closing \
                 and not self._closing[member.guild.id]:
             await self.ctxs[member.guild.id].send("ｷｬｯ、誰かにVCから蹴られたかバグが発生しました。")
-            voice = get(self.bot.voice_clients, guild=member.guild)
-            voice.disco()
             self._closing[member.guild.id] = True
 
 def setup(bot):
