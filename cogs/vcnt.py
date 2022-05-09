@@ -269,8 +269,6 @@ class NewVoiceClient(VoiceClient):
                         os.rename(input_audio_file,'vcnterrors/'+input_audio_file)
                         with open('vcnterrors/'+input_audio_file+'.txt', 'w') as f:
                             print(sentence, file=f)
-
-
             recv = await self.loop.sock_recv(self.socket, 2 ** 16)
             if 200 <= recv[1] < 205:
                 continue
