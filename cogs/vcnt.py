@@ -36,6 +36,7 @@ from discord.ui import View
 from cogs.music.music import Music, is_url
 from youtube_dl import YoutubeDL
 from cogs.music.player import Player
+import re
 class StrToCommand:
     def __init__(self, bot, ctx, vc):
         self.bot = bot
@@ -48,7 +49,7 @@ class StrToCommand:
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
         prf = self.bot.command_prefix[0]
         #afk check
-        rem = self.regmatch(tex, afk)
+        rem = await self.regmatch(tex, afk)
         if rem:
             cmd = re.sub("afk(の|を)","",tex)
             cmd = re.sub("(で登録して|でセットして)","",cmd)
@@ -56,12 +57,12 @@ class StrToCommand:
             cmd = prf + "afk set " + cmd
             return cmd
         #raise check
-        rem = self.regmatch(tex, rais)
+        rem = await self.regmatch(tex, rais)
         if rem:
             cmd = prf + "raise"
             return cmd
         #play check
-        rem = self.regmatch(tex, play)
+        rem = await self.regmatch(tex, play)
         if rem:
             cmd = re.sub("を(再生して|流して)","",tex)
             ydlo = {'format': 'bestaudio','noplaylist': 'True'}
@@ -71,11 +72,11 @@ class StrToCommand:
             cmd = prf + "play " + cmd
             self.bot.cogs["Music"].now = Player(self.bot.cogs["Music"], self.ctx.guild, vc)
             return cmd
-        rem = self.regmatch(tex, repeate)
+        rem = await self.regmatch(tex, repeate)
         if rem:
             cmd = prf + "repeate auto"
             return cmd
-        rem = self.regmatch(tex, slowmode)
+        rem = await self.regmatch(tex, slowmode)
         if rem:
             cmd = re.sub("(低速を|ていそくを)","",tex)
             cmd = re.sub("秒(にして|に設定して|にセットして)","",cmd)
