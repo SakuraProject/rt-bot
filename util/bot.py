@@ -2,6 +2,9 @@
 
 from discord.ext import commands
 
+from aiohttp import ClientSession
+from ujson import dumps
+
 from .dpy_monkey import _setup
 from . import mysql_manager as mysql
 
@@ -10,7 +13,16 @@ class RT(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
 
+    @property
+    def session(self) -> ClientSession:
+        if self._session.closed:
+            # 閉じていたらもう一度定義。
+            self._session = ClientSession(loop=self.loop, json_serialize=dumps)
+        return self._session
+
     async def setup_hook(self):
+        # 起動中いつでも使えるaiohttp.ClientSessionを作成
+        self._session = ClientSession(loop=self.loop, json_serialize=dumps)
         # 起動中だと教えられるようにするためのコグを読み込む
         await self.load_extension("cogs._first")
         # jishakuを読み込む

@@ -128,6 +128,9 @@ class OnSend(commands.Cog):
         )
 
         discord.abc.Messageable.send = new_send
+        discord.ext.commands.Context.send = self.wrap_send(
+            discord.ext.commands.Context.send, "on_send"
+        )
         discord.Message.edit = new_edit
         if default_webhook_send:
             discord.abc.Messageable.webhook_send = new_webhook_send

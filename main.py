@@ -8,8 +8,7 @@ from sys import argv
 
 import discord
 
-from aiohttp import ClientSession
-from ujson import load, dumps
+from ujson import load
 
 from util import RT, websocket
 from data import data, Colors
@@ -50,9 +49,6 @@ bot.Colors = Colors  # botで使う基本色が入っているclass
 @bot.listen()
 async def on_ready():
     bot.print("Connected to discord")
-    # 起動中いつでも使えるaiohttp.ClientSessionを作成
-    bot.session = ClientSession(loop=bot.loop, json_serialize=dumps)
-    await bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
     await bot.setup()
@@ -66,6 +62,7 @@ async def on_ready():
                 print(e)
             else:
                 bot.print("[Extension]", "Loaded", name)  # ロードログの出力
+    await bot.unload_extension("cogs._first")
     bot.print("Completed to boot Free RT")
 
     bot.dispatch("full_ready")  # full_readyイベントを発火する
