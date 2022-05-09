@@ -46,7 +46,7 @@ class StrToCommand:
         play = ["(.+)を(再生して|流して)"]
         repeate = ["(曲|音楽)を(繰り返して|ループして)"]
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
-        prf = bot.command_prefix[0]
+        prf = self.bot.command_prefix[0]
         #afk check
         rem = regmatch(tex, afk)
         if rem:
