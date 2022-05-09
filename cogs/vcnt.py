@@ -35,7 +35,7 @@ from discord.ui import View
 #imports of Uses StrToCommand
 from cogs.music.music import Music, is_url
 from youtube_dl import YoutubeDL
-
+from cogs.music.player import Player
 class StrToCommand:
     def __init__(self, bot, ctx, vc):
         self.bot = bot
