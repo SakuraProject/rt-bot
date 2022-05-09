@@ -70,7 +70,7 @@ class StrToCommand:
                 id=ydl.extract_info('ytsearch:'+cmd,download=False)['entries'][0]['id']
                 cmd = 'https://youtube.com/watch?v='+id
             cmd = prf + "play " + cmd
-            self.bot.cogs["Music"].now = Player(self.bot.cogs["Music"], self.ctx.guild, vc)
+            self.bot.cogs["Music"].now = Player(self.bot.cogs["Music"], self.ctx.guild, self.vc)
             return cmd
         rem = await self.regmatch(tex, repeate)
         if rem:
