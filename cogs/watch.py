@@ -75,7 +75,7 @@ class Watch(commands.Cog):
         This is a watch.
         `rf!watch` to display date and time."""
         if not ctx.invoked_subcommand:
-            await ctx.reply(f"現在の時刻は<t:{int(time())}:F>です。")
+            await ctx.send(f"現在の時刻は<t:{int(time())}:F>です。")
 
     @watch.group(aliases=["sw", "ストップウォッチ"], description="ストップウォッチ")
     async def stopwatch(self, ctx: commands.Context):
@@ -95,7 +95,7 @@ class Watch(commands.Cog):
         -------
         sw"""
         if not ctx.invoked_subcommand:
-            await ctx.reply("使用方法が違います。")
+            await ctx.send("使用方法が違います。")
 
     @stopwatch.command(aliases=["a", "開始"])
     async def start(self, ctx: commands.Context):
@@ -135,7 +135,7 @@ class Watch(commands.Cog):
         -------
         a"""
         self.sw[ctx.author.id] = time()
-        await ctx.reply("ストップウォッチをスタートしました。")
+        await ctx.send("ストップウォッチをスタートしました。")
 
     def time_str(self, t: Union[int, float]) -> str:
         "秒数を`01:39`のような`分：秒数`の形にする。"
@@ -165,13 +165,13 @@ class Watch(commands.Cog):
         -------
         o"""
         if ctx.author.id in self.sw:
-            await ctx.reply(
-                "ストップウォッチを停止しました。\n"
-                f"経過時間：`{self.time_str(time() - self.sw[ctx.author.id])}`"
+            await ctx.send(
+                embed=discord.Embed(title="ストップウォッチを停止しました。",
+                description=f"経過時間：`{self.time_str(time() - self.sw[ctx.author.id])}`")
             )
             del self.sw[ctx.author.id]
         else:
-            await ctx.reply("ストップウォッチが開始していません。")
+            await ctx.send(embed=discord.Embed(title="エラー",description="ストップウォッチが開始していません。"))
 
     @watch.command(aliases=["t", "タイマー"], description="タイマー")
     @commands.cooldown(1, 15, commands.BucketType.user)
@@ -224,7 +224,7 @@ class Watch(commands.Cog):
         self.timers[ctx.author.id] = Timer(
             ctx.channel, ctx.author, content, content is None, 60 * minutes + time()
         )
-        await ctx.reply("タイマーを設定しました。")
+        await ctx.send("タイマーを設定しました。")
 
     @tasks.loop(seconds=1)
     async def timer_processer(self):

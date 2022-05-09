@@ -146,16 +146,16 @@ class Welcome(commands.Cog, DataManager):
                 try:
                     await self.delete(ctx.guild.id, mode)
                 except KeyError:
-                    await ctx.reply(
+                    await ctx.send(
                         embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "まだ設定されていません。","en": "Welcome has not set yet."})
                     )
                 else:
-                    await ctx.reply("Ok")
+                    await ctx.send("Ok")
             else:
                 await self.write(ctx.guild.id, ctx.channel.id, content, mode)
-                await ctx.reply("Ok")
+                await ctx.send("Ok")
         else:
-            await ctx.reply(
+            await ctx.send(
                 embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "モードは参加時の`join`と退出時の`remove`のみが使用できます。","en": "The only modes available are `join` for joining and `remove` for leaving."})
             )
 
