@@ -27,9 +27,9 @@ class Timer:
         "タイマーが終了かどうかをチェックして終了した場合はメッセージを送信します。終了したかどうかの真偽値を返します。"
         if time() >= self.deadline:
             if self.rt:
-                await self.channel.send(f"{self.author.mention}, タイマーが終了しました！")
+                await self.channel.reply(f"{self.author.mention}, タイマーが終了しました！")
             elif isinstance(self.channel, discord.Thread):
-                await self.channel.send(
+                await self.channel.reply(
                     discord.Embed(
                         description=self.content
                     ).set_author(
@@ -39,7 +39,7 @@ class Timer:
                     )
                 )
             else:
-                await self.channel.webhook_send(
+                await self.channel.webhook_reply(
                     content=self.content.replace("@", "＠"),
                     username=f"{self.author} - RTのタイマー", avatar_url=getattr(
                         self.author.avatar, "url", ""
@@ -75,7 +75,7 @@ class Watch(commands.Cog):
         This is a watch.
         `rf!watch` to display date and time."""
         if not ctx.invoked_subcommand:
-            await ctx.send(f"現在の時刻は<t:{int(time())}:F>です。")
+            await ctx.reply(f"現在の時刻は<t:{int(time())}:F>です。")
 
     @watch.group(aliases=["sw", "ストップウォッチ"], description="ストップウォッチ")
     async def stopwatch(self, ctx: commands.Context):
@@ -95,7 +95,7 @@ class Watch(commands.Cog):
         -------
         sw"""
         if not ctx.invoked_subcommand:
-            await ctx.send("使用方法が違います。")
+            await ctx.reply("使用方法が違います。")
 
     @stopwatch.command(aliases=["a", "開始"])
     async def start(self, ctx: commands.Context):
@@ -135,7 +135,7 @@ class Watch(commands.Cog):
         -------
         a"""
         self.sw[ctx.author.id] = time()
-        await ctx.send("ストップウォッチをスタートしました。")
+        await ctx.reply("ストップウォッチをスタートしました。")
 
     def time_str(self, t: Union[int, float]) -> str:
         "秒数を`01:39`のような`分：秒数`の形にする。"
@@ -165,13 +165,13 @@ class Watch(commands.Cog):
         -------
         o"""
         if ctx.author.id in self.sw:
-            await ctx.send(
+            await ctx.reply(
                 embed=discord.Embed(title="ストップウォッチを停止しました。",
                 description=f"経過時間：`{self.time_str(time() - self.sw[ctx.author.id])}`")
             )
             del self.sw[ctx.author.id]
         else:
-            await ctx.send(embed=discord.Embed(title="エラー",description="ストップウォッチが開始していません。"))
+            await ctx.reply(embed=discord.Embed(title="エラー",description="ストップウォッチが開始していません。"))
 
     @watch.command(aliases=["t", "タイマー"], description="タイマー")
     @commands.cooldown(1, 15, commands.BucketType.user)
@@ -211,7 +211,7 @@ class Watch(commands.Cog):
             Decimal points can be included.
         content : str, optional
             The message to be sent when the timer ends.
-            If not specified, it will send a message to the executor.
+            If not specified, it will reply a message to the executor.
 
         Notes
         -----
@@ -224,7 +224,7 @@ class Watch(commands.Cog):
         self.timers[ctx.author.id] = Timer(
             ctx.channel, ctx.author, content, content is None, 60 * minutes + time()
         )
-        await ctx.send("タイマーを設定しました。")
+        await ctx.reply("タイマーを設定しました。")
 
     @tasks.loop(seconds=1)
     async def timer_processer(self):

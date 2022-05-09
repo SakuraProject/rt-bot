@@ -122,7 +122,7 @@ class Welcome(commands.Cog, DataManager):
 
         Notes
         -----
-        If you put the following three in your message, it will be replaced by the corresponding one when you send the message.  
+        If you put the following three in your message, it will be replaced by the corresponding one when you reply the message.  
         You can use this to create a message like `You are the XXth person to join! You can use this to create a message such as:
         ````
         $ment$ Participant's Mention
@@ -146,16 +146,16 @@ class Welcome(commands.Cog, DataManager):
                 try:
                     await self.delete(ctx.guild.id, mode)
                 except KeyError:
-                    await ctx.send(
+                    await ctx.reply(
                         embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "まだ設定されていません。","en": "Welcome has not set yet."})
                     )
                 else:
-                    await ctx.send("Ok")
+                    await ctx.reply("Ok")
             else:
                 await self.write(ctx.guild.id, ctx.channel.id, content, mode)
-                await ctx.send("Ok")
+                await ctx.reply("Ok")
         else:
-            await ctx.send(
+            await ctx.reply(
                 embed=discord.Embed(title={"ja": "エラー","en": "Error"}, description={"ja": "モードは参加時の`join`と退出時の`remove`のみが使用できます。","en": "The only modes available are `join` for joining and `remove` for leaving."})
             )
 
@@ -170,7 +170,7 @@ class Welcome(commands.Cog, DataManager):
                 channel = member.guild.get_channel(row[1])
                 if channel:
                     await sleep(3)
-                    await channel.send(row[2])
+                    await channel.reply(row[2])
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
