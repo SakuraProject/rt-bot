@@ -151,7 +151,8 @@ class TtsContext(Context):
         else:
             voice = await channel.connect()
         voice.play(discord.FFmpegPCMAudio(swav))
-        await asyncio.sleep(1000)
+        while voice.is_playing():
+            await asyncio.sleep(1)
         os.remove(swav)
 
 class NewVoiceWebSocket(DiscordVoiceWebSocket):
