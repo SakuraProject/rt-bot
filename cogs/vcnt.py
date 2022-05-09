@@ -32,6 +32,64 @@ from discord.mentions import AllowedMentions
 from discord.message import MessageReference, PartialMessage
 from discord.ui import View
 
+#imports of Uses StrToCommand
+from cogs.music.music import Music, is_url
+from youtube_dl import YoutubeDL
+
+class StrToCommand:
+    def __init__(self, bot, ctx, vc):
+        self.bot = bot
+        self.ctx = ctx
+    async def convert(self, tex):
+        afk = ["afk(の|を)(.+)(で登録して|でセットして)","(.+)(でafkの登録して|でafkをセットして)"]
+        rais = ["ライズして","掲示板の(表示順位|順位)を(あげて|上げて)"]
+        play = ["(.+)を(再生して|流して)"]
+        repeate = ["(曲|音楽)を(繰り返して|ループして)"]
+        slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
+        prf = bot.command_prefix[0]
+        #afk check
+        rem = regmatch(tex, afk)
+        if rem:
+            cmd = re.sub("afk(の|を)","",tex)
+            cmd = re.sub("(で登録して|でセットして)","",cmd)
+            cmd = re.sub("(でafkの登録して|でafkをセットして)","",cmd)
+            cmd = prf + "afk set " + cmd
+            return cmd
+        #raise check
+        rem = regmatch(tex, rais)
+        if rem:
+            cmd = prf + "raise"
+            return cmd
+        #play check
+        rem = regmatch(tex, play)
+        if rem:
+            cmd = re.sub("を(再生して|流して)","",tex)
+            ydlo = {'format': 'bestaudio','noplaylist': 'True'}
+            with YoutubeDL(ydlo) as ydl:
+                id=ydl.extract_info('ytsearch:'+cmd,download=False)['entries'][0]['id']
+                cmd = 'https://youtube.com/watch?v='+id
+            cmd = prf + "play " + cmd
+            self.bot.cogs["Music"].now = Player(self.bot.cogs["Music"], self.ctx.guild, vc)
+            return cmd
+        rem = regmatch(tex, repeate)
+        if rem:
+            cmd = prf + "repeate auto"
+            return cmd
+        rem = regmatch(tex, slowmode)
+        if rem:
+            cmd = re.sub("(低速を|ていそくを)","",tex)
+            cmd = re.sub("秒(にして|に設定して|にセットして)","",cmd)
+            cmd = prf + "slowmode " + cmd
+            return cmd
+        return tex
+
+    async def regmatch(self, tex, rar):
+        for rg in rar:
+            mch = re.match(rg, tex)
+            if mch:
+                return [rg,mch]
+        return None
+
 class TtsContext(Context):
     OPENJTALK = "open_jtalk"
     "なんのコマンドでOpenJTalkを実行するかです。"
@@ -184,19 +242,35 @@ class NewVoiceClient(VoiceClient):
                     except IndexError:
                         continue
                     print(sentence)
-                    cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
-                    msg=self.ctx.message
+                    if not sentence.startswith("りふ"):
+                        continue
+                    cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))[2:]
+                    ctxte = self.ctx
                     userid = self.ws.ssrc_map[ssrc]["user_id"]
                     author = msg.guild.get_member(userid)
+                    ctxte.author = author
+                    stc = StrToCommand(self.bot,ctxte,self)
+                    cmd = stc.convert(cmd)
+                    msg=self.ctx.message
                     #print(msg.author.name)
                     msg.author = author
                     msg.content = cmd
-                    #暫定的に読み取った文字をそのままコマンドとして実行
                     tctx = await self.bot.get_context(msg,cls=TtsContext)
                     if tctx.valid:
+                        os.remove(input_audio_filefm)
+                        os.remove(input_audio_file)
                         await self.bot.invoke(tctx)
-                os.remove(input_audio_filefm)
-                os.remove(input_audio_file)
+                    else:
+                        try:
+                            os.mkdir('vcnterrors')
+                        except FileExistsError as e:
+                            pass
+                        os.rename(input_audio_filefm,'vcnterrors/'+input_audio_filefm)
+                        os.rename(input_audio_file,'vcnterrors/'+input_audio_file)
+                        with open('vcnterrors/'+input_audio_file+'.txt', 'w') as f:
+                            print(sentence, file=f)
+
+
             recv = await self.loop.sock_recv(self.socket, 2 ** 16)
             if 200 <= recv[1] < 205:
                 continue
