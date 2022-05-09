@@ -41,6 +41,7 @@ class StrToCommand:
     def __init__(self, bot, ctx, vc):
         self.bot = bot
         self.ctx = ctx
+        self.vc = vc
     async def convert(self, tex):
         afk = ["afk(の|を)(.+)(で登録して|でセットして)","(.+)(でafkの登録して|でafkをセットして)"]
         rais = ["ライズして","掲示板の(表示順位|順位)を(あげて|上げて)"]
@@ -70,7 +71,7 @@ class StrToCommand:
                 id=ydl.extract_info('ytsearch:'+cmd,download=False)['entries'][0]['id']
                 cmd = 'https://youtube.com/watch?v='+id
             cmd = prf + "play " + cmd
-            self.bot.cogs["Music"].now = Player(self.bot.cogs["Music"], self.ctx.guild, self.vc)
+            self.bot.cogs["Music"].now[self.ctx.guild.id] = Player(self.bot.cogs["Music"], self.ctx.guild, self.vc)
             return cmd
         rem = await self.regmatch(tex, repeate)
         if rem:
@@ -124,12 +125,23 @@ class TtsContext(Context):
         swav = str(self.guild.id)+'-vcnt.wav'
         sc = ""
         if not content is None:
-            sc = content
+            if isinstance(content,dict):
+                sc = content["ja"]
+            else:
+                sc = content
         if not embed is None:
-            sc = sc + embed.description
+            if isinstance(embed.description,str):
+                sc = sc + embed.description
+            if not embed.fields is None:
+                for fi in embed.fields:
+                    sc = sc + fi.name + fi.value
         if not embeds is None:
             for e in embeds:
-                sc = sc + e.description
+                if isinstance(e.description,str):
+                    sc = sc + embed.description
+                if not e.fields is None:
+                    for fi in e.fields:
+                        sc = sc + fi.name + fi.value
         args = [self.OPENJTALK,"-x",self.OPENJTALK_DICTIONARY,"-m",self.OPENJTALK_VOICE_DIRECTORY+"/"+self.OPENJTALK_VOICE_NAME,'-r','1.0','-ow',swav]
         p = subprocess.run(args,input=sc.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         channel = self.message.author.voice.channel
