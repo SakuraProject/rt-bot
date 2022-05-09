@@ -22,3 +22,4 @@ tweepy
 topggpy
 reprypt
 niconico.py
+pynacl

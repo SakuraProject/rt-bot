@@ -1,5 +1,7 @@
 # Free RT Utilities
 
+import discord
+
 from .bot import RT
 from .cacher import Cache, Cacher, CacherPool
 from .checks import isintable, has_any_roles, has_all_roles
@@ -22,13 +24,10 @@ from .views import TimeoutView
 from .webhooks import get_webhook, webhook_send
 
 from .ext import view as componesy
-
+from .record import RTCPacket, PacketQueue, BufferDecoder, Decoder
 
 __all__ = [
     "RT",
-    "Cache",
-    "Cacher",
-    "CacherPool",
     "isintable",
     "has_any_roles",
     "has_all_roles",
@@ -41,7 +40,6 @@ __all__ = [
     "debug",
     "dochelp",
     "docperser",
-    "setup",
     "Table",
     "markdowns",
     "MineSweeper",
@@ -49,6 +47,7 @@ __all__ = [
     "olds",
     "tasks_extend",
     "sendKwargs",
+    "setup",
     "EmbedPage",
     "rtws",
     "securl",
@@ -60,5 +59,9 @@ __all__ = [
     "webhook_send",
     "websocket",
     "ext",
-    "componesy"
+    "componesy",
+    "RTCPacket",
+    "PacketQueue",
+    "BufferDecoder",
+    "Decoder"
 ]
