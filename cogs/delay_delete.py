@@ -125,7 +125,7 @@ class DelayDelete(commands.Cog, DataManager):
         dd, Delayed deletion"""
         new = await ctx.channel.webhook_send(
             username=ctx.author.display_name,
-            avatar_url=getattr(ctx.author.avatar, "url", None),
+            avatar_url=getattr(ctx.author.display_avatar, "url", None),
             wait=True, content=content.replace("@", "＠")
         )
         await self.write(ctx.channel.id, new.id, 60 * minutes)

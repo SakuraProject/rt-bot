@@ -151,7 +151,7 @@ class DelayLottery(commands.Cog, DataManager):
         description = description[index:]
         mes = await ctx.channel.webhook_send(
             username=ctx.author.display_name + f" - {ctx.author.id}",
-            avatar_url=getattr(ctx.author.avatar, "url", ""),
+            avatar_url=getattr(ctx.author.display_avatar, "url", ""),
             content=str(count), embed=discord.Embed(
                 title=title, description=description, color=ctx.author.color
             ), wait=True

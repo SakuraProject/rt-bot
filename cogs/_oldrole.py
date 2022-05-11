@@ -78,7 +78,7 @@ class OldRolePanel(commands.Cog):
 
             message = await ctx.webhook_send(
                 "RT役職パネル", embed=embed, username=ctx.author.display_name,
-                avatar_url=getattr(ctx.author.avatar, "url", ""), wait=True
+                avatar_url=getattr(ctx.author.display_avatar, "url", ""), wait=True
             )
             await message.add_reaction("🛠")
             for emoji in emojis:

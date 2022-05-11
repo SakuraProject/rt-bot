@@ -115,7 +115,7 @@ class NicknamePanel(commands.Cog):
         )
         message = await ctx.channel.webhook_send(
             username=ctx.author.display_name,
-            avatar_url=ctx.author.avatar.url if ctx.author.avatar else "",
+            avatar_url=ctx.author.display_avatar.url if ctx.author.display_avatar else "",
             content="RT Nickname Panel", embed=embed, wait=True
         )
         for emoji in emojis:

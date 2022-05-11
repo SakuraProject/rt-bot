@@ -121,7 +121,7 @@ class Bulk(commands.Cog):
 
                 try:
                     e = discord.Embed(description=content)
-                    e.set_author(name=ctx.author, icon_url=ctx.author.avatar.url)
+                    e.set_author(name=ctx.author, icon_url=ctx.author.display_avatar.url)
                     e.set_footer(text="RT一括送信 対象：" + ("全員" if isinstance(target, str) else f"{target.name}を持つ人"))
                     await member.send(embed=e)
                     sent_count += 1

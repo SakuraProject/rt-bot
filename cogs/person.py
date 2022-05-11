@@ -222,7 +222,6 @@ class Person(commands.Cog):
         `rf!userinfo tasuren`"""
         await ctx.typing()
         # もしuser_name_idが指定されなかった場合は実行者のIDにする。
-        user, member = None, None
         if user_name_id is None:
             user = member = ctx.author
         else:
@@ -233,16 +232,15 @@ class Person(commands.Cog):
                     try:
                         user = await self.bot.fetch_user(int(user_name_id))
                     except discord.NotFound:
-                        pass
+                        user = member = None
             else:
                 try:
                     member = await commands.MemberConverter().convert(ctx, user_name_id)
                 except commands.BadArgument:
-                    pass
+                    member = None
 
         assert user is not None, "そのユーザーが見つかりませんでした。"
         # ユーザー情報のEmbedを作る。
-        embeds = []
         bot = (f" **`{'✅' if user.public_flags.verified_bot else ''}BOT`**"
                if user.bot else "")
         embed = discord.Embed(
@@ -253,14 +251,22 @@ class Person(commands.Cog):
             ) if user.public_flags else "",
             color=self.bot.colors["normal"]
         )
-        embed.set_thumbnail(url=getattr(user.avatar, "url", ""))
+        embed.set_thumbnail(url=getattr(user.display_avatar, "url", ""))
         embed.add_field(name="ID", value=f"`{user.id}`")
+
+        if self.bot.cogs["Language"].get(user.id) == "ja":
+            # 設定言語が日本語のとき。
+            created_at = (user.created_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # 英語だった時はtimedeltaの追加をしない。
+            created_at = user.created_at.strftime('%Y-%m-%d %H:%M:%S')
+
         embed.add_field(
             name={
-                "ja": "Discord登録日時",
-                "en": "Discord registration date and time"
+                "ja": "Discord登録日時(日本時間)",
+                "en": "Discord registration date and time (UTC)"
             },
-            value=(user.created_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
+            value=created_at
         )
         embed.add_field(
             name={
@@ -271,7 +277,7 @@ class Person(commands.Cog):
                 if embed.thumbnail.url else "ありません。"
             ), inline=False
         )
-        embeds.append(embed)
+        embeds = [embed]
 
         # サーバーのユーザー情報のEmbedを作る。
         if member:
@@ -489,7 +495,7 @@ class Person(commands.Cog):
                             await message.remove_reaction(
                                 self.EMOJIS["search"], self.bot.user)
                         except (discord.HTTPException, discord.Forbidden,
-                                discord.NotFound, discord.InvalidArgument):
+                                discord.NotFound, TypeError):
                             pass
                     else:
                         # もしリアクションが押されたならコマンドを実行する。

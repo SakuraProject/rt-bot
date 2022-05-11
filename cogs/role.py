@@ -366,7 +366,7 @@ class RolePanel(commands.Cog):
                 ).clear_reactions()
             else:
                 await ctx.channel.webhook_send(
-                    wait=True, avatar_url=getattr(ctx.author.avatar, "url", ""),
+                    wait=True, avatar_url=getattr(ctx.author.display_avatar, "url", ""),
                     username=ctx.author.display_name, **kwargs
                 )
         else:

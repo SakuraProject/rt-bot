@@ -137,7 +137,7 @@ class ChannelPluginGeneral(commands.Cog):
                         await message.channel.webhook_send(
                             content, files=new, embeds=message.embeds,
                             username=message.author.display_name + " RT's Auto Spoiler",
-                            avatar_url=message.author.avatar.url,
+                            avatar_url=message.author.display_avatar.url,
                             view=RemoveButton(message.author.id)
                         )
                         try:
@@ -151,7 +151,7 @@ class ChannelPluginGeneral(commands.Cog):
                             await at.to_file()
                             for at in message.attachments
                         ], username=message.author.display_name,
-                        avatar_url=message.author.avatar.url
+                        avatar_url=message.author.display_avatar.url
                     )
                     await message.delete()
                 elif cmd.startswith("rf>embed"):

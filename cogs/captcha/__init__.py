@@ -206,7 +206,7 @@ class Captcha(commands.Cog, DataManager):
         extras: Extras, panel: bool = True, **kwargs
     ) -> discord.Message:
         "認証を設定しオプションでパネルを送信するための関数です。"
-        await ctx.trigger_typing()
+        await ctx.typing()
         self.write(ctx.guild.id, mode, role_id, extras)
         if panel:
             return await ctx.send(

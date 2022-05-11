@@ -109,7 +109,7 @@ class Recruitment(commands.Cog):
         )
         message = await ctx.webhook_send(
             content="RT募集パネル, ID:" + str(deadline),
-            username=ctx.author.display_name, avatar_url=ctx.author.avatar.url,
+            username=ctx.author.display_name, avatar_url=ctx.author.display_avatar.url,
             embed=embed, wait=True
         )
         await message.add_reaction(self.EMOJI)

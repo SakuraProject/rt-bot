@@ -213,7 +213,7 @@ class ServerTool(commands.Cog):
                     )
                     e.set_author(
                         name=message.author.display_name,
-                        icon_url=getattr(message.author.avatar, "url", "")
+                        icon_url=getattr(message.author.display_avatar, "url", "")
                     )
                     e.set_footer(text=f"{day}日前のメッセージ | タイムマシン機能")
                     await ctx.reply(embed=e)
@@ -591,7 +591,7 @@ class ServerTool(commands.Cog):
                             color=0xf2f2b0
                         ).set_author(
                             name=payload.message.author.display_name,
-                            icon_url=payload.message.author.avatar.url
+                            icon_url=payload.message.author.display_avatar.url
                         )
                     )
                     for i, attachment in enumerate(payload.message.attachments):

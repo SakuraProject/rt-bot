@@ -448,7 +448,7 @@ class AFK(commands.Cog, DataManager):
             if user.id in self.cache:
                 await message.channel.webhook_send(
                     content=self.cache[user.id],
-                    avatar_url=user.avatar.url if user.avatar else "",
+                    avatar_url=user.display_avatar.url,
                     username=f"{user.name} - RT 留守メッセージ AFK"
                 )
 
