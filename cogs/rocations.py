@@ -78,7 +78,7 @@ class Rocations(commands.Cog):
                 user = self.bot.get_user(int(user_id)) or \
                     {"name": "名無しの権兵衛", "avatar": ""}
                 if not isinstance(user, dict):
-                    user = {"avatar": getattr(user.avatar, "url", ""), "name": user.name}
+                    user = {"avatar": getattr(user.display_avatar, "url", ""), "name": user.name}
                 reviews.append({"user": user, "message": nice})
             data[row[0]] = {
                 "name": guild.name, "icon": getattr(guild.icon, "url", ""), "niceCount": len(nices),

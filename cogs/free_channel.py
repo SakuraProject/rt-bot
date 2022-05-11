@@ -158,7 +158,7 @@ The name of the created voice channel will include the ID of the person who crea
 
         await ctx.webhook_send(
             username=ctx.author.display_name,
-            avatar_url=getattr(ctx.author.avatar, "url", ""),
+            avatar_url=getattr(ctx.author.display_avatar, "url", ""),
             embed=embed
         )
         await sleep(0.4)

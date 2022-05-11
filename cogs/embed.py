@@ -74,7 +74,7 @@ class Embed(commands.Cog):
         try:
             kwargs = {
                 "username": ctx.author.display_name,
-                "avatar_url": getattr(ctx.author.avatar, "url", ""),
+                "avatar_url": getattr(ctx.author.display_avatar, "url", ""),
                 "embed": create_embed(
                     "# " + content,
                     color=ctx.author.color if color == "null" else color

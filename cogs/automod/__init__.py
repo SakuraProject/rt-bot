@@ -122,7 +122,7 @@ class AutoMod(commands.Cog, DataManager):
         am"""
         if ctx.invoked_subcommand:
             # もしまだAutoModを有効にしていない状態でこのコマンドのサブコマンドを実行したならエラーを起こす。
-            await ctx.trigger_typing()
+            await ctx.typing()
             assert ctx.guild.id in self.enabled, "このサーバーではAutoModが有効になっていません。" \
                 "\n`rf!automod`を実行してください。"
             await self.prepare_cache_guild(ctx.guild)

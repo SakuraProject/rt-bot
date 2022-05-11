@@ -338,7 +338,7 @@ class ForcePinnedMessage(commands.Cog, DataManager):
                 try:
                     new_message = await message.channel.webhook_send(
                         username=f"{name[0]} - RT",
-                        avatar_url=self.bot.user.avatar.url if name[1] else member.avatar.url,
+                        avatar_url=self.bot.user.display_avatar.url if name[1] else member.display_avatar.url,
                         wait=True, **kwargs
                     )
                 except Exception as e:

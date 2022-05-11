@@ -102,7 +102,7 @@ class Log(commands.Cog):
             name="Discord登録日",
             value=self.parse_time(member.created_at)
         )
-        embed.set_thumbnail(url=getattr(member.avatar, "url", ""))
+        embed.set_thumbnail(url=getattr(member.display_avatar, "url", ""))
         return embed
 
     @commands.Cog.listener()
@@ -114,14 +114,14 @@ class Log(commands.Cog):
             color=self.c
         )
         embed.add_field(name="ユーザーID", value=str(member.id))
-        embed.set_thumbnail(url=getattr(member.avatar, "url", ""))
+        embed.set_thumbnail(url=getattr(member.display_avatar, "url", ""))
         return embed
 
     @commands.Cog.listener()
     @log()
     async def on_message_edit(self, before, after):
         embed = discord.Embed(title="メッセージ編集", color=self.c)
-        embed.set_author(name=after.author.name, icon_url=getattr(after.author.avatar, "url", ""))
+        embed.set_author(name=after.author.name, icon_url=getattr(after.author.display_avatar, "url", ""))
         if before.content != after.content:
             embed.add_field(name="Before", value=before.content)
             embed.add_field(name="After", value=after.content)
@@ -199,7 +199,7 @@ class Log(commands.Cog):
         embed = discord.Embed(title="ユーザーのBAN", color=self.c)
         embed.add_field(name="BANされたユーザー名", value=str(user))
         embed.add_field(name="BANされたユーザーID", value=user.id)
-        embed.set_thumbnail(url=user.avatar.url)
+        embed.set_thumbnail(url=user.display_avatar.url)
         return embed
 
     @commands.Cog.listener()
@@ -208,7 +208,7 @@ class Log(commands.Cog):
         embed = discord.Embed(title="ユーザーのBAN解除", color=self.c)
         embed.add_field(name="BAN解除されたユーザー名", value=user)
         embed.add_field(name="BAN解除されたユーザーID", value=user.id)
-        embed.set_thumbnail(url=getattr(user.avatar, "url", ""))
+        embed.set_thumbnail(url=getattr(user.display_avatar, "url", ""))
         return embed
 
     @commands.Cog.listener()
@@ -225,7 +225,7 @@ class Log(commands.Cog):
             )
             embed.add_field(name="招待リンク", value=invite.url)
             embed.set_thumbnail(
-                url=getattr(invite.inviter.avatar, "url", "")
+                url=getattr(invite.inviter.display_avatar, "url", "")
             )
             return embed
 

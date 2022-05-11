@@ -42,7 +42,7 @@ class WebSockets(commands.Cog):
     def convert_user(self, user: Union[discord.User, discord.Member]) -> dict:
         return {
             "name": user.name, "id": str(user.id), "icon_url": getattr(
-                user.avatar, "url", DISCORD
+                user.display_avatar, "url", DISCORD
             )
         }
 

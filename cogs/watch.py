@@ -33,7 +33,7 @@ class Timer:
                     discord.Embed(
                         description=self.content
                     ).set_author(
-                        name=self.author, icon_url=getattr(self.author.avatar, "url", "")
+                        name=self.author, icon_url=getattr(self.author.display_avatar, "url", "")
                     ).set_footer(
                         text="RTのタイマー"
                     )
@@ -42,7 +42,7 @@ class Timer:
                 await self.channel.webhook_send(
                     content=self.content.replace("@", "＠"),
                     username=f"{self.author} - RTのタイマー", avatar_url=getattr(
-                        self.author.avatar, "url", ""
+                        self.author.display_avatar, "url", ""
                     )
                 )
             return True

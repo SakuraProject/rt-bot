@@ -228,7 +228,7 @@ class Ticket(commands.Cog, DataManager):
                 color=self.bot.colors["normal"]
             )
             await ctx.webhook_send(
-                username=ctx.author.name, avatar_url=getattr(ctx.author.avatar, "url", ""),
+                username=ctx.author.name, avatar_url=getattr(ctx.author.display_avatar, "url", ""),
                 content="RTチケットパネル, 2", embed=embed, wait=True,
                 replace_language=False, view=VIEW
             )

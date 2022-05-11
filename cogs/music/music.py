@@ -377,5 +377,5 @@ class Music:
         self._init_start()
         embed.add_field(name="Time", value=self.elapsed)
         embed.set_thumbnail(url=self.thumbnail)
-        embed.set_author(name=self.author.name, icon_url=getattr(self.author.avatar, "url", ""))
+        embed.set_author(name=self.author.name, icon_url=getattr(self.author.display_avatar, "url", ""))
         return embed

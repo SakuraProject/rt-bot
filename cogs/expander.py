@@ -166,7 +166,7 @@ class Expander(commands.Cog, DataManager):
                                 color=fetched_message.author.color
                             ).set_author(
                                 name=fetched_message.author.display_name,
-                                icon_url=getattr(fetched_message.author.avatar, "url", "")
+                                icon_url=getattr(fetched_message.author.display_avatar, "url", "")
                             ).set_footer(
                                 text=fetched_message.guild.name,
                                 icon_url=getattr(fetched_message.guild.icon, "url", "")
@@ -186,7 +186,7 @@ class Expander(commands.Cog, DataManager):
             if hasattr(message.channel, "topic"):
                 await message.channel.webhook_send(
                     username=message.author.display_name,
-                    avatar_url=getattr(message.author.avatar, "url", ""),
+                    avatar_url=getattr(message.author.display_avatar, "url", ""),
                     content=message.clean_content, embeds=embeds
                 )
                 await message.delete()

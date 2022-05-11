@@ -315,7 +315,7 @@ class GlobalChat(commands.Cog, DataManager):
                     description=original.clean_content
                 ).set_author(
                     name=original.author,
-                    icon_url=getattr(original.author.avatar, "url", "")
+                    icon_url=getattr(original.author.display_avatar, "url", "")
                 )
             )
 
@@ -336,7 +336,7 @@ class GlobalChat(commands.Cog, DataManager):
                 channel = self.bot.get_channel(channel_id)
                 if channel:
                     if channel.guild.id not in self.ban_cache:
-                        for entry in await channel.guild.bans():
+                        async for entry in channel.guild.bans():
                             self.ban_cache[channel.guild.id].append(
                                 entry.user.id
                             )
@@ -347,7 +347,7 @@ class GlobalChat(commands.Cog, DataManager):
                         try:
                             await channel.webhook_send(
                                 username=f"{message.author.name} {message.author.id}",
-                                avatar_url=getattr(message.author.avatar, "url", ""),
+                                avatar_url=getattr(message.author.display_avatar, "url", ""),
                                 content=message.clean_content, embeds=embeds, files=[
                                     await attachment.to_file()
                                     for attachment in message.attachments

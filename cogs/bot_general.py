@@ -18,7 +18,7 @@ from jishaku.functools import executor_function
 
 from util import RT
 
-from .server_tool import PERMISSION_TEXTS
+from data import PERMISSION_TEXTS
 
 ERROR_CHANNEL = 962977145716625439
 
@@ -229,16 +229,18 @@ class BotGeneral(commands.Cog):
         Show you free-RT's information.  
         It inclued invite link."""
         embed = discord.Embed(
-            title="free-RT 情報",
+            title={"ja": "free-RTの情報", "en": "free-RT information"},
             description=INFO_DESC,
             color=self.bot.colors["normal"]
         )
         embed.add_field(
-            name="Servers", value=len(self.bot.guilds),
+            name={"ja": "サーバー数", "en": "Servers"},
+            value=len(self.bot.guilds),
             inline=False
         )
         embed.add_field(
-            name="Users", value=len(self.bot.users),
+            name={"ja": "ユーザー数", "en": "Users"},
+            value=len(self.bot.users),
             inline=False
         )
         for item_variable_name, item_name in INFO_ITEMS:
@@ -246,9 +248,7 @@ class BotGeneral(commands.Cog):
                 name=item_name, value=eval("INFO_" + item_variable_name),
                 inline=False
             )
-        await ctx.reply(
-            embed=embed
-        )
+        await ctx.reply(embed=embed)
 
     @tasks.loop(seconds=5)
     async def remove_cache(self):

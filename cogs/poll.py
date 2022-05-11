@@ -151,7 +151,7 @@ class Poll(commands.Cog):
         mes = await ctx.webhook_send(
             "".join(("RT投票パネル", " (一人一票)" if only_one else "", "\n📊 [...]")),
             wait=True, view=self.view, embed=embed, username=ctx.author.display_name,
-            avatar_url=getattr(ctx.author.avatar, "url", ""),
+            avatar_url=getattr(ctx.author.display_avatar, "url", ""),
         )
         for emoji in emojis:
             try:
@@ -254,7 +254,7 @@ class Poll(commands.Cog):
                         content="".join(
                             (payload.message.content[:payload.message.content.find("\n")],
                              "\n📊 ", self.graph(emojis), "")))
-                except discord.InvalidArgument:
+                except ValueError:
                     pass
         del description, emojis
 

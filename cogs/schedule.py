@@ -276,11 +276,8 @@ class schedule(commands.Cog, DataManager):
             except KeyError:
                 self.cog.cache[userid] = dict()
                 self.cog.cache[userid][title] = dict()
-            self.cog.cache[userid][title]['stime'] = start
-            self.cog.cache[userid][title]['etime'] = end
-            self.cog.cache[userid][title]['day'] = day
-            self.cog.cache[userid][title]['dmnotice'] = notice
-            self.cog.cache[userid][title]['body'] = title
+            m = {'stime': start, 'etime': end, 'day': day, 'dmnotice': notice, 'body': title}
+            self.cog.cache[userid][title].update(m)
         elif userid in self.cog.cache:
             del self.cog.cache[userid]
         if title is None:
