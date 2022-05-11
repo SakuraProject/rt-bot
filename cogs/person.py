@@ -254,19 +254,12 @@ class Person(commands.Cog):
         embed.set_thumbnail(url=getattr(user.display_avatar, "url", ""))
         embed.add_field(name="ID", value=f"`{user.id}`")
 
-        if self.bot.cogs["Language"].get(user.id) == "ja":
-            # 設定言語が日本語のとき。
-            created_at = (user.created_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
-        else:
-            # 英語だった時はtimedeltaの追加をしない。
-            created_at = user.created_at.strftime('%Y-%m-%d %H:%M:%S')
-
         embed.add_field(
             name={
-                "ja": "Discord登録日時(日本時間)",
-                "en": "Discord registration date and time (UTC)"
+                "ja": "Discord登録日時",
+                "en": "Discord registration date and time"
             },
-            value=created_at
+            value=discord.utils.format_dt(user.created_at)
         )
         embed.add_field(
             name={
@@ -299,7 +292,7 @@ class Person(commands.Cog):
             embed.add_field(
                 name={"ja": "参加日時",
                       "en": "Member joined at"},
-                value=(member.joined_at + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
+                value=discord.utils.format_dt(member.joined_at)
             )
             if member.voice:
                 embed.add_field(

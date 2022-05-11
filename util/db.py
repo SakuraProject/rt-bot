@@ -53,5 +53,5 @@ async def add_db_manager(bot, manager):
 
 
 class DBManager:
-    def __init__:
+    def __init__(self):
         pass

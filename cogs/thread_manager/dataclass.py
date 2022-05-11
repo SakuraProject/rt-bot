@@ -67,7 +67,7 @@ def wait_ready(coro):
 class GuildData:
     def __init__(self, cog: "ThreadManager", guild: Union[int, discord.Guild]):
         self.cog, self.pool = cog, cog.pool
-        self.lock: Event = Event(loop=cog.bot.loop)
+        self.lock = Event()
         self.cog.bot.loop.create_task(self.update_data())
         self.guild: discord.Guild = self.cog.bot.get_guild(guild) \
             if isinstance(guild, int) else guild
