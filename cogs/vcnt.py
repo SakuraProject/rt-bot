@@ -258,14 +258,19 @@ class NewVoiceClient(VoiceClient):
                     print(sentence)
                     if not sentence.startswith("りふ"):
                         continue
+                    else:
+                        if sentence.startswith("りふ、"):
+                            sentence=sentence.replace("りふ、","")
+                        else:
+                            sentence=sentence.replace("りふ","")
+                    msg=self.ctx.message
                     cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))[2:]
                     ctxte = self.ctx
                     userid = self.ws.ssrc_map[ssrc]["user_id"]
                     author = msg.guild.get_member(userid)
                     ctxte.author = author
                     stc = StrToCommand(self.bot,ctxte,self)
-                    cmd = stc.convert(cmd)
-                    msg=self.ctx.message
+                    cmd = await stc.convert(cmd)
                     #print(msg.author.name)
                     msg.author = author
                     msg.content = cmd
