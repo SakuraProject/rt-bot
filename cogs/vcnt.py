@@ -260,11 +260,11 @@ class NewVoiceClient(VoiceClient):
                         continue
                     else:
                         if sentence.startswith("りふ、"):
-                            sentence=sentence.replace("りふ、","")
+                            sentence=sentence[3:]
                         else:
-                            sentence=sentence.replace("りふ","")
+                            sentence=sentence[2:]
                     msg=self.ctx.message
-                    cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))[2:]
+                    cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
                     ctxte = self.ctx
                     userid = self.ws.ssrc_map[ssrc]["user_id"]
                     author = msg.guild.get_member(userid)
