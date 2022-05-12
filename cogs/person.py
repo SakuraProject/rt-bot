@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Optional
 
-from datetime import timedelta
 from random import randint
 from re import findall
 import asyncio

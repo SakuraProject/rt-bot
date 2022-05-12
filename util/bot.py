@@ -7,6 +7,7 @@ from ujson import dumps
 
 from .dpy_monkey import _setup
 from . import mysql_manager as mysql
+from .db import add_db_manager
 
 
 class RT(commands.AutoShardedBot):
@@ -69,3 +70,6 @@ class RT(commands.AutoShardedBot):
     async def setup(self, mode=()) -> None:
         "utilにある拡張cogをすべてもしくは指定されたものだけ読み込みます。"
         return await _setup(self, mode)
+
+    async def add_db_manager(self, manager):
+        return await add_db_manager(self, manager)
