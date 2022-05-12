@@ -41,8 +41,7 @@ class Develop(commands.Cog):
 
     @develop.command(
         extras={
-            "headding": {"ja": "直近1分間のコマンド実行ログを見ます。", "en": "View commands logs."},
-            "parent": "Admin"
+            "headding": {"ja": "直近1分間のコマンド実行ログを見ます。", "en": "View commands logs."}
         }
     )
     @commands.is_owner()
