@@ -22,14 +22,16 @@ from ujson import loads
 with open("data/area_code.json", "r", encoding="utf-8") as f:
     AREA_CODE = loads(f.read())
 
+
 class StrToCommand:
     def __init__(self, bot, ctx, vc):
         self.bot = bot
         self.ctx = ctx
         self.vc = vc
+
     async def convert(self, tex):
-        afk = ["afk(の|を)(.+)(で登録して|でセットして)","(.+)(でafkの登録して|でafkをセットして)"]
-        rais = ["ライズして","掲示板の(表示順位|順位)を(あげて|上げて)"]
+        afk = ["afk(の|を)(.+)(で登録して|でセットして)", "(.+)(でafkの登録して|でafkをセットして)"]
+        rais = ["ライズして", "掲示板の(表示順位|順位)を(あげて|上げて)"]
         play = ["(.+)を(再生して|流して)"]
         repeate = ["(曲|音楽)を(繰り返して|ループして)"]
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
@@ -37,9 +39,9 @@ class StrToCommand:
         prf = self.bot.command_prefix[0]
         rem = await self.regmatch(tex, afk) # afk check
         if rem:
-            cmd = re.sub("afk(の|を)","",tex)
-            cmd = re.sub("(で登録して|でセットして)","",cmd)
-            cmd = re.sub("(でafkの登録して|でafkをセットして)","",cmd)
+            cmd = re.sub("afk(の|を)", "", tex)
+            cmd = re.sub("(で登録して|でセットして)", "", cmd)
+            cmd = re.sub("(でafkの登録して|でafkをセットして)", "", cmd)
             cmd = prf + "afk set " + cmd
             return cmd
         rem = await self.regmatch(tex, rais) # raise check
@@ -48,8 +50,8 @@ class StrToCommand:
             return cmd
         rem = await self.regmatch(tex, play) # play check
         if rem:
-            cmd = re.sub("を(再生して|流して)","",tex)
-            ydlo = {'format': 'bestaudio','noplaylist': 'True'}
+            cmd = re.sub("を(再生して|流して)", "", tex)
+            ydlo = {'format': 'bestaudio', 'noplaylist': 'True'}
             with YoutubeDL(ydlo) as ydl:
                 id=ydl.extract_info('ytsearch:'+cmd,download=False)['entries'][0]['id']
                 cmd = 'https://youtube.com/watch?v='+id
@@ -62,15 +64,15 @@ class StrToCommand:
             return cmd
         rem = await self.regmatch(tex, slowmode)
         if rem:
-            cmd = re.sub("(低速を|ていそくを)","",tex)
-            cmd = re.sub("秒(にして|に設定して|にセットして)","",cmd)
+            cmd = re.sub("(低速を|ていそくを)", "", tex)
+            cmd = re.sub("秒(にして|に設定して|にセットして)", "", cmd)
             cmd = prf + "slowmode " + cmd
             return cmd
         rem = await self.regmatch(tex, tenki)
         if rem:
-            tctx = await self.bot.get_context(self.ctx.message,cls=TtsContext) # 返信用のContextをセットアップ
-            cmd = re.sub("(今日の|明日の)","",tex)
-            loc = re.sub("(の天気は|の天気|の天気を教えて)","",cmd)
+            tctx = await self.bot.get_context(self.ctx.message, cls=TtsContext) # 返信用のContextをセットアップ
+            cmd = re.sub("(今日の|明日の)", "", tex)
+            loc = re.sub("(の天気は|の天気|の天気を教えて)", "", cmd)
             if tex.startswith("今日"):
                 day = 0
             elif tex.startswith("明日"):
@@ -114,7 +116,7 @@ class StrToCommand:
         for rg in rar:
             mch = re.match(rg, tex)
             if mch:
-                return [rg,mch]
+                return [rg, mch]
         return None
 
 class TtsContext(Context):
