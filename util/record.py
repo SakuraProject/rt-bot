@@ -13,6 +13,7 @@ c_int_ptr = ctypes.POINTER(ctypes.c_int)
 c_int16_ptr = ctypes.POINTER(ctypes.c_int16)
 # c_float_ptr = ctypes.POINTER(ctypes.c_float)
 
+
 def libopus_loader(name):
     # create the library...
     lib = ctypes.cdll.LoadLibrary(name)
@@ -54,13 +55,18 @@ def _load_default():
 
     return _lib is not None
 
+
 _load_default()
+
 
 def is_loaded():
     global _lib
     return _lib is not None
 
+
 MAX_SRC = 65535
+
+
 class RTCPacket:
     def __init__(self, header, decrypted):
         self.version = (header[0] & 0b11000000) >> 6
@@ -99,6 +105,7 @@ class RTCPacket:
         if self.decrypted[offset + 1] in [0, 2]:
             offset += 1
         self.decrypted = self.decrypted[offset + 1:]
+
 
 class PacketQueue:
     def __init__(self):
@@ -150,6 +157,7 @@ class BufferDecoder:
         self.timestamp: int = 0
         self.user_timestamps = {}
         self.client = client
+
     def recv_packet(self, packet):
         self.queue.push(packet)
 
@@ -163,8 +171,6 @@ class BufferDecoder:
             if packet == -1:
                 # èIóπ
                 break
-
-
             if start_time is None:
                 start_time = packet.real_time
             else:
@@ -191,7 +197,7 @@ class BufferDecoder:
         return dict(data=pcm, start_time=start_time)
 
     async def decode(self, ssrc):
-        file = str(ssrc)+"-"+str(time.time())+".wav"
+        file = str(ssrc) + "-" + str(time.time()) + ".wav"
         wav = wave.open(file, "wb")
         wav.setnchannels(Decoder.CHANNELS)
         wav.setsampwidth(Decoder.SAMPLE_SIZE // Decoder.CHANNELS)
