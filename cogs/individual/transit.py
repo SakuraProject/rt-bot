@@ -11,7 +11,13 @@ class transit(commands.Cog):
         self.bot = bot
         self.BASE_URL = "https://ysmsrv.wjg.jp/transit/index_raw.php?from="
 
-    @commands.command()
+    @commands.command(
+        aliases=["乗り換え案内"],
+        extras={
+            "headding": {"ja": "乗り換え案内を表示します。", "en": "..."},
+            "parent": "Individual"
+        }
+    )
     async def transit(self, ctx, depature, to):
         async with aiohttp.ClientSession() as session:
             async with session.get(self.BASE_URL + quote_plus(depature, encoding='utf-8') + "&to=" + quote_plus(to, encoding='utf-8')) as resp:

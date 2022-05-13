@@ -1,4 +1,4 @@
-# Free RT - Bog General
+# Free RT - Bot General
 
 from __future__ import annotations
 
@@ -8,6 +8,7 @@ from inspect import cleandoc
 from itertools import chain
 from random import choice
 from io import StringIO
+from os import listdir
 from time import time
 import speedtest
 
@@ -463,3 +464,12 @@ class BotGeneral(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(BotGeneral(bot))
+    for name in listdir("cogs/RT"):
+        if not name.startswith(("_", ".")):
+            try:
+                await bot.load_extension(
+                    f"cogs.{name[:-3] if name.endswith('.py') else name}")
+            except Exception as e:
+                print(e)
+            else:
+                bot.print("[Extension]", "Loaded", name)  # ロードログの出力
