@@ -39,7 +39,7 @@ from cogs.music.player import Player
 import re
 from ujson import loads
 
-with open("data/area_code.json", "r",encoding="utf-8") as f:
+with open("data/area_code.json", "r", encoding="utf-8") as f:
     AREA_CODE = loads(f.read())
 
 class StrToCommand:
