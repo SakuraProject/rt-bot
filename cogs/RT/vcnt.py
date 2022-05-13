@@ -37,6 +37,11 @@ from cogs.music.music import Music, is_url
 from youtube_dl import YoutubeDL
 from cogs.music.player import Player
 import re
+from ujson import loads
+
+with open("data/area_code.json", "r",encoding="utf-8") as f:
+    AREA_CODE = loads(f.read())
+
 class StrToCommand:
     def __init__(self, bot, ctx, vc):
         self.bot = bot
@@ -48,6 +53,7 @@ class StrToCommand:
         play = ["(.+)を(再生して|流して)"]
         repeate = ["(曲|音楽)を(繰り返して|ループして)"]
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
+        tenki = ["(今日の|明日の)(.+)(の天気は|の天気|の天気を教えて)"]
         prf = self.bot.command_prefix[0]
         #afk check
         rem = await self.regmatch(tex, afk)
@@ -83,6 +89,48 @@ class StrToCommand:
             cmd = re.sub("秒(にして|に設定して|にセットして)","",cmd)
             cmd = prf + "slowmode " + cmd
             return cmd
+        rem = await self.regmatch(tex, tenki)
+        if rem:
+            tctx = await self.bot.get_context(self.ctx.message,cls=TtsContext) # 返信用のContextをセットアップ
+            cmd = re.sub("(今日の|明日の)","",tex)
+            loc = re.sub("(の天気は|の天気|の天気を教えて)","",cmd)
+            if tex.startswith("今日"):
+                day = 0
+            elif tex.startswith("明日"):
+                day = 1
+            else:
+                await tctx.send("今日か明日を選択してください")
+                return prf + "voicecnt nonecmd"
+            isnoresult = True
+            id = "0"
+            for prfe in AREA_CODE["pref"]:
+                for ci in prfe["city"]:
+                    if ci['@title'] == loc:
+                        isnoresult = False
+                        id = ci["@id"]
+                        break
+                if not isnoresult:
+                    break
+            if not isnoresult:
+                async with self.bot.session.get(
+                    f"https://weather.tsukumijima.net/api/forecast/city/{id}"
+                ) as r:
+                    data = loads(await r.read())
+                if data["forecasts"]:
+                    forecast = data["forecasts"][day]
+                    sstr = loc + "の" + forecast['dateLabel'] + "の天気は" + forecast['telop'] + "です。"
+                    if forecast['chanceOfRain']['T06_12'] != "--%":
+                        sstr = sstr + "降水確率は" + forecast['chanceOfRain']['T06_12'] + "です。"
+                    if not forecast["temperature"]["max"]['celsius'] is None and not forecast["temperature"]["min"]['celsius'] is None:
+                        sstr = sstr + "最高気温は" + forecast["max"]['celsius'] + "度、最低気温は" + forecast["min"]['celsius'] + "度です"
+                    elif not forecast["temperature"]["max"]['celsius'] is None:
+                        sstr = sstr + "最高気温は" + forecast["max"]['celsius'] + "度です"
+                    elif not forecast["temperature"]["min"]['celsius'] is None:
+                        sstr = sstr + "最低気温は" + forecast["min"]['celsius'] + "度です"
+                    await tctx.send(sstr)
+            else:
+                await tctx.send("都市が見つかりませんでした")
+            return prf + "voicecnt nonecmd"
         return tex
 
     async def regmatch(self, tex, rar):
@@ -257,6 +305,8 @@ class NewVoiceClient(VoiceClient):
                         continue
                     print(sentence)
                     if not sentence.startswith("りふ"):
+                        os.remove(input_audio_filefm)
+                        os.remove(input_audio_file)
                         continue
                     else:
                         if sentence.startswith("りふ、"):
@@ -385,16 +435,22 @@ class vcnt(commands.Cog):
         self.ctxs = dict()
     @commands.group(name="voicecnt")
     async def voicecnt(self, ctx):
-        channel = ctx.message.author.voice.channel
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-        if voice and voice.is_connected():
-            await voice.move_to(channel)
-        else:
-            voice = await channel.connect(cls=NewVoiceClient)
-        voice.ctx = ctx
-        voice.bot = self.bot
-        self._closing[ctx.guild.id] = False
-        self.ctxs[ctx.guild.id] = ctx
+        if ctx.invoked_subcommand is None:
+            channel = ctx.message.author.voice.channel
+            voice = get(self.bot.voice_clients, guild=ctx.guild)
+            if voice and voice.is_connected():
+                await voice.move_to(channel)
+            else:
+                voice = await channel.connect(cls=NewVoiceClient)
+            voice.ctx = ctx
+            voice.bot = self.bot
+            self._closing[ctx.guild.id] = False
+            self.ctxs[ctx.guild.id] = ctx
+
+    @voicecnt.command()
+    async def nonecmd(self, ctx):
+        # すでに認識後の動作をした際に呼び出す何もしないコマンド
+        pass
 
     @voicecnt.command()
     async def disconnect(self, ctx):
@@ -406,7 +462,7 @@ class vcnt(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_abandoned(self, voice_client: discord.VoiceClient):
         # 放置された場合は切断する。
-        if voice_client.guild.id in self._closing and not self._closing[voice_client.guild.id]:
+        if voice_client.guild.id in self._closing and not self._closing[member.guild.id]:
             await self.ctxs[voice_client.guild.id].send("一人ぼっちになったので切断しました。")
             voice_client.disco()
             await voice_client.disconnect()
