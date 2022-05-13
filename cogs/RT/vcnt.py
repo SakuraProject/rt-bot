@@ -406,7 +406,7 @@ class vcnt(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_abandoned(self, voice_client: discord.VoiceClient):
         # 放置された場合は切断する。
-        if voice_client.guild.id in self._closing and not self._closing[member.guild.id]:
+        if voice_client.guild.id in self._closing and not self._closing[voice_client.guild.id]:
             await self.ctxs[voice_client.guild.id].send("一人ぼっちになったので切断しました。")
             voice_client.disco()
             await voice_client.disconnect()
