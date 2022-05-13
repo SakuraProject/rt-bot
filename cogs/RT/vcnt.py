@@ -37,18 +37,18 @@ class StrToCommand:
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
         tenki = ["(今日の|明日の)(.+)(の天気は|の天気|の天気を教えて)"]
         prf = self.bot.command_prefix[0]
-        rem = await self.regmatch(tex, afk) #  afk check
+        rem = await self.regmatch(tex, afk)  # afk check
         if rem:
             cmd = re.sub("afk(の|を)", "", tex)
             cmd = re.sub("(で登録して|でセットして)", "", cmd)
             cmd = re.sub("(でafkの登録して|でafkをセットして)", "", cmd)
             cmd = prf + "afk set " + cmd
             return cmd
-        rem = await self.regmatch(tex, rais) #  raise check
+        rem = await self.regmatch(tex, rais)  # raise check
         if rem:
             cmd = prf + "raise"
             return cmd
-        rem = await self.regmatch(tex, play) #  play check
+        rem = await self.regmatch(tex, play)  # play check
         if rem:
             cmd = re.sub("を(再生して|流して)", "", tex)
             ydlo = {'format': 'bestaudio', 'noplaylist': 'True'}
@@ -70,7 +70,7 @@ class StrToCommand:
             return cmd
         rem = await self.regmatch(tex, tenki)
         if rem:
-            tctx = await self.bot.get_context(self.ctx.message, cls=TtsContext) #  返信用のContextをセットアップ
+            tctx = await self.bot.get_context(self.ctx.message, cls=TtsContext)  # 返信用のContextをセットアップ
             cmd = re.sub("(今日の|明日の)", "", tex)
             loc = re.sub("(の天気は|の天気|の天気を教えて)", "", cmd)
             if tex.startswith("今日"):
@@ -159,20 +159,20 @@ class TtsContext(Context):
             else:
                 sc = content
         if embed is not None:
-            if isinstance(embed.description,str):
+            if isinstance(embed.description, str):
                 sc = sc + embed.description
             if embed.fields is not None:
                 for fi in embed.fields:
                     sc = sc + fi.name + fi.value
         if embeds is not None:
             for e in embeds:
-                if isinstance(e.description,str):
+                if isinstance(e.description, str):
                     sc = sc + embed.description
                 if e.fields is not None:
                     for fi in e.fields:
                         sc = sc + fi.name + fi.value
         args = [self.OPENJTALK, "-x", self.OPENJTALK_DICTIONARY, "-m", self.OPENJTALK_VOICE_DIRECTORY + "/" + self.OPENJTALK_VOICE_NAME, '-r', '1.0', '-ow', swav]
-        p = subprocess.run(args,input=sc.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        subprocess.run(args, input=sc.encode(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         channel = self.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=self.guild)
         if voice and voice.is_connected():
@@ -183,6 +183,7 @@ class TtsContext(Context):
         while voice.is_playing():
             await asyncio.sleep(1)
         os.remove(swav)
+
 
 class NewVoiceWebSocket(DiscordVoiceWebSocket):
     cli = None
@@ -229,9 +230,11 @@ class NewVoiceWebSocket(DiscordVoiceWebSocket):
                 self.ssrc_map.update({ssrc: {"user_id": user, "speaking": speaking}})
             await self.cli.record_by_ssrc(ssrc)
 
+
 class NewVoiceClient(VoiceClient):
-    ctx=None
+    ctx = None
     bot = None
+
     def __init__(self, client, channel):
         super().__init__(client, channel)
         self.record_task = dict()
@@ -262,19 +265,17 @@ class NewVoiceClient(VoiceClient):
             if not self.is_recording[ssrc] and self.is_talking1[ssrc]:
                 self.is_talking1[ssrc] = False
                 _basedir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                julius      = "julius"
-                main        = os.path.join(_basedir, "julius-dict", "main.jconf")
-                am_dnn      = os.path.join(_basedir, "julius-dict", "am-dnn.jconf")
-                julius_dnn  = os.path.join(_basedir, "julius-dict", "julius.dnnconf")
+                julius = "julius"
+                main = os.path.join(_basedir, "julius-dict", "main.jconf")
+                am_dnn = os.path.join(_basedir, "julius-dict", "am-dnn.jconf")
+                julius_dnn = os.path.join(_basedir, "julius-dict", "julius.dnnconf")
                 input_audio_filefm = await self.decoder[ssrc].decode(ssrc)
-                input_audio_file  = "ffmpeg"+str(input_audio_filefm)
+                input_audio_file = "ffmpeg" + str(input_audio_filefm)
                 argsfm = ["ffmpeg", "-y", "-i", input_audio_filefm, "-ac", "1", "-ar", "16000", input_audio_file]
-                pfm = subprocess.run(argsfm, stdout=subprocess.PIPE, text=True, encoding="utf-8")
-                #print(pfm.stdout)
+                subprocess.run(argsfm, stdout=subprocess.PIPE, text=True, encoding="utf-8")
                 args = [julius, "-C", main, "-C", am_dnn, "-dnnconf", julius_dnn, "-input", "rawfile", "-cutsilence"]
-                p = await asyncio.create_subprocess_exec(*args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,stdin=asyncio.subprocess.PIPE)
+                p = await asyncio.create_subprocess_exec(*args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, stdin=asyncio.subprocess.PIPE)
                 stdout, stderr = await p.communicate(input=input_audio_file.encode())
-                #print(p.stdout)
                 try:
                     output = stdout.decode().split("### read waveform input")[1].split("\n\n")
                 except IndexError:
@@ -291,21 +292,20 @@ class NewVoiceClient(VoiceClient):
                         continue
                     else:
                         if sentence.startswith("りふ、"):
-                            sentence=sentence[3:]
+                            sentence = sentence[3:]
                         else:
-                            sentence=sentence[2:]
-                    msg=self.ctx.message
+                            sentence = sentence[2:]
+                    msg = self.ctx.message
                     cmd = sentence.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
                     ctxte = self.ctx
                     userid = self.ws.ssrc_map[ssrc]["user_id"]
                     author = msg.guild.get_member(userid)
                     ctxte.author = author
-                    stc = StrToCommand(self.bot,ctxte,self)
+                    stc = StrToCommand(self.bot, ctxte, self)
                     cmd = await stc.convert(cmd)
-                    #print(msg.author.name)
                     msg.author = author
                     msg.content = cmd
-                    tctx = await self.bot.get_context(msg,cls=TtsContext)
+                    tctx = await self.bot.get_context(msg, cls=TtsContext)
                     if tctx.valid:
                         os.remove(input_audio_filefm)
                         os.remove(input_audio_file)
@@ -313,11 +313,11 @@ class NewVoiceClient(VoiceClient):
                     else:
                         try:
                             os.mkdir('vcnterrors')
-                        except FileExistsError as e:
+                        except FileExistsError:
                             pass
-                        os.rename(input_audio_filefm,'vcnterrors/'+input_audio_filefm)
-                        os.rename(input_audio_file,'vcnterrors/'+input_audio_file)
-                        with open('vcnterrors/'+input_audio_file+'.txt', 'w') as f:
+                        os.rename(input_audio_filefm, 'vcnterrors/' + input_audio_filefm)
+                        os.rename(input_audio_file, 'vcnterrors/' + input_audio_file)
+                        with open('vcnterrors/' + input_audio_file + '.txt', 'w') as f:
                             print(sentence, file=f)
             recv = await self.loop.sock_recv(self.socket, 2 ** 16)
             if 200 <= recv[1] < 205:
@@ -357,7 +357,6 @@ class NewVoiceClient(VoiceClient):
         self._connected.set()
         return ws
 
-
     async def record_by_ssrc(self, ssrc):
         # init
         self.is_recording[ssrc] = True
@@ -365,7 +364,6 @@ class NewVoiceClient(VoiceClient):
 
         # do record
         self.record_task[ssrc] = self.loop.create_task(self.recv_voice_packet(ssrc))
-
 
     async def record_stop_by_ssrc(self, ssrc):
         self.record_task[ssrc].cancel()
@@ -408,12 +406,12 @@ class NewVoiceClient(VoiceClient):
         return header, box.decrypt(bytes(encrypted), bytes(nonce))
 
 
-
 class vcnt(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._closing = dict()
         self.ctxs = dict()
+
     @commands.group(name="voicecnt")
     async def voicecnt(self, ctx):
         if ctx.invoked_subcommand is None:
@@ -455,6 +453,7 @@ class vcnt(commands.Cog):
                 and not self._closing[member.guild.id]:
             await self.ctxs[member.guild.id].send("ｷｬｯ、誰かにVCから蹴られたかバグが発生しました。")
             self._closing[member.guild.id] = True
+
 
 def setup(bot):
     return bot.add_cog(vcnt(bot))
