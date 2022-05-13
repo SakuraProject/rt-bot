@@ -220,12 +220,13 @@ class BufferDecoder:
                 decoded_data = struct.pack("<h", 0) * silence * decoder.CHANNELS + decoded_data
                 wav.writeframes(decoded_data)
                 del decoded_data
-            except:
+            except Exception:
                 pass
         wav.close()
-        #file.seek(0)
+        # file.seek(0)
         self.queue.queues[ssrc] = list()
         return file
+
 
 class Decoder(DiscordDecoder):
     @staticmethod
@@ -251,7 +252,7 @@ class Decoder(DiscordDecoder):
         pcm_ptr = ctypes.cast(pcm, c_float_ptr)
         ret = _lib.opus_decode_float(self._state, data, len(data) if data else 0, pcm_ptr, frame_size, fec)
 
-        return array.array('f',pcm[:ret * channel_count]).tobytes()
+        return array.array('f', pcm[:ret * channel_count]).tobytes()
 
     def decode(self, data, *, fec=False):
         if data is None and fec:
