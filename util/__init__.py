@@ -67,5 +67,3 @@ __all__ = [
     "BufferDecoder",
     "Decoder"
 ]
-
-
