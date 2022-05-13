@@ -37,24 +37,24 @@ class StrToCommand:
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
         tenki = ["(今日の|明日の)(.+)(の天気は|の天気|の天気を教えて)"]
         prf = self.bot.command_prefix[0]
-        rem = await self.regmatch(tex, afk) # afk check
+        rem = await self.regmatch(tex, afk) #  afk check
         if rem:
             cmd = re.sub("afk(の|を)", "", tex)
             cmd = re.sub("(で登録して|でセットして)", "", cmd)
             cmd = re.sub("(でafkの登録して|でafkをセットして)", "", cmd)
             cmd = prf + "afk set " + cmd
             return cmd
-        rem = await self.regmatch(tex, rais) # raise check
+        rem = await self.regmatch(tex, rais) #  raise check
         if rem:
             cmd = prf + "raise"
             return cmd
-        rem = await self.regmatch(tex, play) # play check
+        rem = await self.regmatch(tex, play) #  play check
         if rem:
             cmd = re.sub("を(再生して|流して)", "", tex)
             ydlo = {'format': 'bestaudio', 'noplaylist': 'True'}
             with YoutubeDL(ydlo) as ydl:
-                id=ydl.extract_info('ytsearch:'+cmd,download=False)['entries'][0]['id']
-                cmd = 'https://youtube.com/watch?v='+id
+                id = ydl.extract_info('ytsearch:' + cmd, download=False)['entries'][0]['id']
+                cmd = 'https://youtube.com/watch?v=' + id
             cmd = prf + "play " + cmd
             self.bot.cogs["Music"].now[self.ctx.guild.id] = Player(self.bot.cogs["Music"], self.ctx.guild, self.vc)
             return cmd
@@ -70,7 +70,7 @@ class StrToCommand:
             return cmd
         rem = await self.regmatch(tex, tenki)
         if rem:
-            tctx = await self.bot.get_context(self.ctx.message, cls=TtsContext) # 返信用のContextをセットアップ
+            tctx = await self.bot.get_context(self.ctx.message, cls=TtsContext) #  返信用のContextをセットアップ
             cmd = re.sub("(今日の|明日の)", "", tex)
             loc = re.sub("(の天気は|の天気|の天気を教えて)", "", cmd)
             if tex.startswith("今日"):
@@ -119,6 +119,7 @@ class StrToCommand:
                 return [rg, mch]
         return None
 
+
 class TtsContext(Context):
     OPENJTALK = "open_jtalk"
     "なんのコマンドでOpenJTalkを実行するかです。"
@@ -127,6 +128,7 @@ class TtsContext(Context):
     OPENJTALK_VOICE_DIRECTORY = "cogs/tts/lib/OpenJTalk"
     "OpenJTalkで使う音声のデータがあるディレクトリです。"
     OPENJTALK_VOICE_NAME = "mei.htsvoice"
+
     async def reply(self, content: Optional[str] = None, **kwargs: Any) -> Message:
         await self.send(content, **kwargs)
 
@@ -149,27 +151,27 @@ class TtsContext(Context):
         suppress_embeds: bool = False,
         ephemeral: bool = False,
     ) -> Message:
-        swav = str(self.guild.id)+'-vcnt.wav'
+        swav = str(self.guild.id) + '-vcnt.wav'
         sc = ""
-        if not content is None:
-            if isinstance(content,dict):
+        if content is not None:
+            if isinstance(content, dict):
                 sc = content["ja"]
             else:
                 sc = content
-        if not embed is None:
+        if embed is not None:
             if isinstance(embed.description,str):
                 sc = sc + embed.description
-            if not embed.fields is None:
+            if embed.fields is not None:
                 for fi in embed.fields:
                     sc = sc + fi.name + fi.value
-        if not embeds is None:
+        if embeds is not None:
             for e in embeds:
                 if isinstance(e.description,str):
                     sc = sc + embed.description
-                if not e.fields is None:
+                if e.fields is not None:
                     for fi in e.fields:
                         sc = sc + fi.name + fi.value
-        args = [self.OPENJTALK,"-x",self.OPENJTALK_DICTIONARY,"-m",self.OPENJTALK_VOICE_DIRECTORY+"/"+self.OPENJTALK_VOICE_NAME,'-r','1.0','-ow',swav]
+        args = [self.OPENJTALK, "-x", self.OPENJTALK_DICTIONARY, "-m", self.OPENJTALK_VOICE_DIRECTORY + "/" + self.OPENJTALK_VOICE_NAME, '-r', '1.0', '-ow', swav]
         p = subprocess.run(args,input=sc.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         channel = self.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=self.guild)
