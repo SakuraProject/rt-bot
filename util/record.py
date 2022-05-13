@@ -1,10 +1,4 @@
-from discord.ext import commands
-import aiohttp
-import urllib.parse
-import discord
-import json
 import struct
-import nacl.secret
 import time
 from collections import defaultdict
 from discord.opus import Decoder as DiscordDecoder
@@ -12,19 +6,12 @@ from discord.opus import exported_functions, OpusError, c_float_ptr
 import sys
 import ctypes
 import os
-import logging
-from itertools import zip_longest
-import numpy as np
-from discord.utils import get
-import asyncio
-import threading
-import subprocess
 import wave
 import array
 
 c_int_ptr = ctypes.POINTER(ctypes.c_int)
 c_int16_ptr = ctypes.POINTER(ctypes.c_int16)
-c_float_ptr = ctypes.POINTER(ctypes.c_float)
+# c_float_ptr = ctypes.POINTER(ctypes.c_float)
 
 def libopus_loader(name):
     # create the library...
