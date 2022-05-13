@@ -1,39 +1,19 @@
 from discord.gateway import DiscordVoiceWebSocket
 from discord import VoiceClient, Embed, File, Message
 from discord.ext import commands
-import aiohttp
-import urllib.parse
 import discord
-import json
-import struct
 import nacl.secret
-import time
-from collections import defaultdict
-from discord.opus import Decoder as DiscordDecoder
-from discord.opus import exported_functions, OpusError, c_float_ptr
-import sys
-import ctypes
 import os
-import logging
-from itertools import zip_longest
-import numpy as np
 from discord.utils import get
 import asyncio
-import threading
 import subprocess
-import wave
-import array
-from util import RTCPacket, PacketQueue, BufferDecoder, Decoder
-import pyopenjtalk
+from util import RTCPacket, BufferDecoder
 from discord.ext.commands import Context
 from typing import Union, Optional, Sequence, Any
 from discord.sticker import GuildSticker, StickerItem
 from discord.mentions import AllowedMentions
 from discord.message import MessageReference, PartialMessage
 from discord.ui import View
-
-#imports of Uses StrToCommand
-from cogs.music.music import Music, is_url
 from youtube_dl import YoutubeDL
 from cogs.music.player import Player
 import re
@@ -55,21 +35,18 @@ class StrToCommand:
         slowmode = ["(低速を|ていそくを)(.+)秒(にして|に設定して|にセットして)"]
         tenki = ["(今日の|明日の)(.+)(の天気は|の天気|の天気を教えて)"]
         prf = self.bot.command_prefix[0]
-        #afk check
-        rem = await self.regmatch(tex, afk)
+        rem = await self.regmatch(tex, afk) # afk check
         if rem:
             cmd = re.sub("afk(の|を)","",tex)
             cmd = re.sub("(で登録して|でセットして)","",cmd)
             cmd = re.sub("(でafkの登録して|でafkをセットして)","",cmd)
             cmd = prf + "afk set " + cmd
             return cmd
-        #raise check
-        rem = await self.regmatch(tex, rais)
+        rem = await self.regmatch(tex, rais) # raise check
         if rem:
             cmd = prf + "raise"
             return cmd
-        #play check
-        rem = await self.regmatch(tex, play)
+        rem = await self.regmatch(tex, play) # play check
         if rem:
             cmd = re.sub("を(再生して|流して)","",tex)
             ydlo = {'format': 'bestaudio','noplaylist': 'True'}
