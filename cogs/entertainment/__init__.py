@@ -12,6 +12,8 @@ from aiofiles.os import remove
 from bs4 import BeautifulSoup
 from PIL import Image
 
+from os import listdir
+
 from util.page import EmbedPage
 from util import RT
 
@@ -263,3 +265,12 @@ class Enjoy(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Enjoy(bot))
+    for name in listdir("cogs/entertainment"):
+        if not name.startswith(("_", ".")):
+            try:
+                await bot.load_extension(
+                    f"cogs.{name[:-3] if name.endswith('.py') else name}")
+            except Exception as e:
+                print(e)
+            else:
+                bot.print("[Extension]", "Loaded", name)  # ロードログの出力
