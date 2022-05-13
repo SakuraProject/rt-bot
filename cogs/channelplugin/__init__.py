@@ -6,7 +6,7 @@ async def setup(bot):
         if not name.startswith(("_", ".")):
             try:
                 await bot.load_extension(
-                    f"cogs.{name[:-3] if name.endswith('.py') else name}")
+                    f"cogs.channelplugin.{name[:-3] if name.endswith('.py') else name}")
             except Exception as e:
                 print(e)
             else:
