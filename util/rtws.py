@@ -24,7 +24,7 @@ class RTWSGeneralFeatures(commands.Cog):
         if user := self.bot.get_user(user_id):
             return rft.User(
                 id=user.id, name=user.name, discriminator=user.discriminator,
-                avatar_url=getattr(user.avatar, "url", ""), full_name=str(user)
+                avatar_url=getattr(user.display_avatar, "url", ""), full_name=str(user)
             )
 
     async def get_guilds(self, user_id: int) -> list[rft.Guild]:
@@ -75,7 +75,7 @@ class RTWSGeneralFeatures(commands.Cog):
                 members=[
                     rft.Member(
                         id=member.id, name=member.name, avatar_url=getattr(
-                            member.avatar, "url", ""
+                            member.display_avatar, "url", ""
                         ),
                         full_name=str(member), guild=None
                     ) for member in guild.members

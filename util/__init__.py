@@ -17,6 +17,7 @@ from .minesweeper import MineSweeper
 from . import mysql_manager as mysql
 from .olds import tasks_extend, sendKwargs
 from .page import EmbedPage
+from .record import RTCPacket, PacketQueue, BufferDecoder, Decoder
 from .types import sendableString
 from .views import TimeoutView
 from .webhooks import get_webhook, webhook_send
@@ -52,8 +53,12 @@ __all__ = [
     "EmbedPage",
     "rtws",
     "securl",
-    "settings"
+    "settings",
     "slash",
+    "RTCPacket",
+    "PacketQueue",
+    "BufferDecoder",
+    "Decoder",
     "sendableString",
     "TimeoutView",
     "get_webhook",

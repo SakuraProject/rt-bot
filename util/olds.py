@@ -9,8 +9,6 @@ from pymysql.err import OperationalError
 from . import isintable
 
 # from .slash import Context as SlashContext
-from .ext import componesy
-from .webhooks import webhook_send
 from .cacher import CacherPool
 
 
@@ -61,11 +59,6 @@ def clean_content(content: str, guild: discord.Guild) -> str:
 
 
 Context = Union[commands.Context]
-
-
-# webhook_sendを新しく定義する。
-discord.abc.Messageable.webhook_send = webhook_send  # type: ignore
-discord.ext.easy = componesy  # type: ignore
 
 
 def lib_setup(bot, only: Union[Tuple[str, ...], List[str]] = []):

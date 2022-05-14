@@ -2,15 +2,28 @@
 
 from discord.ext import commands
 
+from aiohttp import ClientSession
+from ujson import dumps
+
 from .dpy_monkey import _setup
 from . import mysql_manager as mysql
+from .db import add_db_manager
 
 
 class RT(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
 
+    @property
+    def session(self) -> ClientSession:
+        if self._session.closed:
+            # 閉じていたらもう一度定義。
+            self._session = ClientSession(loop=self.loop, json_serialize=dumps)
+        return self._session
+
     async def setup_hook(self):
+        # 起動中いつでも使えるaiohttp.ClientSessionを作成
+        self._session = ClientSession(loop=self.loop, json_serialize=dumps)
         # 起動中だと教えられるようにするためのコグを読み込む
         await self.load_extension("cogs._first")
         # jishakuを読み込む
@@ -25,14 +38,14 @@ class RT(commands.AutoShardedBot):
         )  # maxsizeはテスト用では500、本番環境では100万になっている
         self.pool = self.mysql.pool  # bot.mysql.pool のエイリアス
 
-    def print(self, *args, sep: str = "", **kwargs) -> None:
+    def print(self, *args, **kwargs) -> None:
         "[RT log]と色の装飾を加えてprintをします。"
         temp = [*args]
         if len(args) >= 1 and args[0].startswith("[") and args[0].endswith("]"):
             temp[0] = f"\033[93m{args[0]}\033[0m"
         if len(args) >= 2 and args[1].startswith("[") and args[1].endswith("]"):
             temp[1] = f"\033[95m{args[1]}\033[0m"
-        return print("\033[32m[RT log]\033[0m", *temp, sep=sep, **kwargs)
+        return print("\033[32m[RT log]\033[0m", *temp, **kwargs)
 
     def get_ip(self) -> str:
         return "localhost" if self.test else "60.158.90.139"
@@ -57,3 +70,6 @@ class RT(commands.AutoShardedBot):
     async def setup(self, mode=()) -> None:
         "utilにある拡張cogをすべてもしくは指定されたものだけ読み込みます。"
         return await _setup(self, mode)
+
+    async def add_db_manager(self, manager):
+        return await add_db_manager(self, manager)

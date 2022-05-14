@@ -326,7 +326,7 @@ class Context:
         self.guild, self.send = interaction.guild, self.channel.send
         self.voice_client = getattr(self.guild, "voice_cilent", None)
         self.fetch_message, self.message = self.channel.fetch_message, self
-        self.typing, self.trigger_typing = self.channel.typing, self.channel.trigger_typing
+        self.typing = self.channel.typing
 
         self.invoked_subcommand, self._state = False, bot._connection
         self.bot, self.prefix = bot, "/" or prefix
@@ -343,13 +343,6 @@ class Context:
             if key not in original.__annotations__:
                 # `discord.InteractionResponse.send_message`にない引数の値は消しておく。
                 del kwargs[key]
-
-    async def _trigger_typing(self):
-        await self.interaction.response.defer()
-        self.reply_noresponse_edit = True
-
-    async def trigger_typing(self):
-        await self._trigger_typing()
 
     async def reply(
         self, *args, reply_edit: bool = False,
@@ -499,7 +492,7 @@ async def loading(ctx: Union[commands.Context, Context]) -> None:
         setattr(ctx, "reply", ctx.interaction.edit_original_message)
         return await ctx.interaction.response.defer()
     else:
-        return await ctx.trigger_typing()
+        return await ctx.typing()
 
 
 UnionContext = Union[Context, commands.Context]

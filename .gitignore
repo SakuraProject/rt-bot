@@ -10,7 +10,6 @@ log
 .vscode
 .replit
 .DS_Store
-.vscode
 .mypy_cache
 
 cogs/tts/lib
@@ -21,6 +20,8 @@ cogs/tts/routine
 youtube-cookies.txt
 data/cookies.txt
 data/*.json
+data/vcnterrors
+data/julius_dict
 auth.json
 
 \#*\#

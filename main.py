@@ -8,8 +8,7 @@ from sys import argv
 
 import discord
 
-from aiohttp import ClientSession
-from ujson import load, dumps
+from ujson import load
 
 from util import RT, websocket
 from data import data, Colors
@@ -24,6 +23,7 @@ with open("auth.json", "r") as f:
 intents = discord.Intents.default()  # intents指定
 intents.typing = False
 intents.members = True
+intents.message_content = True
 bot = RT(
     data["prefixes"][argv[-1]],
     help_command=None,
@@ -49,13 +49,9 @@ bot.Colors = Colors  # botで使う基本色が入っているclass
 @bot.listen()
 async def on_ready():
     bot.print("Connected to discord")
-    # 起動中いつでも使えるaiohttp.ClientSessionを作成
-    bot.session = ClientSession(loop=bot.loop, json_serialize=dumps)
-    await bot.unload_extension("cogs._first")
 
     # 拡張を読み込む
     await bot.setup()
-    await bot.load_extension("cogs._oldrole")  # oldroleだけ特別に読み込んでいる
     for name in listdir("cogs"):
         if not name.startswith(("_", ".")):
             try:
@@ -65,6 +61,7 @@ async def on_ready():
                 print(e)
             else:
                 bot.print("[Extension]", "Loaded", name)  # ロードログの出力
+    await bot.unload_extension("cogs._first")
     bot.print("Completed to boot Free RT")
 
     bot.dispatch("full_ready")  # full_readyイベントを発火する

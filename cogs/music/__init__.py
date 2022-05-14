@@ -202,7 +202,7 @@ class MusicCog(commands.Cog, name="Music"):
                 vc = await ctx.author.voice.channel.connect()
             except discord.ClientException as e:
                 if "Already" in str(e):
-                    await ctx.author.voice.channel.disconnect()
+                    await ctx.guild.voice_client.disconnect()
                     await sleep(1.5)
                     vc = await ctx.author.voice.channel.connect()
                 else:
